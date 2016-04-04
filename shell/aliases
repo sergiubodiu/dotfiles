@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+alias c='clear'
+alias ch='history -c && > ~/.bash_history'
+alias e='vim'
+alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias m='man'
+alias map='xargs -n1'
+alias n='npm'
+alias q='exit'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Load OS specific aliases
+
+source $HOME/.dotfiles/shell/os_x/aliases
+# if [ "$OS" == 'osx' ]; then
+#     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
+# elif [ "$OS" == 'ubuntu' ]; then
+#     source "$DOTFILES_DIR_PATH/shell/ubuntu/aliases"
+# fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

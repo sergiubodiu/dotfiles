@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Shell Variables
+# http://linux.die.net/man/1/bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+export DOTFILES_DIR_PATH='$HOME/.dotfiles'
+export OS='osx'
+
+# Make vim the default editor
+export EDITOR='nano'
+
+# Ignore commands that start with spaces and duplicates
+export HISTCONTROL=ignoreboth
+
+# Increase the maximum number of lines of history
+# persisted in the Bash history file (default value is 500)
+export HISTFILESIZE=10000
+
+# Don't add certain commands to the history file
+export HISTIGNORE='&:[bf]g:c:clear:history:exit:q:pwd:* --help'
+
+# Increase the maximum number of commands recorded in the
+# command history (default value is 500)
+export HISTSIZE=10000
+
+# Prefer US English and use UTF-8 encoding
+export LANG='en_US'
+export LC_ALL='en_US.UTF-8'
+
+# Use custom `less` colors for man pages
+# https://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
+export LESS_TERMCAP_md=$'\E[1;32m'   # begin bold mode
+export LESS_TERMCAP_me=$'\E[0m'      # end bold mode
+#export LESS_TERMCAP_us=$'\E[4;32m'   # begin underscore mode
+#export LESS_TERMCAP_ue=$'\E[0m'      # end underscore mode
+
+# Don't clear the screen after quitting a man page
+export MANPAGER='less -X'
+
+# Increase the maximum number of lines of history persisted
+# in the `Node` REPL history file (default value is 1000)
+# https://github.com/nodejs/node/blob/a85f4b5ce5791caf8caa9b31970313c6183a5499/doc/api/repl.markdown#persistent-history
+export NODE_REPL_HISTORY_SIZE=10000
+
+# Make new shells get the history lines from all previous
+# shells instead of the default "last window closed" history
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# Make Python use UTF-8 encoding for output to stdin/stdout/stderr
+export PYTHONIOENCODING='UTF-8'
+
+export M2_HOME=$HOME/apache-maven
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$M2_HOME/bin
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
+#Docker
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.100:2376"
+export DOCKER_CERT_PATH="/Users/bodius/.docker/machine/machines/default"
+export DOCKER_MACHINE_NAME="default"
+# Run this command to configure your shell:
+# eval "$(docker-machine env default)"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
