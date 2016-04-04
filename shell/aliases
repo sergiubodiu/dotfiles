@@ -13,7 +13,7 @@ alias q='exit'
 
 # Load OS specific aliases
 
-source $HOME/.dotfiles/shell/os_x/aliases
+source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
 # if [ "$OS" == 'osx' ]; then
 #     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
 # elif [ "$OS" == 'ubuntu' ]; then
