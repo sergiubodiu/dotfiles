@@ -1,8 +1,8 @@
 [alias]
 
-    ca  = !git add -A && git commit                 # Commit all changes
+    ca  = add . && git commit                 # Commit all changes
     dc  = diff --cached
-    lg   = log --graph --pretty=custom               # Show custom graph
+    lg  = log --graph --pretty=custom               # Show custom graph
     lc  = shortlog --summary --numbered             # List contributors
     rlc = reset --hard HEAD~1                       # Remove last commit
     s   = status
