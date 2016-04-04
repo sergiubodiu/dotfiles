@@ -1,8 +1,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 ZSH_THEME="agnoster"
-plugins=(osx git brew brew-cask node python gradle mvn vagrant)
-
+plugins=(osx brew brew-cask bosh cf git node python gradle mvn vagrant)
+# export DEFAULT_USER="bodius"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -35,14 +35,13 @@ export UPDATE_ZSH_DAYS=30
 HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM=$HOME/.dotfiles/custom
 
+source $HOME/.bash_profile
 source $ZSH/oh-my-zsh.sh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-source $HOME/.bash_profile
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 

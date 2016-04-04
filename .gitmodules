@@ -1,3 +1,9 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git://github.com/robbyrussell/oh-my-zsh.git
+[submodule "custom/cf-zsh-autocomplete-plugin"]
+	path = custom/plugin/cf
+	url = git://github.com/frodenas/cf-zsh-autocomplete-plugin.git
+[submodule "custom/bosh-zsh-autocomplete-plugin"]
+	path = custom/plugin/bosh
+	url = git://github.com/frodenas/bosh-zsh-autocomplete-plugin.git
