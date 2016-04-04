@@ -1,12 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
-alias e='vim'
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
-alias m='man'
 alias map='xargs -n1'
 alias n='npm'
 alias q='exit'

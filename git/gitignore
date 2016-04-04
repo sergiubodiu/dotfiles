@@ -24,6 +24,14 @@ node_modules
 
 npm-debug.log
 
+# idea config file
+.idea/
+*.iml
+
+# eclipse config file
+.classpath
+.project
+.settings/
 
 # ----------------------------------------------------------------------
 # | OS X                                                               |

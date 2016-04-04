@@ -1,7 +1,5 @@
 [alias]
 
-    ca  = add . && git commit                 # Commit all changes
-    dc  = diff --cached
     lg  = log --graph --pretty=custom               # Show custom graph
     lc  = shortlog --summary --numbered             # List contributors
     rlc = reset --hard HEAD~1                       # Remove last commit
@@ -72,25 +70,6 @@
         git tag $1; \
     }; f"
 
-[color "branch"]
-
-    current = green bold
-    local = green
-    remote = yellow
-
-[color "diff"]
-
-    frag = magenta
-    meta = yellow
-    new = green
-    old = red
-
-[color "status"]
-
-    added = green reverse
-    changed = yellow reverse
-    untracked = red reverse
-
 [core]
 
     abbrev = 12
@@ -106,9 +85,9 @@
 
 [pretty]
 
-    custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %s %C(green)(%an)"
-    #                     │        │            │            │             └─ author name
-    #                     │        │            │            └─ message
+    custom = "%C(magenta)%h%C(red)%d %C(green)%ar %Creset%s %C(yellow)(%an)"
+    #                     │        │            │         │             └─ author name
+    #                     │        │            │         └─ message
     #                     │        │            └─ date (relative)
     #                     │        └─ decorations (branch, heads or tags)
     #                     └─ hash (abbreviated)
@@ -126,4 +105,4 @@
 
 [color]
 
-	ui = auto
+    ui = auto
