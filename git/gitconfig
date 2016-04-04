@@ -5,6 +5,7 @@
     rlc = reset --hard HEAD~1                       # Remove last commit
     s   = status
     ulc = reset --soft HEAD~1                       # Undo last commit
+    f   = fetch origin master:master                # Fetch master branch
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -98,6 +99,14 @@
     # Make `git push` automatically push relevant
     # annotated tags when pushing branches out
     followTags = true
+    
+[pull]
+	
+    rebase = true
+    
+[rebase]
+	
+    autoStash = true
 
 [include]
 
