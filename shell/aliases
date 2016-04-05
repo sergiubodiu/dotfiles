@@ -4,10 +4,12 @@
 
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
+alias e=$EDITOR
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias map='xargs -n1'
 alias n='npm'
 alias q='exit'
+alias gpush='git add . && git commit -m "minor updates" && git push'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

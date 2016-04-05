@@ -7,3 +7,6 @@
 [submodule "custom/bosh-zsh-autocomplete-plugin"]
 	path = custom/plugin/bosh
 	url = git://github.com/frodenas/bosh-zsh-autocomplete-plugin.git
+[submodule "custom/plugins/fly"]
+	path = custom/plugins/fly
+	url = git@github.com:Sbodiu-pivotal/fly-zsh-autocomplete-plugin.git

@@ -6,6 +6,7 @@
     s   = status
     ulc = reset --soft HEAD~1                       # Undo last commit
     f   = fetch origin master:master                # Fetch master branch
+    rau = remote add upstream                       # https://help.github.com/articles/configuring-a-remote-for-a-fork/
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
