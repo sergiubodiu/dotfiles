@@ -111,6 +111,7 @@
 
 [include]
 
+    # Import local config for privacy
     path = ~/.gitconfig.local
 
 [color]
