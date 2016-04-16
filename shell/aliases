@@ -10,6 +10,7 @@ alias map='xargs -n1'
 alias n='npm'
 alias q='exit'
 alias gpush='git add . && git commit -m "minor updates" && git push'
+alias ginit='git add . && git commit -m "initial commit" && git push'
 alias gclone='git clone' 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
