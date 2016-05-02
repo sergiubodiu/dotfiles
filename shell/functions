@@ -5,15 +5,14 @@
 # Commit git message with all changes
 
 gcommit() {
-
-   #: ${1?"Usage: $0 ARGUMENT"}   
+   
    if [ $# -eq 0  ]; then
      
        echo 'Usage: gcommit this is my commit message'
    
    else
 
-      echo 'git commit -am "$*" && git push'
+      echo "git commit -am $* && git push"
 
       git commit -am "$*" && git push
    
