@@ -60,6 +60,5 @@ export DOCKER_MACHINE_NAME="default"
 export JAVA_HOME=$(/usr/libexec/java_home)
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 # Maven
-export M2_HOME=$HOME/apache-maven
-export GOPATH=$HOME/work
-export PATH=/usr/local/sbin:$PATH:$HOME/bin:$M2_HOME/bin:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export GOPATH=$HOME/Tools/go
+export PATH=/usr/local/sbin:$PATH:$HOME/bin

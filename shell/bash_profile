@@ -4,5 +4,4 @@ for file in ~/.{exports.local,exports,aliases,functions}; do
 done
 unset file
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh" # Load SDKMan
