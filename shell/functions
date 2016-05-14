@@ -12,9 +12,9 @@ gtime() {
    
    else
         
-        echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${*:2}"
+        echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${@:2}"
         
-        GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${*:2}"
+        GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${@:2}"
    
    fi  
 }
