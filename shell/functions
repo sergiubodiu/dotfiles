@@ -11,10 +11,10 @@ gtime() {
        echo 'Usage: gtime 2016-05-11T22:13:13 -m "this is my commit message"'
    
    else
-
-        echo "GIT_AUTHOR_DATE=$1 GIT_COMMITTER_DATE=$1 git commit"
         
-        GIT_AUTHOR_DATE="$1" GIT_COMMITTER_DATE="$1" git commit
+        echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${*:2}"
+        
+        GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${*:2}"
    
    fi  
 }
