@@ -1,22 +1,51 @@
 #!/bin/bash
 
+# Changing the name of a OSX
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+changehostname() {
+   if [ $# -eq 0  ]; then
+       echo 'Usage: changehostname laptop01'
+   else
+        sudo scutil --set HostName $1
+ 	sudo scutil --set LocalHostName $1
+ 	sudo scutil --set ComputerName $1
+ 	diskutil rename / $1
+   fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Find process for running port
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+pid4port() {
+   if [ $# -eq 0  ]; then
+       echo 'Usage: pid4port 8080'
+   else
+        lsof -i:$1 -t
+   fi
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Git time message with 
 
 gtime() {
-   
+
    if [ $# -eq 0  ]; then
-     
+
        echo 'Usage: gtime 2016-05-11T22:13:13 -m "this is my commit message"'
-   
+
    else
-        
+
         echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${@:2}"
-        
+
         GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${@:2}"
-   
-   fi  
+
+   fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -24,18 +53,18 @@ gtime() {
 # Commit git message with all changes
 
 gcommit() {
-   
+
    if [ $# -eq 0  ]; then
-     
+
        echo 'Usage: gcommit this is my commit message'
-   
+
    else
 
       echo "git commit -am $* && git push"
 
       git commit -am "$*" && git push
-   
-   fi  
+
+   fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
