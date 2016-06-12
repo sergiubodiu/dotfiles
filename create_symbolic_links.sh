@@ -1,6 +1,7 @@
 #!/bin/bash
 
-declare -a FILES_TO_SYMLINK=(
+declare -a FILES_TO_SYMLINK
+FILES_TO_SYMLINK=(
 
     "shell/aliases"
     "shell/bash_profile"
@@ -9,6 +10,7 @@ declare -a FILES_TO_SYMLINK=(
     "shell/exports"
     "shell/functions"
     "shell/inputrc"
+    "shell/nanorc"
     "shell/screenrc"
     "shell/tmux.conf"
     "shell/zshrc"

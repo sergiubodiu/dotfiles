@@ -3,7 +3,15 @@
 These are the base dotfiles that I start with when I set up a
 new environment.
 
+Added __Oh My Zsh is a way of life!__
+
+    git submodule add git://github.com/robbyrussell/oh-my-zsh.git
+
+
+
 ## Setup
+
+ssh-keygen -t rsa -b 4096 -C "sergiu.bodiu@gmail.com"
 
 TBD
 
@@ -21,7 +29,6 @@ Create local git configuration: .gitconfig.local
         email = 'add name@email'
     [credential]
         helper = osxkeychain
+        
+Look for [Git Submodules](.gitmodules)
 
-Added __Oh My Zsh is a way of life!__
-
-    git submodule add git://github.com/robbyrussell/oh-my-zsh.git
