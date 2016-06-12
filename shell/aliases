@@ -15,11 +15,10 @@ alias gpush='git add . && git commit -m "minor updates" && git push'
 
 # Load OS specific aliases
 
-source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
-# if [ "$OS" == 'osx' ]; then
-#     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
-# elif [ "$OS" == 'ubuntu' ]; then
-#     source "$DOTFILES_DIR_PATH/shell/ubuntu/aliases"
-# fi
+if [ "$OS" = 'osx' ]; then
+     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
+elif [ "$OS" = 'ubuntu' ]; then
+     source "$DOTFILES_DIR_PATH/shell/ubuntu/aliases"
+fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
