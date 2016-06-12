@@ -49,17 +49,6 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr
 export PYTHONIOENCODING='UTF-8'
 
-#Docker
-export DOCKER_TLS_VERIFY="1"
-export DOCKER_HOST="tcp://192.168.99.100:2376"
-export DOCKER_CERT_PATH="/Users/bodius/.docker/machine/machines/default"
-export DOCKER_MACHINE_NAME="default"
-# Run this command to configure your shell:
-# eval "$(docker-machine env default)"
-
-# Java and Groovy
-export JAVA_HOME=/usr/lib/jvm/jdk1.8.0
-
 # Maven
 export GOPATH=$HOME/Tools/go
 export PATH=/usr/local/sbin:$PATH:$HOME/bin

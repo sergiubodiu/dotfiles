@@ -29,6 +29,10 @@ Create local git configuration: .gitconfig.local
         email = 'add name@email'
     [credential]
         helper = osxkeychain
+
+Install nano (MacOS)
+ 
+    brew install homebrew/dupes/nano
         
 Look for [Git Submodules](.gitmodules)
 

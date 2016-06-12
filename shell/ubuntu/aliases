@@ -25,3 +25,6 @@ alias u='sudo apt-get update \
             && npm install -g npm \
             && npm upgrade -g'
 
+
+# Java and Groovy
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0

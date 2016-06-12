@@ -10,15 +10,3 @@ alias map='xargs -n1'
 alias n='npm'
 alias q='exit'
 alias gpush='git add . && git commit -m "minor updates" && git push'
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Load OS specific aliases
-
-if [ "$OS" = 'osx' ]; then
-     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
-elif [ "$OS" = 'ubuntu' ]; then
-     source "$DOTFILES_DIR_PATH/shell/ubuntu/aliases"
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
