@@ -3,5 +3,3 @@ for file in ~/.{exports.local,exports,aliases,functions}; do
   [ -r "$file" ] && source "$file"
 done
 unset file
-
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh" # Load SDKMan

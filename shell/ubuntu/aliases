@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Get local IP
+
+alias local-ip="ifconfig | \
+                | grep 'inet addr' \
+                | grep -v '127.0.0.1' \
+                | cut -d: -f2 \
+                | cut -d' ' -f1"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Empty Trash
+
+alias empty-trash='rm -rf ~/.local/share/Trash/files/*'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Update
+
+alias u='sudo apt-get update \
+            && sudo apt-get upgrade \
+            && npm install -g npm \
+            && npm upgrade -g'
+
