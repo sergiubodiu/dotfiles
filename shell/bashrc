@@ -4,9 +4,9 @@
 # Load OS specific aliases
 
 if [ "$OS" = 'osx' ]; then
-     source "$DOTFILES_DIR_PATH/shell/os_x/aliases"
+     source "$DOTFILES_DIR_PATH"/shell/os_x/aliases
 elif [ "$OS" = 'ubuntu' ]; then
-     source "$DOTFILES_DIR_PATH/shell/ubuntu/aliases"
+     source $DOTFILES_DIR_PATH/shell/ubuntu/aliases
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
