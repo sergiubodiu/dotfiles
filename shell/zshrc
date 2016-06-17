@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 ZSH_THEME="agnoster"
-plugins=(osx brew brew-cask bosh cf docker fly git gradle mvn node python spring vagrant zsh-syntax-highlighting)
+plugins=(osx aws brew brew-cask bosh cf docker fly git gradle mvn node python spring vagrant zsh-syntax-highlighting)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
