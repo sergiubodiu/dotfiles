@@ -33,6 +33,10 @@ Create local git configuration: .gitconfig.local
 Install nano (MacOS)
  
     brew install homebrew/dupes/nano
+
+Install 
+   * [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
+   * [Bosh](http://bosh.io)
         
 Look for [Git Submodules](.gitmodules)
 
