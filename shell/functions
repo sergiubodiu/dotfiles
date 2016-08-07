@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# GitHub - initialize from existing directory
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+git-init-repo-from-dir() {
+   if [ $# -eq 0  ]; then
+       echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
+   else
+       git add . 
+       git commit -m 'initial commit comment'
+       git remote add origin $1
+       git pull origin master
+   fi
+}
+
 # Changing the name of a OSX
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
