@@ -279,6 +279,16 @@ main() {
 
         ./os/install_npm_packages.sh
 
+  	'apm i minimap' 'Atom: minimap'
+        'apm i file-icons' 'Atom: file-icons'
+        'apm i pigments' 'Atom: pigments'
+        'apm i linter' 'Atom: linter'
+        'apm i linter-eslint' 'Atom: linter-eslint'
+        'apm i highlight-selected' 'Atom: highlight-selected'
+        'apm i minimap-highlight-selected' 'Atom: minimap-highlight-selected'
+        'apm i autoclose-html' 'Atom: autoclose-html'
+        'apm i atom-ternjs' 'Atom: atom-ternjs'
+        'apm i monokai' 'Atom: monokai'
     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
