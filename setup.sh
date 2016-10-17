@@ -4,7 +4,7 @@ declare -r GITHUB_REPOSITORY='sergiubodiu/dotfiles'
 
 declare -r DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare -r DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/master"
-declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/shell/utils.sh"
+declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/os/utils.sh"
 
 declare dotfilesDirectory="$HOME/.dotfiles"
 
@@ -127,6 +127,35 @@ extract() {
     fi
 
     return 1
+
+}
+
+initialize_git_repository() {
+
+    declare -r GIT_ORIGIN="$1"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    if [ -z "$GIT_ORIGIN" ]; then
+        print_error "Please provide a URL for the Git origin"
+        exit 1
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    if ! is_git_repository; then
+
+        # Run the following Git commands in the root of
+        # the dotfiles directory, not in the `os/` directory.
+
+        cd ../../ \
+            || print_error "Failed to 'cd ../../'"
+
+        execute \
+            "git init && git remote add origin $GIT_ORIGIN" \
+            "Initialize the Git repository"
+
+    fi
 
 }
 
@@ -274,21 +303,6 @@ main() {
         ./os/install_applications.sh
         print_in_green '\n  ---\n\n'
 
-        ./os/install_node_versions.sh
-        print_in_green '\n  ---\n\n'
-
-        ./os/install_npm_packages.sh
-
-  	'apm i minimap' 'Atom: minimap'
-        'apm i file-icons' 'Atom: file-icons'
-        'apm i pigments' 'Atom: pigments'
-        'apm i linter' 'Atom: linter'
-        'apm i linter-eslint' 'Atom: linter-eslint'
-        'apm i highlight-selected' 'Atom: highlight-selected'
-        'apm i minimap-highlight-selected' 'Atom: minimap-highlight-selected'
-        'apm i autoclose-html' 'Atom: autoclose-html'
-        'apm i atom-ternjs' 'Atom: atom-ternjs'
-        'apm i monokai' 'Atom: monokai'
     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -308,7 +322,8 @@ main() {
 
         if [ "$(git config --get remote.origin.url)" != "$DOTFILES_ORIGIN" ]; then
             print_info 'Initialize Git repository'
-            ./os/initialize_git_repository.sh "$DOTFILES_ORIGIN"
+            initialize_git_repository "$DOTFILES_ORIGIN"
+
         fi
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -326,15 +341,15 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    if cmd_exists 'vim'; then
+    if cmd_exists 'atom'; then
 
-        print_info 'Install/Update Vim plugins'
+        print_info 'Install/Update Atom plugins'
 
-        ask_for_confirmation 'Do you want to install/update the Vim plugins?'
+        ask_for_confirmation 'Do you want to install/update the Atom plugins?'
         printf '\n'
 
         if answer_is_yes; then
-            ./os/install_vim_plugins.sh
+            ./os/install_atom_plugins.sh
         fi
 
     fi
