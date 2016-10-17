@@ -65,7 +65,7 @@ brew_install() {
     # If `brew tap` needs to be executed, check if it executed correctly
 
     if [ -n "$TAP_VALUE" ]; then
-        if ! brew_tap "$TAP_VALUE"; then
+        if ! brew tap "$TAP_VALUE" &> /dev/null; then
             print_error "$FORMULA_READABLE_NAME (\`brew tap $TAP_VALUE\` failed)"
             return 1
         fi
@@ -83,9 +83,33 @@ brew_install() {
 
 }
 
-brew_tap() {
-    brew tap "$1" &> /dev/null
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+opt_out_of_analytics() {
+
+    local path=""
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Try to get the path of the `Homebrew` git config file.
+
+    path="$(get_homebrew_git_config_file_path)" \
+        || return 1
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Opt-out of Homebrew's analytics.
+    # https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
+
+    if [ "$(git config --file="$path" --get homebrew.analyticsdisabled)" != "true" ]; then
+        git config --file="$path" --replace-all homebrew.analyticsdisabled true &> /dev/null
+    fi
+
+    print_result $? "Homebrew (opt-out of analytics)"
+
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 update_and_upgrade() {
 
@@ -94,12 +118,5 @@ update_and_upgrade() {
 
     execute 'sudo softwareupdate --install --all' 'Update system software'
     printf '\n'
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    if cmd_exists 'brew'; then
-        execute 'brew update' 'brew (update)'
-        execute 'brew upgrade --all' 'brew (upgrade)'
-    fi
 
 }

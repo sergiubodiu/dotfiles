@@ -316,6 +316,8 @@ main() {
         ./os/set_preferences.sh
     fi
 
+    chsh -s $(which zsh)
+
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if cmd_exists 'git'; then

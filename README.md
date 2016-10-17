@@ -40,3 +40,19 @@ Install
         
 Look for [Git Submodules](.gitmodules)
 
+$ git submodule init
+$ git submodule update
+
+## Setup
+
+To setup the dotfiles just run the appropriate snippet in the
+terminal:
+
+(:warning: **DO NOT** run the setup snippet if you don't fully
+understand [what it does](setup.sh). Seriously, **DON'T**!)
+
+| OS | Snippet |
+|:---:|:---|
+| OS X | `bash -c "$(curl -LsS https://raw.github.com/sergiubodiu/dotfiles/master/setup.sh)"` |
+| Ubuntu | `bash -c "$(wget -qO - https://raw.github.com/sergiubodiu/dotfiles/master/setup.sh)"` |
+

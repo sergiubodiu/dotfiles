@@ -1,7 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$BASH_SOURCE")" \
-    && source './utils.sh'
+cd "$(dirname "$BASH_SOURCE")" && source './utils.sh'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -15,6 +14,8 @@ main() {
 
     install_homebrew
 
+    opt_out_of_analytics
+    
     brew_install 'Homebrew Cask' 'caskroom/cask/brew-cask' 'caskroom/cask'
 
     print_in_green '\n  ---\n\n'
@@ -38,6 +39,7 @@ main() {
     brew_install 'ImageAlpha' 'imagealpha' 'caskroom/cask' 'cask'
     brew_install 'ImageMagick' 'imagemagick --with-webp'
     brew_install 'ImageOptim' 'imageoptim' 'caskroom/cask' 'cask'
+    brew_install 'Oracle JDK' 'java' 'caskroom/cask' 'cask'
     brew_install 'LICEcap' 'licecap' 'caskroom/cask' 'cask'
     brew_install 'Opera' 'opera' 'caskroom/cask' 'cask'
     brew_install 'Spectacle' 'spectacle' 'caskroom/cask' 'cask'
@@ -46,7 +48,6 @@ main() {
     brew_install 'TTF/OTF → WOFF (Zopfli)' 'sfnt2woff-zopfli' 'bramstein/webfonttools'
     brew_install 'TTF/OTF → WOFF' 'sfnt2woff' 'bramstein/webfonttools'
     brew_install 'Unarchiver' 'the-unarchiver' 'caskroom/cask' 'cask'
-    brew_install 'Vim' 'vim --override-system-vi'
     brew_install 'VirtualBox' 'virtualbox' 'caskroom/cask' 'cask'
     brew_install 'VLC' 'vlc' 'caskroom/cask' 'cask'
     brew_install 'WebKit' 'webkit-nightly' 'caskroom/versions' 'cask'
@@ -57,7 +58,6 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    update_and_upgrade
     if cmd_exists 'brew'; then
 
         execute 'brew cleanup' 'brew (cleanup)'
