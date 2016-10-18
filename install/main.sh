@@ -4,9 +4,9 @@ declare -r GITHUB_REPOSITORY='sergiubodiu/dotfiles'
 
 declare -r DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare -r DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/master"
-declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/os/utils.sh"
+declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/utils.sh"
 
-declare dotfilesDirectory="$HOME/.dotfiles"
+declare DOTFILES_DIR_PATH="$HOME/.dotfiles"
 
 # ----------------------------------------------------------------------
 # | Helper Functions                                                   |
@@ -52,42 +52,42 @@ download_dotfiles() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    ask_for_confirmation "Do you want to store the dotfiles in '$dotfilesDirectory'?"
+    ask_for_confirmation "Do you want to store the dotfiles in '$DOTFILES_DIR_PATH'?"
 
     if ! answer_is_yes; then
         dotfilesDirectory=''
-        while [ -z "$dotfilesDirectory" ]; do
+        while [ -z "$DOTFILES_DIR_PATH" ]; do
             ask 'Please specify another location for the dotfiles (path): '
-            dotfilesDirectory="$(get_answer)"
+            DOTFILES_DIR_PATH="$(get_answer)"
         done
     fi
 
     # Ensure the `dotfiles` directory is available
 
-    while [ -e "$dotfilesDirectory" ]; do
-        ask_for_confirmation "'$dotfilesDirectory' already exists, do you want to overwrite it?"
+    while [ -e "$DOTFILES_DIR_PATH" ]; do
+        ask_for_confirmation "'$DOTFILES_DIR_PATH' already exists, do you want to overwrite it?"
         if answer_is_yes; then
-            rm -rf "$dotfilesDirectory"
+            rm -rf "$DOTFILES_DIR_PATH"
             break
         else
             dotfilesDirectory=''
-            while [ -z "$dotfilesDirectory" ]; do
+            while [ -z "$DOTFILES_DIR_PATH" ]; do
                 ask 'Please specify another location for the dotfiles (path): '
-                dotfilesDirectory="$(get_answer)"
+                DOTFILES_DIR_PATH="$(get_answer)"
             done
         fi
     done
 
     printf '\n'
 
-    mkdir -p "$dotfilesDirectory"
-    print_result $? "Create '$dotfilesDirectory'" 'true'
+    mkdir -p "$DOTFILES_DIR_PATH"
+    print_result $? "Create '$DOTFILES_DIR_PATH'" 'true'
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Extract archive in the `dotfiles` directory
 
-    extract "$tmpFile" "$dotfilesDirectory"
+    extract "$tmpFile" "$DOTFILES_DIR_PATH"
     print_result $? 'Extract archive' 'true'
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,7 +99,7 @@ download_dotfiles() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    cd "$dotfilesDirectory"
+    cd "$DOTFILES_DIR_PATH"
 
 }
 
@@ -148,8 +148,7 @@ initialize_git_repository() {
         # Run the following Git commands in the root of
         # the dotfiles directory, not in the `os/` directory.
 
-        cd ../../ \
-            || print_error "Failed to 'cd ../../'"
+        cd $DOTFILES_DIR_PATH
 
         execute \
             "git init && git remote add origin $GIT_ORIGIN" \
@@ -185,50 +184,6 @@ is_supported_version() {
 
 }
 
-verify_os() {
-
-    declare -r MINIMUM_OS_X_VERSION='10.10'
-    declare -r MINIMUM_UBUNTU_VERSION='14.04'
-    declare -r OS_NAME="$(uname -s)"
-
-    declare OS_VERSION=''
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Check if the OS is `OS X` and
-    # it's above the required version
-
-    if [ "$OS_NAME" == "Darwin" ]; then
-
-        OS_VERSION="$(sw_vers -productVersion)"
-
-        is_supported_version "$OS_VERSION" "$MINIMUM_OS_X_VERSION" \
-            && return 0 \
-            || printf "Sorry, this script is intended only for OS X $MINIMUM_OS_X_VERSION+"
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Check if the OS is `Ubuntu` and
-    # it's above the required version
-
-    elif [ "$OS_NAME" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
-
-        OS_VERSION="$(lsb_release -d | cut -f2 | cut -d' ' -f2)"
-
-        is_supported_version "$OS_VERSION" "$MINIMUM_UBUNTU_VERSION" \
-            && return 0 \
-            || printf "Sorry, this script is intended only for Ubuntu $MINIMUM_UBUNTU_VERSION+"
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    else
-        printf 'Sorry, this script is intended only for OS X and Ubuntu!'
-    fi
-
-    return 1
-
-}
-
 # ----------------------------------------------------------------------
 # | Main                                                               |
 # ----------------------------------------------------------------------
@@ -247,14 +202,14 @@ main() {
     #
     # http://mywiki.wooledge.org/BashFAQ/028
 
-    cd "$(dirname "$BASH_SOURCE")"
+    cd "$DOTFILES_DIR_PATH"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Load utils
 
-    if [ -x 'os/utils.sh' ]; then
-        source 'os/utils.sh' || exit 1
+    if [ -x 'utils.sh' ]; then
+        source 'utils.sh' || exit 1
     else
         download_utils || exit 1
     fi
@@ -277,19 +232,8 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    print_info 'Create directories'
-
-    ask_for_confirmation 'Do you want the additional directories to be created?'
-    printf '\n'
-
-    if answer_is_yes; then
-        ./os/create_directories.sh
-    fi
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     print_info 'Create symbolic links'
-    ./os/create_symbolic_links.sh
+    ./install/create_symbolic_links.sh
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -300,7 +244,7 @@ main() {
 
     if answer_is_yes; then
 
-        ./os/install_applications.sh
+        "./$(get_os)/main.sh"
         print_in_green '\n  ---\n\n'
 
     fi
@@ -313,7 +257,7 @@ main() {
     printf '\n'
 
     if answer_is_yes; then
-        ./os/set_preferences.sh
+        ./$(get_os)/preferences/main.sh
     fi
 
     chsh -s $(which zsh)
@@ -328,17 +272,6 @@ main() {
 
         fi
 
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        print_info 'Update content'
-
-        ask_for_confirmation 'Do you want to update the content from the "dotfiles" directory?'
-        printf '\n'
-
-        if answer_is_yes; then
-            ./os/update_content.sh
-        fi
-
     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -351,7 +284,7 @@ main() {
         printf '\n'
 
         if answer_is_yes; then
-            ./os/install_atom_plugins.sh
+            ./install/install_atom_plugins.sh
         fi
 
     fi
@@ -364,7 +297,7 @@ main() {
     printf '\n'
 
     if answer_is_yes; then
-        ./os/restart.sh
+        sudo shutdown -r now &> /dev/null
     fi
 
 }

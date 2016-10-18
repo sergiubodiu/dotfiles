@@ -1,11 +1,14 @@
 #!/bin/bash
 
+. "$DOTFILES_DIR_PATH/utils.sh"
+
 declare -a FILES_TO_SYMLINK
 FILES_TO_SYMLINK=(
 
     "shell/aliases"
     "shell/bash_profile"
-    "shell/bashrc"
+    "shell/$(get_os)/bashrc"
+    "shell/$(get_os)/nanorc"
     "shell/exports"
     "shell/functions"
     "shell/inputrc"
@@ -78,4 +81,5 @@ main() {
 
 }
 
+print_in_purple "\n • Create symbolic links\n\n"
 main "$@"

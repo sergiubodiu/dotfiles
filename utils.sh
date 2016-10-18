@@ -8,12 +8,12 @@ answer_is_yes() {
 
 ask() {
     print_question "$1"
-    read
+    read -r
 }
 
 ask_for_confirmation() {
     print_question "$1 (y/n) "
-    read -n 1
+    read -r -n 1
     printf "\n"
 }
 
@@ -52,7 +52,7 @@ get_os() {
     local os=''
 
     if [ "$OS_NAME" == "Darwin" ]; then
-        os='osx'
+        os='macos'
     elif [ "$OS_NAME" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
         os='ubuntu'
     else
@@ -61,10 +61,6 @@ get_os() {
 
     printf "%s" "$os"
 
-}
-
-get_os_arch() {
-    printf "%s" "$(getconf LONG_BIT)"
 }
 
 is_git_repository() {
@@ -128,4 +124,8 @@ print_success() {
 
 print_warning() {
     print_in_yellow "  [!] $1\n"
+}
+
+restart() {
+  sudo shutdown -r now &> /dev/null
 }

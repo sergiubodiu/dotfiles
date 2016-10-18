@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$BASH_SOURCE")" && source './utils.sh'
+. "$DOTFILES_DIR_PATH/macos/utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -15,7 +15,7 @@ main() {
     install_homebrew
 
     opt_out_of_analytics
-    
+
     brew_install 'Homebrew Cask' 'caskroom/cask/brew-cask' 'caskroom/cask'
 
     print_in_green '\n  ---\n\n'
@@ -30,25 +30,36 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    brew_install 'AWS' 'awscli'
     brew_install 'Android File Transfer' 'android-file-transfer' 'caskroom/cask' 'cask'
     brew_install 'Atom' 'atom' 'caskroom/cask' 'cask'
     brew_install 'Chrome' 'google-chrome' 'caskroom/cask' 'cask'
+    brew_install 'CloudFoundry' 'cf-cli' 'cloudfoundry/tap'
+    brew_install 'Doxygen' 'doxygen'
+    brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'
     brew_install 'Dropbox' 'dropbox' 'caskroom/cask' 'cask'
     brew_install 'Firefox' 'firefox' 'caskroom/cask' 'cask'
     brew_install 'Git' 'git'
+    brew_install 'Gradle' 'gradle'
     brew_install 'ImageAlpha' 'imagealpha' 'caskroom/cask' 'cask'
     brew_install 'ImageMagick' 'imagemagick --with-webp'
     brew_install 'ImageOptim' 'imageoptim' 'caskroom/cask' 'cask'
-    brew_install 'Oracle JDK' 'java' 'caskroom/cask' 'cask'
+    brew_install 'Intellij' 'intellij-idea-ce' 'caskroom/cask' 'cask'
     brew_install 'LICEcap' 'licecap' 'caskroom/cask' 'cask'
+    brew_install 'Maven' 'maven'
+    brew_install 'Nano' 'nano' 'homebrew/dupes'
     brew_install 'Opera' 'opera' 'caskroom/cask' 'cask'
+    brew_install 'Oracle JDK' 'java' 'caskroom/cask' 'cask'
     brew_install 'Spectacle' 'spectacle' 'caskroom/cask' 'cask'
+    brew_install 'Skype' 'skype' 'caskroom/cask' 'cask'
     brew_install 'tmux' 'tmux'
     brew_install 'Transmission' 'transmission' 'caskroom/cask' 'cask'
+    brew_install 'Tree' 'tree'
     brew_install 'TTF/OTF → WOFF (Zopfli)' 'sfnt2woff-zopfli' 'bramstein/webfonttools'
     brew_install 'TTF/OTF → WOFF' 'sfnt2woff' 'bramstein/webfonttools'
     brew_install 'Unarchiver' 'the-unarchiver' 'caskroom/cask' 'cask'
     brew_install 'VirtualBox' 'virtualbox' 'caskroom/cask' 'cask'
+    brew_install 'Vagrant' 'vagrant' 'caskroom/cask' 'cask'
     brew_install 'VLC' 'vlc' 'caskroom/cask' 'cask'
     brew_install 'WebKit' 'webkit-nightly' 'caskroom/versions' 'cask'
     brew_install 'WOFF2' 'woff2' 'bramstein/webfonttools'

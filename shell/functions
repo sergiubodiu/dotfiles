@@ -8,25 +8,10 @@ git-init-repo-from-dir() {
    if [ $# -eq 0  ]; then
        echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
    else
-       git add . 
+       git add .
        git commit -m 'initial commit comment'
        git remote add origin $1
        git pull origin master
-   fi
-}
-
-# Changing the name of a OSX
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-changehostname() {
-   if [ $# -eq 0  ]; then
-       echo 'Usage: changehostname laptop01'
-   else
-        sudo scutil --set HostName $1
- 	sudo scutil --set LocalHostName $1
- 	sudo scutil --set ComputerName $1
- 	diskutil rename / $1
    fi
 }
 
@@ -46,7 +31,7 @@ pid4port() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Git time message with 
+# Git time message with
 
 gtime() {
 
