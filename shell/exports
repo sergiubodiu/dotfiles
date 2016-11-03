@@ -50,6 +50,10 @@ export PYTHONIOENCODING='UTF-8'
 # https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
 HOMEBREW_NO_ANALYTICS=1
 
-# Maven
-export GOPATH=$HOME/Tools/go
+# GO
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+# Binaries
 export PATH=/usr/local/sbin:$PATH:$HOME/bin
