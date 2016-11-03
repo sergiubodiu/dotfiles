@@ -61,6 +61,7 @@ main() {
     brew_install 'VirtualBox' 'virtualbox' 'caskroom/cask' 'cask'
     brew_install 'Vagrant' 'vagrant' 'caskroom/cask' 'cask'
     brew_install 'VLC' 'vlc' 'caskroom/cask' 'cask'
+    brew_install 'watch' 'watch'
     brew_install 'WebKit' 'webkit-nightly' 'caskroom/versions' 'cask'
     brew_install 'WOFF2' 'woff2' 'bramstein/webfonttools'
     brew_install 'Zopfli' 'zopfli'
