@@ -51,9 +51,9 @@ get_os() {
     declare -r OS_NAME="$(uname -s)"
     local os=''
 
-    if [ "$OS_NAME" == "Darwin" ]; then
+    if [[ "$OS_NAME" == "Darwin" ]]; then
         os='macos'
-    elif [ "$OS_NAME" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
+    elif [[ "$OS_NAME" == "Linux" ]] && [ -e "/etc/lsb-release" ]; then
         os='ubuntu'
     else
         os="$OS_NAME"

@@ -34,7 +34,6 @@ main() {
     brew_install 'Android File Transfer' 'android-file-transfer' 'caskroom/cask' 'cask'
     brew_install 'Atom' 'atom' 'caskroom/cask' 'cask'
     brew_install 'Chrome' 'google-chrome' 'caskroom/cask' 'cask'
-    brew_install 'CloudFoundry' 'cf-cli' 'cloudfoundry/tap'
     brew_install 'Doxygen' 'doxygen'
     brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'
     brew_install 'Dropbox' 'dropbox' 'caskroom/cask' 'cask'
@@ -65,6 +64,10 @@ main() {
     brew_install 'WebKit' 'webkit-nightly' 'caskroom/versions' 'cask'
     brew_install 'WOFF2' 'woff2' 'bramstein/webfonttools'
     brew_install 'Zopfli' 'zopfli'
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    brew_install 'CloudFoundry' 'cf-cli' 'cloudfoundry/tap'
+    brew_install 'SpringBoot' 'springboot' 'pivotal/tap'
 
     print_in_green '\n  ---\n\n'
 
