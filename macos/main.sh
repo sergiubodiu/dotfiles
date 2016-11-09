@@ -37,7 +37,7 @@ main() {
     brew_install 'Doxygen' 'doxygen'
     brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'
     brew_install 'Dropbox' 'dropbox' 'caskroom/cask' 'cask'
-    brew_install 'Firefox' 'firefox' 'caskroom/cask' 'cask'
+    brew_install 'F.lux' 'flux' 'caskroom/cask' 'cask'
     brew_install 'Git' 'git'
     brew_install 'Gradle' 'gradle'
     brew_install 'ImageAlpha' 'imagealpha' 'caskroom/cask' 'cask'
