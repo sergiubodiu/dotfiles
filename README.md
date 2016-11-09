@@ -1,4 +1,4 @@
-# [Sergiu](https://github.com/sbodiu-pivotal)’s dotfiles
+# [Sergiu](https://github.com/sergiubodiu)’s dotfiles
 
 These are the base dotfiles that I start with when I set up a
 new environment.
@@ -34,6 +34,11 @@ Install nano (MacOS)
 Install
    * [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
    * [Bosh](http://bosh.io)
+
+The first step is to install the Spring Boot CLI (the spring command).
+
+    spring install org.springframework.cloud:spring-cloud-cli:1.2.1.RELEASE
+    spring help cloud
 
 Look for [Git Submodules](.gitmodules)
 

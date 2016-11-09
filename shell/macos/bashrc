@@ -43,7 +43,7 @@ alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 alias u='sudo softwareupdate --install --all \
             && brew update \
-            && brew upgrade --all \
+            && brew upgrade \
             && brew cleanup \
             && npm install -g npm \
             && npm update -g'

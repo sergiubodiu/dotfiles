@@ -37,8 +37,8 @@ HIST_STAMPS="yyyy-mm-dd"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=$HOME/.dotfiles/custom
 
-source $HOME/.bash_profile
-source $ZSH/oh-my-zsh.sh
+. $HOME/.bash_profile
+. $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 

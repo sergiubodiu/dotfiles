@@ -1,5 +1,5 @@
 #!/bin/bash
 for file in ~/.{exports.local,exports,bashrc,aliases,functions}; do
-  [ -r "$file" ] && source "$file"
+  [ -r "$file" ] && . "$file"
 done
 unset file

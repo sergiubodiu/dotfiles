@@ -12,7 +12,7 @@ alias gsub='git submodule update --init --recursive'
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias map='xargs -n1'
 alias q='exit'
-alias utils='source $DOTFILES_DIR_PATH/utils.sh'
+alias utils='. $DOTFILES_DIR_PATH/utils.sh'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 alias boshlite='bosh target 192.168.50.4 lite; bosh login admin admin'
