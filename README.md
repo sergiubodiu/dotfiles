@@ -35,7 +35,7 @@ Install
    * [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
    * [Bosh](http://bosh.io)
 
-The first step is to install the Spring Boot CLI (the spring command).
+The first step is to install the [Spring Cloud CLI](https://github.com/spring-cloud/spring-cloud-cli)̨
 
     spring install org.springframework.cloud:spring-cloud-cli:1.2.1.RELEASE
     spring help cloud

@@ -19,3 +19,6 @@
 [submodule "dircolors"]
 	path = dircolors
 	url = git@github.com:seebi/dircolors-solarized.git
+[submodule "spring-cloud"]
+	path = spring-cloud
+	url = git@github.com:sergiubodiu/spring-cloud-cli-config.git
