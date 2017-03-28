@@ -68,6 +68,8 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     brew_install 'CloudFoundry' 'cf-cli' 'cloudfoundry/tap'
     brew_install 'SpringBoot' 'springboot' 'pivotal/tap'
+    brew install 'chruby' 'chruby'
+    brew_install 'ruby-install' 'ruby-install'
 
     print_in_green '\n  ---\n\n'
 
