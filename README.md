@@ -12,6 +12,7 @@ Added __Oh My Zsh is a way of life!__
 ssh-keygen -t rsa -b 4096 -C "sergiu.bodiu@gmail.com"
 
 TBD
+    git submodule update --init --recursive
 
 Create local export configuration: .exports.local
 
