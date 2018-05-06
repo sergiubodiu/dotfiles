@@ -7,7 +7,7 @@
     ulc = reset --soft HEAD~1                       # Undo last commit
     f   = fetch origin master:master                # Fetch master branch
     rau = remote add upstream                       # https://help.github.com/articles/configuring-a-remote-for-a-fork/
-
+    contributors = shortlog --summary --numbered    # List contributors with number of commits
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Find commits by source code
@@ -72,18 +72,40 @@
         git tag $1; \
     }; f"
 
+[apply]
+
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
+
 [core]
 
     abbrev = 12
-    attributesfile = ~/.gitattributes
-    autocrlf = input
-    editor = vim
+    # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
+
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: looks for spaces at the end of a line
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+    autocrlf = false
+    excludesfile = ~/.gitignore
+
+[diff]
+
+    # Detect copies as well as renames
+    renames = copies
 
 [diff "bin"]
 
     # Use `hexdump` to diff binary files
     textconv = hexdump -v -C
+
+[help]
+
+    # Automatically correct and execute mistyped commands
+    autocorrect = 1
 
 [pretty]
 
@@ -94,21 +116,25 @@
     #                     │        └─ decorations (branch, heads or tags)
     #                     └─ hash (abbreviated)
 
-
 [push]
 
+    # https://git-scm.com/docs/git-config#git-config-pushdefault
     # Make `git push` automatically push relevant
     # annotated tags when pushing branches out
     followTags = true
     default = simple
-    
+
 [pull]
-	
+
     rebase = true
     
 [rebase]
-	
+
     autoStash = true
+
+[merge]
+
+    conflictstyle = diff3    
 
 [include]
 
@@ -117,4 +143,5 @@
 
 [color]
 
+    # Use colors in Git commands that are capable of colored output when
     ui = auto

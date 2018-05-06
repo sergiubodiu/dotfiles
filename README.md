@@ -7,12 +7,14 @@ Added __Oh My Zsh is a way of life!__
 
     git submodule add git://github.com/robbyrussell/oh-my-zsh.git
 
+Remove submodules
+
+    git submodule deinit oh-my-zsh
+    git rm oh-my-zsh
+
 ## Setup
 
-ssh-keygen -t rsa -b 4096 -C "sergiu.bodiu@gmail.com"
-
-TBD
-    git submodule update --init --recursive
+ssh-keygen -t rsa -b 4096 -C "sergiu.bodiu@mailnator.com"
 
 Create local export configuration: .exports.local
 
@@ -25,12 +27,18 @@ Create local git configuration: .gitconfig.local
     [user]
         name = 'add name'
         email = 'add name@email'
+
+    ## Mac Only
     [credential]
         helper = osxkeychain
-
-Install nano (MacOS)
-
-    brew install homebrew/dupes/nano
+    
+    ## Windows Only https://github.com/Microsoft/Git-Credential-Manager-for-Windows
+    [core]
+        editor = 'c:/Program Files/Microsoft VS Code/code.exe' -w
+        packedGitLimit = 128m
+        packedGitWindowSize = 128m
+    [credential]
+        helper = manager
 
 Install
    * [Docker Toolbox](https://www.docker.com/products/docker-toolbox)
@@ -43,8 +51,14 @@ The first step is to install the [Spring Cloud CLI](https://github.com/spring-cl
 
 Look for [Git Submodules](.gitmodules)
 
-$ git submodule init
-$ git submodule update
+    eval `ssh-agent -s`
+    ssh-add ~/.ssh/*_rsa
+    git submodule update --init --recursive
+
+You can init and update the modules separetely
+
+    git submodule init
+    git submodule update
 
 ## Install
 
@@ -58,6 +72,10 @@ understand [what it does](main.sh). Seriously, **DON'T**!)
 |:---:|:---|
 | OS X | `bash -c "$(curl -LsS https://raw.github.com/sergiubodiu/dotfiles/master/install/main.sh)"` |
 | Ubuntu | `bash -c "$(wget -qO - https://raw.github.com/sergiubodiu/dotfiles/master/install/main.sh)"` |
+| Cygwin | `bash -c "$(wget -qO - https://raw.github.com/sergiubodiu/dotfiles/master/install/main.sh)"` |
+
+curl -O rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+install apt-cyg /bin
 
 ## Acknowledgements
 

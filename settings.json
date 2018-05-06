@@ -1,0 +1,12 @@
+{
+    "editor.renderWhitespace": "all",
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true
+    },
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "on",
+        "editor.acceptSuggestionOnEnter": "off"
+    }
+}

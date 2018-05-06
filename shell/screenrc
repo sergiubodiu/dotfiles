@@ -12,3 +12,6 @@ startup_message off
 # Increase the maximum number of lines contained
 # in the scrollback buffer (defaults to 100)
 defscrollback 10000
+
+#activate mouse wheel
+terminfo xterm* ti=:te=

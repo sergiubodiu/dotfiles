@@ -50,4 +50,17 @@ alias u='sudo softwareupdate --install --all \
 
 # Java and Groovy
 export JAVA_HOME=$(/usr/libexec/java_home)
+
+# Opt-out of Homebrew's analytics.
+# https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
+HOMEBREW_NO_ANALYTICS=1
+
+# GO
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+# Binaries
+export PATH=/usr/local/sbin:$PATH:$HOME/bin
+
 source /usr/local/opt/chruby/share/chruby/chruby.sh

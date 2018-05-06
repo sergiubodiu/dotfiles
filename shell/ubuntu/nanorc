@@ -12,4 +12,3 @@ include /usr/share/nano/tex.nanorc
 include /usr/share/nano/sh.nanorc
 include /usr/share/nano/xml.nanorc
 include /usr/share/nano/python.nanorc
-

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+declare DOTFILES_DIR_PATH="$HOME/.dotfiles"
 . "$DOTFILES_DIR_PATH/utils.sh"
 
 declare -a FILES_TO_SYMLINK
@@ -12,6 +13,7 @@ FILES_TO_SYMLINK=(
     "shell/exports"
     "shell/functions"
     "shell/inputrc"
+    "shell/minttyrc"
     "shell/screenrc"
     "shell/tmux.conf"
     "shell/zshrc"

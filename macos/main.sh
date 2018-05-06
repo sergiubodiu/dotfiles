@@ -32,7 +32,6 @@ main() {
 
     brew_install 'AWS' 'awscli'
     brew_install 'Android File Transfer' 'android-file-transfer' 'caskroom/cask' 'cask'
-    brew_install 'Atom' 'atom' 'caskroom/cask' 'cask'
     brew_install 'Chrome' 'google-chrome' 'caskroom/cask' 'cask'
     brew_install 'Doxygen' 'doxygen'
     brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'

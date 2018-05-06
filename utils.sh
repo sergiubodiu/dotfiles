@@ -55,6 +55,8 @@ get_os() {
         os='macos'
     elif [[ "$OS_NAME" == "Linux" ]] && [ -e "/etc/lsb-release" ]; then
         os='ubuntu'
+    elif [[ "$OS_NAME" == "MINGW64_NT-10.0" ]]; then
+        os='windows'
     else
         os="$OS_NAME"
     fi

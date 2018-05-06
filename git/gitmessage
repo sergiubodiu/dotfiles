@@ -1,0 +1,68 @@
+# ----------------------------------------------------------------------
+
+# {TYPE}: [{SCOPE}] {SUBJECT} What?
+
+# {BODY} Why?
+
+# {FOOTER}
+
+# ----------------------------------------------------------------------
+
+# {TYPE}: Everybody can simply extract all types of changes in git log.
+#
+# [+] feature, test, fix
+# [*] documentation, code-style, fix linter warning (no code change)
+# [~] refactoring production code
+# [!] breaking change (so pay attention)
+# [!!!] security fix (so caution)
+
+# {SCOPE}: This is just the scope of the change, something like a namespace.
+
+# {SUBJECT}: Should use impertivite tone and say what you did.
+
+# {BODY}: The body should go into detail about why the changes are made.
+
+# {FOOTER}: The footer should contain references or actions for tools.
+
+# ----------------------------------------------------------------------
+
+# ---
+# Time Tracking (without Jira)
+#
+# #time <value>w <value>d <value>h <value>m
+#
+# example: #time 2h 30m
+# ---
+
+# ---
+# Jira Issue Processing | https://goo.gl/tz7dOM
+#
+# <ISSUE_KEY> #comment This is a comment
+# <ISSUE_KEY> #close
+# <ISSUE_KEY> #time <value>w <value>d <value>h <value>m
+#
+# example: JRA-034 #close
+# ---
+
+# ---
+# Github Issue Processing | https://goo.gl/y7DqDB
+#
+# notification for member @foobar
+# this is a comment reference to <ISSUE_KEY>
+# closes <ISSUE_KEY>
+#
+# exmaple: closes #34
+# ---
+
+# ---
+# Gitlab Issue Processing | http://goo.gl/R9Ibz2
+#
+# notification for member @foobar
+# this is a comment reference to <ISSUE_KEY>
+# closes <ISSUE_KEY>
+#
+# exmaple: closes #34
+# ---
+
+# For a full example of how to write a good commit message, check out
+# https://github.com/voku/dotfiles/wiki/git-commit-messages

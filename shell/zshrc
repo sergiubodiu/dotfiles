@@ -1,3 +1,12 @@
+# TAKE A LOOK AT THIS SOURCES:
+#
+# https://wiki.archlinux.org/index.php/Zsh
+# http://ohmyz.sh/
+
+if [[ $- != *i* ]] || [ -z "$PS1" ]; then
+  return 0
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 ZSH_THEME="agnoster"
@@ -13,7 +22,7 @@ plugins=(osx aws brew brew-cask bosh cf docker fly git gradle mvn spring vagrant
 export UPDATE_ZSH_DAYS=30
 
 # Uncomment the following line to disable colors in ls.
-#DISABLE_LS_COLORS="true"
+# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
