@@ -9,16 +9,16 @@
 	url = git://github.com/frodenas/bosh-zsh-autocomplete-plugin.git
 [submodule "custom/plugins/fly"]
 	path = custom/plugins/fly
-	url = git@github.com/sergiubodiu/fly-zsh-autocomplete-plugin.git
+	url = git://github.com/sergiubodiu/fly-zsh-autocomplete-plugin.git
 [submodule "fonts"]
 	path = fonts
-	url = git@github.com/powerline/fonts.git
+	url = git://github.com/powerline/fonts.git
 [submodule "custom/plugins/zsh-syntax-highlighting"]
 	path = custom/plugins/zsh-syntax-highlighting
-	url = git@github.com/zsh-users/zsh-syntax-highlighting.git
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "dircolors"]
 	path = dircolors
-	url = git@github.com/seebi/dircolors-solarized.git
+	url = git://github.com/seebi/dircolors-solarized.git
 [submodule "windows/windows-preferences"]
 	path = windows/windows-preferences
 	url = git://github.com/sergiubodiu/windows-preferences.git
