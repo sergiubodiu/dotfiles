@@ -8,5 +8,15 @@
         "editor.formatOnSave": true,
         "editor.wordWrap": "on",
         "editor.acceptSuggestionOnEnter": "off"
-    }
+    },
+    
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.advanced.telemetry.enabled": true, // Specifies whether to enable GitLens telemetry   
+    "gitlens.explorers.avatars": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.currentLine.enabled": false, // Enable usage data and errors to be sent to Microsoft.
+    "telemetry.enableCrashReporter": true, // Enable crash reports to be sent to Microsoft.
+    "telemetry.enableTelemetry": true,
 }

@@ -10,6 +10,7 @@ FILES_TO_SYMLINK=(
     "shell/bash_profile"
     "shell/$(get_os)/bashrc"
     "shell/$(get_os)/nanorc"
+    "shell/editorconfig"
     "shell/exports"
     "shell/functions"
     "shell/inputrc"

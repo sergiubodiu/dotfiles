@@ -23,6 +23,7 @@ White=              189, 195, 199
 
 BoldAsFont=no
 #Font=DejaVu Sans Mono
+Font=Consolas
 FontHeight=10
 #FontSmoothing=full
 
