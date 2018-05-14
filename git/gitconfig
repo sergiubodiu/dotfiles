@@ -4,10 +4,11 @@
     lc  = shortlog --summary --numbered             # List contributors
     cp  = cherry-pick
     s   = status
-    p   = status
+    p   = push
     f   = fetch origin master:master                # Fetch master branch
     rau = remote add upstream                       # https://help.github.com/articles/configuring-a-remote-for-a-fork/
     contributors = shortlog --summary --numbered    # List contributors with number of commits
+	lt  = describe --abbrev=0 --tags                # Show latest tag
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Find commits by source code
@@ -106,9 +107,7 @@
     # [default] trailing-space: looks for spaces at the end of a line
     # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-
     autocrlf = false
-    excludesfile = ~/.gitignore
 
 [diff]
 
