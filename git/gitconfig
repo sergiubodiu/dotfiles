@@ -2,9 +2,9 @@
 
     lg  = log --graph --pretty=custom               # Show custom graph
     lc  = shortlog --summary --numbered             # List contributors
-    rlc = reset --hard HEAD~1                       # Remove last commit
+    cp  = cherry-pick
     s   = status
-    ulc = reset --soft HEAD~1                       # Undo last commit
+    p   = status
     f   = fetch origin master:master                # Fetch master branch
     rau = remote add upstream                       # https://help.github.com/articles/configuring-a-remote-for-a-fork/
     contributors = shortlog --summary --numbered    # List contributors with number of commits
@@ -72,6 +72,24 @@
         git tag $1; \
     }; f"
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Remove last commits (by default it removes the last commit).
+
+    rlc = "!f() { \
+        declare n=\"${1:-1}\"; \
+        git reset --hard \"HEAD~$n\"; \
+    }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Undo last commits (by default it undoes the last commit).
+
+    ulc = "!f() { \
+        declare n=\"${1:-1}\"; \
+        git reset --soft \"HEAD~$n\"; \
+    }; f"
+
 [apply]
 
     # Detect whitespace errors when applying a patch
@@ -124,22 +142,40 @@
     followTags = true
     default = simple
 
-[pull]
+[user]
 
-    rebase = true
-    
-[rebase]
+    # Don't guess the user's identity.
+    # https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/config.txt#L2847-L2855
 
-    autoStash = true
-
-[merge]
-
-    conflictstyle = diff3    
+    useConfigOnly = true 
 
 [include]
 
     # Import local config for privacy
     path = ~/.gitconfig.local
+
+[color "branch"]
+
+    current = green bold
+    local = green
+    remote = yellow
+
+[color "diff"]
+
+    frag = magenta
+    meta = yellow
+
+    new = green
+    old = red
+
+    newMoved = cyan
+    oldMoved = blue
+
+[color "status"]
+
+    added = green reverse
+    changed = yellow reverse
+    untracked = red reverse
 
 [color]
 

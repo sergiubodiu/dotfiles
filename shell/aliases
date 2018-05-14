@@ -9,7 +9,10 @@ alias e=$EDITOR
 alias gpush='git add . && git commit -m "minor updates" && git push'
 alias gsub='git submodule update --init --recursive'
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias ll="ls -l"
+alias la="ls -al"
 alias map='xargs -n1'
+alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q='exit'
 alias utils='. $DOTFILES_DIR_PATH/utils.sh'
 

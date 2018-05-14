@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# Color LS output to differentiate between directories and files
-export LS_OPTIONS="--color=auto"
-export CLICOLOR="Yes"
-export LSCOLOR=""
-
-# Customize Path
-export PATH=$HOME/bin:$PATH
+for file in ~/.{exports.local,exports,aliases,functions}; do
+  [ -r "$file" ] && . "$file"
+done
+unset file
 
 # get current branch in git repo
 function parse_git_branch() {

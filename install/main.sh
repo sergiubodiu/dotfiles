@@ -233,7 +233,12 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     print_info 'Create symbolic links'
-    ./install/create_symbolic_links.sh
+    ./create_symbolic_links.sh
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
+
+    print_info 'Create local config files'
+    ./create_local_config_files.sh
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -270,21 +275,6 @@ main() {
             print_info 'Initialize Git repository'
             initialize_git_repository "$DOTFILES_ORIGIN"
 
-        fi
-
-    fi
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    if cmd_exists 'atom'; then
-
-        print_info 'Install/Update Atom plugins'
-
-        ask_for_confirmation 'Do you want to install/update the Atom plugins?'
-        printf '\n'
-
-        if answer_is_yes; then
-            ./install/install_atom_plugins.sh
         fi
 
     fi

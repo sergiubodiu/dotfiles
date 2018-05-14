@@ -1,5 +1,10 @@
 #!/bin/sh
 
+for file in ~/.{exports.local,exports,aliases,functions}; do
+  [ -r "$file" ] && . "$file"
+done
+unset file
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Clear DNS cache

@@ -26,6 +26,11 @@ export HISTSIZE=10000
 export LANG='en_US'
 export LC_ALL='en_US.UTF-8'
 
+# Color LS output to differentiate between directories and files
+export LS_OPTIONS="--color=auto"
+export CLICOLOR="Yes"
+#export LSCOLOR=""
+
 # Use custom `less` colors for man pages
 # https://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
 #export LESS_TERMCAP_md=$'\E[1;32m'   # begin bold mode
