@@ -77,6 +77,8 @@ understand [what it does](main.sh). Seriously, **DON'T**!)
 curl -O rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
 install apt-cyg /bin
 
+Read about [SSH Hardening](https://medium.com/@jasonrigden/hardening-ssh-1bcb99cd4cef)
+
 ## Acknowledgements
 
 Inspiration and code was taken from many sources, including:
