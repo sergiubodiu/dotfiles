@@ -22,3 +22,6 @@
 [submodule "windows/windows-preferences"]
 	path = windows/windows-preferences
 	url = git://github.com/sergiubodiu/windows-preferences.git
+[submodule "adr-tools"]
+	path = adr-tools
+	url = https://github.com/npryce/adr-tools

@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+declare adr_bin_dir="$HOME/.dotfiles/adr-tools/src"
+export ADR_PAGER=less
+
+cmd=$adr_bin_dir/adr-$1
+
+if [ -x $cmd ]
+then
+    $cmd "${@:2}"
+else
+	("$adr_bin_dir/_adr_help" "$@")
+    exit 1
+fi
