@@ -2,28 +2,18 @@
 # https://github.com/github/gitignore
 
 # ----------------------------------------------------------------------
+# | Windows                                                            |
+# ----------------------------------------------------------------------
+
+Desktop.ini
+ehthumbs.db
+Thumbs.db
+
+# ----------------------------------------------------------------------
 # | Linux                                                              |
 # ----------------------------------------------------------------------
 
 *~
-
-
-# ----------------------------------------------------------------------
-# | Miscellaneous                                                      |
-# ----------------------------------------------------------------------
-
-# Node.js & npm.
-
-npm-debug.log
-
-# idea config file
-.idea/
-*.iml
-
-# eclipse config file
-.classpath
-.project
-.settings/
 
 # ----------------------------------------------------------------------
 # | macOS                                                              |
@@ -38,6 +28,57 @@ npm-debug.log
 .Trashes
 Icon
 
+# ----------------------------------------------------------------------
+# | JetBrains Directory-based project format                           |
+# ----------------------------------------------------------------------
+
+.idea/
+# if you remove the above rule, at least ignore the following:
+
+# User-specific stuff:
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+
+# Sensitive or high-churn files:
+# .idea/dataSources.ids
+# .idea/dataSources.xml
+# .idea/sqlDataSources.xml
+# .idea/dynamic.xml
+# .idea/uiDesigner.xml
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+## Plugin-specific files:
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+## idea File-based project format
+*.ipr
+*.iws
+*.iml
+
+# ----------------------------------------------------------------------
+# | Miscellaneous                                                      |
+# ----------------------------------------------------------------------
+
+# Node.js & npm.
+
+npm-debug.log
+
+## eclipse config file
+.classpath
+.project
+.settings/
 
 # ----------------------------------------------------------------------
 # | Vim                                                                |
@@ -48,12 +89,3 @@ Icon
 *.un~
 .netrwhist
 Session.vim
-
-
-# ----------------------------------------------------------------------
-# | Windows                                                            |
-# ----------------------------------------------------------------------
-
-Desktop.ini
-ehthumbs.db
-Thumbs.db

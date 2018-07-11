@@ -1,12 +1,12 @@
 #!/bin/bash
 
 bookmarks() {
-  if [ ! -f bookmarks.html ]; then
-      echo 'File not found!'
-  else
-      sed -n '/<DT><A HREF/s/^.*<DT><A HREF="\(.*\)">\(.*\)<\/A>/\1;"\2"/p' bookmarks.html > bookmarks.csv
-      wc -l bookmarks.csv
-  fi
+    if [ ! -f bookmarks.html ]; then
+        echo 'File not found!'
+    else
+        sed -n '/<DT><A HREF/s/^.*<DT><A HREF="\(.*\)">\(.*\)<\/A>/\1;"\2"/p' bookmarks.html > bookmarks.csv
+        wc -l bookmarks.csv
+    fi
 }
 
 # GitHub - initialize from existing directory
@@ -14,14 +14,14 @@ bookmarks() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 git-init-repo-from-dir() {
-   if [ $# -eq 0  ]; then
-       echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
-   else
-       git add .
-       git commit -m 'initial commit comment'
-       git remote add origin $1
-       git pull origin master
-   fi
+    if [ $# -eq 0  ]; then
+        echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
+    else
+        git add .
+        git commit -m 'initial commit comment'
+        git remote add origin $1
+        git pull origin master
+    fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,11 +31,11 @@ git-init-repo-from-dir() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 pid4port() {
-   if [ $# -eq 0  ]; then
-       echo 'Usage: pid4port 8080'
-   else
+    if [ $# -eq 0  ]; then
+        echo 'Usage: pid4port 8080'
+    else
         lsof -i:$1 -t
-   fi
+    fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -44,36 +44,17 @@ pid4port() {
 
 git-commit-time() {
 
-   if [ $# -eq 0  ]; then
+    if [ $# -eq 0  ]; then
 
-       echo 'Usage: git-commit-time 2016-05-11T22:13:13 -m "this is my commit message"'
+        echo 'Usage: git-commit-time 2016-05-11T22:13:13 -m "this is my commit message"'
 
-   else
+    else
 
         echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${@:2}"
 
         GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${@:2}"
 
-   fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Commit git message with all changes
-
-git-commit() {
-
-   if [ $# -eq 0  ]; then
-
-       echo 'Usage: git-commit this is my commit message'
-
-   else
-
-      echo "git commit -am $* && git push"
-
-      git commit -am "$*" && git push
-
-   fi
+    fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,21 +63,27 @@ git-commit() {
 
 git-update-repos() {
     CUR_DIR=$(pwd)
-    # Let the person running the script know what's going on.
+
     echo "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
-    # Find all git repositories and update it to the master latest revision
+
     for i in $(find . -maxdepth 2 -name ".git" | cut -c 3-); do
-    echo "";
-    echo "\033[33m"+$i+"\033[0m";
-    # We have to go to the .git parent directory to call the pull command
-    cd "$i";
-    cd ..;
-    # finally pull
+
+        echo "";
+        echo "\033[33m"+$i+"\033[0m";
+        cd "$i";
+        cd ..;
         git pull origin master;
-    # lets get back to the CUR_DIR
-    cd $CUR_DIR
+        cd $CUR_DIR
+
     done
+
     echo "\n\033[32mComplete!\033[0m\n"
+}
+
+function gradle_dependency () {
+    local module="$1"
+
+    find ~/.gradle/caches -name "${module}*.jar" ! -name '*-sources.jar' -type f
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,14 +138,12 @@ gz() {
             gzippedSize=$( gzip -c "$1" | wc -c )
             printf " gzipped size:    %12s\n" "$(hrfs $gzippedSize)"
 
-            printf " ─────────────────────────────\n"
             printf " reduction:       %12s [%s%%]\n\n" \
-                        "$( hrfs $(($originalSize-$gzippedSize)) )" \
-                        "$( printf "%s %s" "$originalSize $gzippedSize" | \
-                            awk '{ printf "%.1f", 100 - $2 * 100 / $1 }' | \
-                            sed -e "s/0*$//;s/\.$//" )"
-                            #              └─ remove tailing zeros
-
+                "$( hrfs $(($originalSize-$gzippedSize)) )" \
+                "$( printf "%s %s" "$originalSize $gzippedSize" | \
+                    awk '{ printf "%.1f", 100 - $2 * 100 / $1 }' | \
+                    sed -e "s/0*$//;s/\.$//" )"
+                    #              └─ remove tailing zeros
         else
             printf "'%s' is empty.\n" "$1"
         fi
@@ -205,28 +190,28 @@ qt() {
 # Extra many types of compressed packages
 # Credit: http://nparikh.org/notes/zshrc.txt
 extract() {
-  if [ -f "$1" ]; then
+    if [ -f "$1" ]; then
     case "$1" in
-      *.tar.bz2)  tar -jxvf "$1"                        ;;
-      *.tar.gz)   tar -zxvf "$1"                        ;;
-      *.bz2)      bunzip2 "$1"                          ;;
-      *.dmg)      hdiutil mount "$1"                    ;;
-      *.gz)       gunzip "$1"                           ;;
-      *.tar)      tar -xvf "$1"                         ;;
-      *.tbz2)     tar -jxvf "$1"                        ;;
-      *.tgz)      tar -zxvf "$1"                        ;;
-      *.jar)      unzip "$1"                            ;;
-      *.war)      unzip "$1"                            ;;
-      *.zip)      unzip "$1"                            ;;
-      *.ZIP)      unzip "$1"                            ;;
-      *.pax)      cat "$1" | pax -r                     ;;
-      *.pax.Z)    uncompress "$1" --stdout | pax -r     ;;
-      *.Z)        uncompress "$1"                       ;;
-      *) echo "'$1' cannot be extracted/mounted via extract()" ;;
+        *.tar.bz2)  tar -jxvf "$1"                        ;;
+        *.tar.gz)   tar -zxvf "$1"                        ;;
+        *.bz2)      bunzip2 "$1"                          ;;
+        *.dmg)      hdiutil mount "$1"                    ;;
+        *.gz)       gunzip "$1"                           ;;
+        *.tar)      tar -xvf "$1"                         ;;
+        *.tbz2)     tar -jxvf "$1"                        ;;
+        *.tgz)      tar -zxvf "$1"                        ;;
+        *.jar)      unzip "$1"                            ;;
+        *.war)      unzip "$1"                            ;;
+        *.zip)      unzip "$1"                            ;;
+        *.ZIP)      unzip "$1"                            ;;
+        *.pax)      cat "$1" | pax -r                     ;;
+        *.pax.Z)    uncompress "$1" --stdout | pax -r     ;;
+        *.Z)        uncompress "$1"                       ;;
+        *) echo "'$1' cannot be extracted/mounted via extract()" ;;
     esac
-  else
-     echo "'$1' is not a valid file to extract"
-  fi
+    else
+        echo "'$1' is not a valid file to extract"
+    fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

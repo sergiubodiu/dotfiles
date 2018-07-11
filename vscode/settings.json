@@ -1,5 +1,16 @@
 {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.rulers": [
+        140
+    ],
+    "editor.renderLineHighlight": "none",
     "editor.renderWhitespace": "all",
+    "explorer.autoReveal": false,
+    "extensions.ignoreRecommendations": false,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
     "[typescript]": {
         "editor.formatOnSave": true,
         "editor.formatOnPaste": true
@@ -9,14 +20,75 @@
         "editor.wordWrap": "on",
         "editor.acceptSuggestionOnEnter": "off"
     },
-    
+    "cSpell.language": ",en-GB",
+    "cSpell.enabledLanguageIds": [
+        "css",
+        "fonts",
+        "go",
+        "javascript",
+        "javascriptreact",
+        "json",
+        "markdown",
+        "plaintext",
+        "python",
+        "restructuredtext",
+        "text",
+        "typescript",
+        "yml",
+        "html"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/tmp": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/dist": true,
+        "**/.orig": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/tmp/**": true,
+        "**/bower_components/**": true,
+        "**/dist/**": true
+    },
+    "search.exclude": {
+        "node_modules": true,
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "coverage": true,
+        "components/*/backend/vendor": true,
+        "*.orig": true
+    },
+    "search.useIgnoreFilesByDefault": true,
+    "TodoParser": {
+        "folderExclude": [
+            "node_modules",
+            ".vscode"
+        ]
+    },
+    "telemetry.enableCrashReporter": false, // Enable crash reports to be sent to Microsoft.
+    "telemetry.enableTelemetry": false,
+    "tslint.validateWithDefaultConfig": true,
+    "tslint.configFile": "tslint.json",
+    "tslint.autoFixOnSave": true,
+    "tslint.alwaysShowStatus": true,
+    "tslint.alwaysShowRuleFailuresAsWarnings": true,
     "gitlens.advanced.messages": {
         "suppressShowKeyBindingsNotice": true
     },
-    "gitlens.advanced.telemetry.enabled": true, // Specifies whether to enable GitLens telemetry   
-    "gitlens.explorers.avatars": false,
-    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.advanced.telemetry.enabled": false, // Specifies whether to enable GitLens telemetry
+    "gitlens.blame.line.enabled": false,
+    "gitlens.blame.highlight.locations": [
+        "gutter",
+        "overview"
+    ],
+    "gitlens.codeLens.recentChange.enabled": false,
+    "gitlens.codeLens.authors.enabled": false,
     "gitlens.currentLine.enabled": false, // Enable usage data and errors to be sent to Microsoft.
-    "telemetry.enableCrashReporter": true, // Enable crash reports to be sent to Microsoft.
-    "telemetry.enableTelemetry": true,
+    "gitlens.explorers.avatars": false,
+    "gitlens.historyExplorer.enabled": true,
+    "gitlens.hovers.currentLine.over": "line",
 }

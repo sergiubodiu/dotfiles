@@ -67,7 +67,6 @@ upgrade() {
 
     execute \
         "export DEBIAN_FRONTEND=\"noninteractive\" \
-            && sudo apt-get -o Dpkg::Options::=\"--force-confnew\" upgrade -qqy" \
-        "APT (upgrade)"
+            && sudo apt-get -o Dpkg::Options::=\"--force-confnew\" upgrade -qqy" "APT (upgrade)"
 
 }
