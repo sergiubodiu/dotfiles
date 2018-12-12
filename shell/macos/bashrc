@@ -5,6 +5,16 @@ for file in ~/.{exports.local,exports,aliases,functions}; do
 done
 unset file
 
+update_terminal_cwd() {
+    # Identify the directory using a "file:" scheme URL,
+    # including the host name to disambiguate local vs.
+    # remote connections. Percent-escape spaces.
+    local SEARCH=' '
+    local REPLACE='%20'
+    local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+    printf '\e]7;%s\a' "$PWD_URL"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Clear DNS cache
@@ -67,5 +77,3 @@ export PATH=$PATH:$GOPATH/bin
 
 # Binaries
 export PATH=/usr/local/sbin:$PATH:$HOME/bin
-
-source /usr/local/opt/chruby/share/chruby/chruby.sh

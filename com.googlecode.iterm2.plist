@@ -2120,7 +2120,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/SergiuBodiu/.dotfiles</string>
+	<string>/Users/admin/.dotfiles</string>
 	<key>PromptOnQuit</key>
 	<true/>
 	<key>QuitWhenAllWindowsClosed</key>
