@@ -1,0 +1,6 @@
+[ -n "$PS1" ] && source ~/.bash_profile;
+
+for file in ~/.{exports.local,exports,aliases,functions}; do
+  [ -r "$file" ] && . "$file"
+done
+unset file

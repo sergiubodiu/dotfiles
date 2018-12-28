@@ -91,4 +91,7 @@
     "gitlens.explorers.avatars": false,
     "gitlens.historyExplorer.enabled": true,
     "gitlens.hovers.currentLine.over": "line",
+    "terminal.explorerKind": "external",
+    "terminal.external.linuxExec": "konsole",
+    "python.jediEnabled": false,
 }

@@ -1,10 +1,8 @@
-Java Keytool Keystore Commands
-=============================
+# Java Keytool Keystore Commands
 
 This guide will help you with the Java Keytool Keystore platform.
 
-What Is Java Keytool Keystore?
-------------------------------
+## What Is Java Keytool Keystore?
 
 Java Keytool is a digital certificate management platform where the software developer keeps all certificates and private keys in a single place. The Java Keytool Keystore is the perfect solution to maintain the flow of trust and validation of all required certificates.
 
