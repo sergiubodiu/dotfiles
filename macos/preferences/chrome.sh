@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Chrome\n\n"
+print_info 'Chrome'
 
 execute "defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true" \
     "Expand print dialog by default"

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+install_ide() {
+
+    local OS_NVSCODE_HOMEAME = $1
+
+    local settings="settings.json snippets"
+
+    if test "$(which code)"; then
+
+        # from `code --list-extensions`
+        modules="
+esbenp.prettier-vscode
+ms-kubernetes-tools.vscode-kubernetes-tools
+ms-python.python
+eamodio.gitlens
+"
+        for module in $modules; do
+            code --install-extension "$module" || true
+        done
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    for i in $settings; do
+
+        sourceFile="$DOTFILES_DIR/vscode/$i"
+        targetFile="$VSCODE_HOME/$i"
+
+        if [ ! -e "$targetFile" ] ; then
+
+            execute \
+                "ln -fs $sourceFile $targetFile" \
+                "$targetFile → $sourceFile"
+
+    done
+
+}

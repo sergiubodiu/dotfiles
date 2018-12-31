@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Keyboard\n\n"
+print_info 'Keyboard'
 
 execute "defaults write NSGlobalDomain AppleKeyboardUIMode -int 3" \
     "Enable full keyboard access for all controls"
@@ -23,3 +23,14 @@ execute "defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool
 
 execute "defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false" \
     "Disable smart dashes"
+
+print_info 'Language & Region'
+
+execute "defaults write NSGlobalDomain AppleLanguages -array 'en'" \
+    "Set language"
+
+execute "defaults write NSGlobalDomain AppleMeasurementUnits -string 'Centimeters'" \
+    "Set measurement units"
+
+execute "defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false" \
+    "Disable auto-correct"

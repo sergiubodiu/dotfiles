@@ -16,12 +16,8 @@ cd "$DOTFILES_DIR_PATH/macos/preferences"
 ./dock.sh
 ./finder.sh
 ./keyboard.sh
-./language_and_region.sh
-./maps.sh
 ./photos.sh
 ./safari.sh
 ./terminal.sh
-./textedit.sh
 ./trackpad.sh
-./transmission.sh
 ./ui_and_ux.sh

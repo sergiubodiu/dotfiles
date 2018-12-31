@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Safari\n\n"
+print_info 'Safari'
 
 execute "defaults write com.apple.Safari AutoOpenSafeDownloads -bool false" \
     "Disable opening 'safe' files automatically"

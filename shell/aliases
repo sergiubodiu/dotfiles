@@ -9,15 +9,12 @@ alias cd..="cd .."
 
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
-alias dotfiles='$EDITOR $DOTFILES_DIR_PATH'
 alias e='$EDITOR'
 alias gpush='git add . && git commit -m "minor updates" && git push'
 
 alias map='xargs -n1'
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q='exit'
-alias utils='. $DOTFILES_DIR_PATH/utils.sh'
-
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

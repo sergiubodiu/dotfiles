@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Trackpad\n\n"
+print_info 'Trackpad'
 
 execute "defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true && \
          defaults write com.apple.AppleMultitouchTrackpad Clicking -int 1 && \

@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Terminal\n\n"
+print_info 'Terminal'
 
 execute "defaults write com.apple.terminal FocusFollowsMouse -string true" \
     "Make the focus automatically follow the mouse"

@@ -4,7 +4,7 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   App Store\n\n"
+print_info 'App Store'
 
 execute "defaults write com.apple.appstore ShowDebugMenu -bool true" \
     "Enable debug menu"
