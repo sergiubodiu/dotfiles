@@ -1,8 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# This script installs sergiubodiu's dotfiles to a basic level under bash.
+#
+# Install:
+#    `curl https://raw.githubusercontent.com/sergiubodiu/dotfiles/master/install/install.sh | bash`
+
+set -Eeuo pipefail
 
 declare -r GITHUB_USER='sergiubodiu'
 declare -r GITHUB_REPOSITORY="$GITHUB_USER/dotfiles"
-declare -r GITHUB_SSH_KEY="$HOME/.ssh/github"
+
+echo " usage: curl https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/install/install.sh | bash"
+
+if [[ ! -e ~/.dotfiles ]]; then
+    git clone -b master --recursive https://github.com/$GITHUB_REPOSITORY ~/.dotfiles
+fi
 
 declare -r DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare -r DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/master"

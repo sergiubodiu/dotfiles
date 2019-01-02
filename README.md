@@ -63,8 +63,8 @@ understand [what it does](main.sh). Seriously, **DON'T**!)
 | Ubuntu | `bash -c "$(wget -qO - https://raw.github.com/sergiubodiu/dotfiles/master/install/main.sh)"` |
 | Cygwin | `bash -c "$(wget -qO - https://raw.github.com/sergiubodiu/dotfiles/master/install/main.sh)"` |
 
-curl -O rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
-install apt-cyg /bin
+curl -LsS rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+curl -LsS rawgit.com/StevenBlack/hosts/master/data/mvps.org/hosts > hosts
 
 Read about [SSH Hardening](https://medium.com/@jasonrigden/hardening-ssh-1bcb99cd4cef)
 

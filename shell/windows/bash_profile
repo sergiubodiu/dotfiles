@@ -22,3 +22,5 @@ function addkeys {
         start_agent;
     fi
 }
+
+function scoop() { powershell -ex unrestricted scoop.ps1 "$@" ;} function scoop() { powershell -ex unrestricted scoop.ps1 "$@" ;} && export -f scoop
