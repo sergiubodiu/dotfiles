@@ -4,16 +4,17 @@ install_ide() {
 
     local OS_NVSCODE_HOMEAME = $1
 
-    local settings="settings.json snippets"
+    local settings="settings.json"
 
     if test "$(which code)"; then
 
         # from `code --list-extensions`
         modules="
+eamodio.gitlens
 esbenp.prettier-vscode
 ms-kubernetes-tools.vscode-kubernetes-tools
 ms-python.python
-eamodio.gitlens
+streetsidesoftware.code-spell-checker
 "
         for module in $modules; do
             code --install-extension "$module" || true
