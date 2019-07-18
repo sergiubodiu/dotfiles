@@ -5,6 +5,26 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# the following line is actually
+# equivalent to "\C-?": delete-char
+"\e[3~": delete-char
+
+# VT
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# kvt
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# rxvt and konsole (i.e. the KDE-app...)
+"\e[7~": beginning-of-line
+"\e[8~": end-of-line
+
+# VT220
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
 # If there are multiple matches for completion,
 # make TAB cycle through them.
 TAB: menu-complete
@@ -15,15 +35,28 @@ TAB: menu-complete
 # ↓
 "\e[B":history-search-forward
 
-# Use case-insensitive TAB autocompletion.
-set completion-ignore-case on
+# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
+set match-hidden-files off
 
 # Perform partial completion on the first Tab press, and
 # only start cycling full results on the second Tab press.
 set menu-complete-display-prefix on
 
-# Display a list of the matching files
+# Auto list TAB completions
+# set show-all-if-ambiguous off
+# List all matches in case multiple possible completions are possible
 set show-all-if-ambiguous on
+
+set skip-completed-text on
+
+# Show all autocomplete results at once
+set page-completions off
+
+# If there are more than 100 possible completions for a word, ask to show them all
+set completion-query-items 100
+
+# Use case-insensitive TAB autocompletion.
+set completion-ignore-case on
 
 # Miscellaneous
 # -----------------------------------------------------------------------------

@@ -1,13 +1,52 @@
-#!/bin/sh
+#!/bin/bash
+
+answer_is_yes() {
+    [[ "$REPLY" =~ ^[Yy]$ ]] \
+        && return 0 \
+        || return 1
+}
+
+ask_for_confirmation() {
+    print_question "$1 (y/n) "
+    read -r -n 1
+    printf "\n"
+}
 
 cmd_exists() {
     command -v "$1" &> /dev/null
     return $?
 }
 
+print_question() {
+    printf "\e[0;33m  [?] $1\e[0m"
+}
+
+get_answer() {
+    printf "$REPLY"
+}
+
 execute() {
     eval "$1" &> /dev/null
     print_result $? "${2:-$1}"
+}
+
+get_os() {
+
+    local osName="$(uname -s)"
+    local os=''
+
+    if [[ "$osName" == "Darwin" ]]; then
+        os='macos'
+    elif [[ "$osName" == "Linux" ]] && [ -e "/etc/lsb-release" ]; then
+        os='ubuntu'
+    elif [[ "$osName" == "MINGW64_NT-10.0" ]]; then
+        os='windows'
+    else
+        os="$osName"
+    fi
+
+    printf "%s" "$os"
+
 }
 
 print_in_green() {

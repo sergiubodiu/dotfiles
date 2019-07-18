@@ -31,25 +31,27 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    brew_install 'F.lux' 'flux' 'caskroom/cask' 'cask'
+    brew_install 'Alfred' 'alfred' 'caskroom/cask' 'cask'
+    #brew_install 'F.lux' 'flux' 'caskroom/cask' 'cask'
+    brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'
+    brew_install 'Intellij' 'intellij-idea-ce' 'caskroom/cask' 'cask'
+    brew_install 'Oracle JDK' 'java' 'caskroom/cask' 'cask'
+    brew_install 'LICEcap' 'licecap' 'caskroom/cask' 'cask'
+    brew_install 'Opera' 'opera' 'caskroom/cask' 'cask'
+    brew_install 'VirtualBox' 'virtualbox' 'caskroom/cask' 'cask'
+
     brew_install 'Git' 'git'
     brew_install 'Gradle' 'gradle'
-
-
-    brew_install 'Intellij' 'intellij-idea-ce' 'caskroom/cask' 'cask'
-    brew_install 'LICEcap' 'licecap' 'caskroom/cask' 'cask'
     brew_install 'Maven' 'maven'
-    brew_install 'watch' 'watch'
-    brew_install 'Opera' 'opera' 'caskroom/cask' 'cask'
+    brew_install 'tmux' 'tmux'
     brew_install 'Tree' 'tree'
+    brew_install 'watch' 'watch'
 
-    # brew_install 'Spectacle' 'spectacle' 'caskroom/cask' 'cask'
-    # brew_install 'tmux' 'tmux'
     # brew_install 'Skype' 'skype' 'caskroom/cask' 'cask'
     # brew_install 'Chrome' 'google-chrome' 'caskroom/cask' 'cask'
     # brew_install 'Transmission' 'transmission' 'caskroom/cask' 'cask'
-    # brew_install 'VirtualBox' 'virtualbox' 'caskroom/cask' 'cask'
-    # brew_install 'Vagrant' 'vagrant' 'caskroom/cask' 'cask'
+
+
     # brew_install 'VLC' 'vlc' 'caskroom/cask' 'cask'
     # brew_install 'ImageAlpha' 'imagealpha' 'caskroom/cask' 'cask'
     # brew_install 'ImageMagick' 'imagemagick --with-webp'
@@ -61,15 +63,12 @@ main() {
     # brew_install 'Zopfli' 'zopfli'
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#    brew_install 'Doxygen' 'doxygen'
-#    brew_install 'Docker' 'docker' 'caskroom/cask' 'cask'   
 #    brew_install 'AWS' 'awscli'
 #    brew_install 'Android File Transfer' 'android-file-transfer' 'caskroom/cask' 'cask'   
 #    brew_install 'CloudFoundry' 'cf-cli' 'cloudfoundry/tap'
 #    brew_install 'SpringBoot' 'springboot' 'pivotal/tap'
 #    brew install 'chruby' 'chruby'
 #    brew_install 'ruby-install' 'ruby-install'
-#    brew_install 'Oracle JDK' 'java' 'caskroom/cask' 'cask'
     
     print_in_green '\n  ---\n\n'
 

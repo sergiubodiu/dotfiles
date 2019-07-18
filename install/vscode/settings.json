@@ -1,16 +1,17 @@
 {
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": false,
-    "editor.rulers": [
-        140
-    ],
-    "editor.renderLineHighlight": "none",
-    "editor.renderWhitespace": "all",
     "explorer.autoReveal": false,
     "extensions.ignoreRecommendations": false,
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.renderLineHighlight": "none",
+    "editor.renderWhitespace": "all",
+    "editor.minimap.enabled": false,
+    "editor.rulers": [
+        140
+    ],
     "[typescript]": {
         "editor.formatOnSave": true,
         "editor.formatOnPaste": true
@@ -19,6 +20,22 @@
         "editor.formatOnSave": true,
         "editor.wordWrap": "on",
         "editor.acceptSuggestionOnEnter": "off"
+    },
+
+    "[javascript]": {
+        "editor.tabSize": 2
+    },
+    "[yaml]": {
+        "editor.tabSize": 2
+    },
+    "[terraform]": {
+        "editor.tabSize": 2
+    },
+    "[json]": {
+        "editor.tabSize": 2
+    },
+    "[shellscript]": {
+        "editor.tabSize": 2,
     },
     "cSpell.language": ",en-GB",
     "cSpell.enabledLanguageIds": [
@@ -62,13 +79,6 @@
         "components/*/backend/vendor": true,
         "*.orig": true
     },
-    "search.useIgnoreFilesByDefault": true,
-    "TodoParser": {
-        "folderExclude": [
-            "node_modules",
-            ".vscode"
-        ]
-    },
     "telemetry.enableCrashReporter": false, // Enable crash reports to be sent to Microsoft.
     "telemetry.enableTelemetry": false,
     "tslint.validateWithDefaultConfig": true,
@@ -80,7 +90,7 @@
         "suppressShowKeyBindingsNotice": true
     },
     "gitlens.advanced.telemetry.enabled": false, // Specifies whether to enable GitLens telemetry
-    "gitlens.blame.line.enabled": false,
+    "gitlens.blame.highlight.enabled": false,
     "gitlens.blame.highlight.locations": [
         "gutter",
         "overview"
@@ -92,6 +102,5 @@
     "gitlens.historyExplorer.enabled": true,
     "gitlens.hovers.currentLine.over": "line",
     "terminal.explorerKind": "external",
-    "terminal.external.linuxExec": "konsole",
-    "python.jediEnabled": false,
+    "terminal.external.linuxExec": "konsole"
 }

@@ -20,59 +20,14 @@ declare -r DOTFILES_ORIGIN="git@github.com:$GITHUB_REPOSITORY.git"
 declare -r DOTFILES_TARBALL_URL="https://github.com/$GITHUB_REPOSITORY/tarball/master"
 declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/utils.sh"
 declare -r DOTFILES_DIR="$HOME/.dotfiles"
-declare -r OS_NAME=get_os
 
 # ----------------------------------------------------------------------
 # | Helper Functions                                                   |
 # ----------------------------------------------------------------------
 
-get_os() {
-
-    local osName="$(uname -s)"
-    local os=''
-
-    if [[ "$osName" == "Darwin" ]]; then
-        os='macos'
-    elif [[ "$osName" == "Linux" ]] && [ -e "/etc/lsb-release" ]; then
-        os='ubuntu'
-    elif [[ "$osName" == "MINGW64_NT-10.0" ]]; then
-        os='windows'
-    else
-        os="$osName"
-    fi
-
-    printf "%s" "$os"
-
-}
-
-cmd_exists() {
-    command -v "$1" &> /dev/null
-    return $?
-}
-
-print_question() {
-    printf "\e[0;33m  [?] $1\e[0m"
-}
-
 ask() {
     print_question "$1"
     read -r
-}
-
-get_answer() {
-    printf "$REPLY"
-}
-
-answer_is_yes() {
-    [[ "$REPLY" =~ ^[Yy]$ ]] \
-        && return 0 \
-        || return 1
-}
-
-ask_for_confirmation() {
-    print_question "$1 (y/n) "
-    read -r -n 1
-    printf "\n"
 }
 
 restart() {
@@ -174,70 +129,6 @@ extract() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-create_symbolic_links() {
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    print_info 'Create symbolic links'
-
-    FILES_TO_SYMLINK=(
-        "shell/aliases"
-        "shell/bashrc"
-        "shell/$OS_NAME/bash_profile"
-        "shell/$OS_NAME/nanorc"
-        "shell/exports"
-        "shell/functions"
-        "shell/inputrc"
-        "shell/minttyrc"
-        "shell/zshrc"
-
-        "git/gitconfig"
-        "git/gitignore"
-    )
-
-    for i in "${FILES_TO_SYMLINK[@]}"; do
-
-        sourceFile="$(pwd)/$i"
-        targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
-
-        if [ ! -e "$targetFile" ] ; then
-
-            execute \
-                "ln -fs $sourceFile $targetFile" \
-                "$targetFile → $sourceFile"
-
-        elif [[ "$(readlink "$targetFile")" == "$sourceFile" ]]; then
-
-            print_success "$targetFile → $sourceFile"
-
-        else
-
-            overrite_symbolik_link $sourceFile $targetFile
-
-        fi
-
-    done
-
-}
-
-overrite_symbolik_link() {
-
-    local sourceFile=$1
-    local targetFile=$2
-
-    ask_for_confirmation "'$targetFile' already exists, do you want to overwrite it?"
-    if answer_is_yes; then
-
-        rm -rf "$targetFile"
-
-        execute \
-            "ln -fs $sourceFile $targetFile" \
-            "$targetFile → $sourceFile"
-
-    else
-        print_error "$targetFile → $sourceFile"
-    fi
- }
-
 ask_for_sudo() {
 
     # Ask for the administrator password upfront
@@ -259,20 +150,15 @@ ask_for_sudo() {
 
 main() {
 
-    download_utils
+    local OS_NAME=get_os
 
-    # Load utils
-    if [ -x "$DOTFILES_DIR/utils.sh" ]; then
-        . "$DOTFILES_DIR/utils.sh" || exit 1
-    else
-        download_utils || exit 1
-    fi
+    download_utils
 
     ask_for_sudo
 
     download_dotfiles || exit 1
 
-    create_symbolic_links
+    ./create_symlinks.sh "$@"
 
     printf "%s\n\n" "#!/bin/sh" >> "$HOME/.exports.local"
 

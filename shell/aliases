@@ -9,32 +9,34 @@ alias cd..="cd .."
 
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
+# Default to human readable figures
+alias df='df -h'
+alias du='du -h'
 alias e='$EDITOR'
 alias gpush='git add . && git commit -m "minor updates" && git push'
+
+alias grep='grep --color'                     # show differences in colour
+alias egrep='egrep --color=auto'              # show differences in colour
+alias fgrep='fgrep --color=auto'              # show differences in colour
 
 alias map='xargs -n1'
 alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q='exit'
 
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-    colorflag="--color"
-    export LS_COLORS='no=00:fi=00:di=01;31:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
-else # macOS `ls`
-    colorflag="-G"
-    export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
-fi
+# Some shortcuts for different directory listings
+# Not working on MacOS
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+# alias ls='command ls -hF --color=tty'                 # classify files in colour
+# alias dir='ls --color --format=vertical'
+# alias vdir='ls --color --format=long'
+# alias lsd="l | grep --color=never '^d'"       # List only directories
+alias ll='ls -l'                              # long list
+alias la='ls -A'                              # all but . and ..
+alias l='ls -CF'                              #
 
-
-alias l="ls -lF ${colorflag}"           # List all files colorized in long format
-alias la="ls -lAF ${colorflag}"         # List all files colorized in long format, excluding . and ..
-alias lsd="l | grep --color=never '^d'" # List only directories
-alias ls="command ls ${colorflag}"      # Always use color output for `ls`
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# alias boshlite='bosh target 192.168.50.4 lite; bosh login admin admin'
-# alias pcfdev='cf login -a api.local.pcfdev.io --skip-ssl-validation -u admin -p admin -o pcfdev-org'
-# alias flydev='fly -t ci login -c http://192.168.100.4:8080'
 alias tunnel='ssh -D 8080 -f -C -q -N '
 alias spring-boot-maven='spring init spring-boot-maven --dependencies=web -build=maven; cd spring-boot-maven'
 alias demo='open http://localhost:8080'
