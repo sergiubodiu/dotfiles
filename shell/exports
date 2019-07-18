@@ -3,10 +3,10 @@
 # Shell Variables
 # http://linux.die.net/man/1/bash
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 # Make vim the default editor
 export EDITOR='nano'
+
+# History Options
 
 # Ignore commands that start with spaces and duplicates
 export HISTCONTROL=ignoreboth
@@ -15,8 +15,10 @@ export HISTCONTROL=ignoreboth
 # persisted in the Bash history file (default value is 500)
 export HISTFILESIZE=10000
 
-# Don't add certain commands to the history file
-export HISTIGNORE='&:[bf]g:c:clear:history:exit:q:pwd:* --help'
+# Ignore some controlling instructions
+# HISTIGNORE is a colon-delimited list of patterns which should be excluded.
+# The '&' is a special pattern which suppresses duplicate entries.
+export HISTIGNORE='&:[bf]g:c:clear:history:ls:exit:q:pwd:* --help'
 
 # Increase the maximum number of commands recorded in the
 # command history (default value is 500)
@@ -43,3 +45,7 @@ export PYTHONIOENCODING='UTF-8'
 
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$HOME/bin:$PATH:
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion

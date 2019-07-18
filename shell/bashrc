@@ -1,6 +1,18 @@
-[ -n "$PS1" ] && source ~/.bash_profile;
+# ~/.bashrc: executed by bash(1) for interactive shells.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# If not running interactively, don't do anything
+[[ "$-" != *i* ]] && return
 
 for file in ~/.{exports.local,exports,aliases,functions}; do
   [ -r "$file" ] && . "$file"
 done
 unset file
+
+# Don't wait for job termination notification
+set -o notify
+
+# Use case-insensitive filename globbing
+shopt -s nocaseglob
+
+# Don't use ^D to exit
+set -o ignoreeof

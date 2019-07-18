@@ -1,15 +1,5 @@
 #!/bin/sh
 
-update_terminal_cwd() {
-    # Identify the directory using a "file:" scheme URL,
-    # including the host name to disambiguate local vs.
-    # remote connections. Percent-escape spaces.
-    local SEARCH=' '
-    local REPLACE='%20'
-    local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
-    printf '\e]7;%s\a' "$PWD_URL"
-}
-
 # Clear DNS cache
 alias clear-dns-cache='sudo dscacheutil -flushcache; \
                        sudo killall -HUP mDNSResponder'
@@ -49,3 +39,5 @@ HOMEBREW_NO_ANALYTICS=1
 
 # GO
 export PATH=/usr/local/opt/go/libexec/bin:$PATH:
+
+complete -C /usr/local/bin/mc mc

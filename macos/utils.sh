@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$HOME/.dotfiles/utils.sh"
+. "$DOTFILES_DIR_PATH/utils.sh"
 
 install_xcode() {
 

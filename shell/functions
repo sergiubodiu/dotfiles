@@ -21,15 +21,6 @@ git-init-repo-from-dir() {
     fi
 }
 
-# Find process for running port
-pid4port() {
-    if [ $# -eq 0  ]; then
-        echo 'Usage: pid4port 8080'
-    else
-        lsof -i:$1 -t
-    fi
-}
-
 # Git time message with
 git-commit-time() {
 
@@ -210,4 +201,57 @@ qt() {
     grep -ir --color=always "$*" . | less -RX
     #     │└─ search all files under each directory, recursively
     #     └─ ignore case
+}
+
+# Finds the process listening to the specified port and kills it
+killport() {
+    if [ ! -n "$1" ] || [ $1 == '--help' ] || [ $1 == '-h' ]
+    then
+        echo '`killport <PORT>` finds the process listening to the specified port and kills it.'
+    else
+        process_line=`lsof -i :$1 | tail -1`
+        if [ "$process_line" == "" ]
+        then
+            echo "no processes listening on $1"
+        else
+            process_name=`echo "$process_line" | awk '{print $1}'`
+            echo "killing $process_name"
+            kill `echo "$process_line" | awk '{print $2}'`
+        fi
+    fi
+}
+
+# Find process for running port
+pid4port() {
+    if [ $# -eq 0  ]; then
+        echo 'Usage: pid4port 8080'
+    else
+        lsof -i:$1 -t
+    fi
+}
+
+add_proxy() {
+    # -- update git
+    git config --system http.proxy $HTTP_PROXY
+    git config --system https.proxy $HTTPS_PROXY
+    git config --list
+
+    # -- update npm
+    # echo "registry=http://registry.npmjs.org/" >> ~/.npmrc
+    # echo "strict-ssl=false" >> ~/.npmrc
+    npm config set proxy $HTTP_PROXY
+    npm config set http_proxy $HTTP_PROXY
+    npm config set https-proxy $HTTP_PROXY
+    # npm config list
+    # -- update .ssh/config, commenting out all ProxyCommand directives
+    sed -i .bak '/^[#][ ]*ProxyCommand nc.*$/ s/^#\(.*ProxyCommand nc.*$\)/\1/' ~/.ssh/config
+}
+
+remove_proxy() {
+    git config --system --unset http.proxy
+    git config --system --unset https.proxy
+    npm config rm proxy
+    npm config rm http_proxy
+    npm config rm https-proxy
+    sed -i .bak '/^[^#][ ]*ProxyCommand nc.*$/ s/\(^.*ProxyCommand nc.*$\)/#\1/' ~/.ssh/config
 }
