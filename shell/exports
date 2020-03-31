@@ -44,7 +44,7 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 export PYTHONIOENCODING='UTF-8'
 
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$HOME/bin:$PATH:
+export PATH=$HOME/bin:$PATH:$GOROOT/bin:$GOPATH/bin/:$HOME/.cargo/bin
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm

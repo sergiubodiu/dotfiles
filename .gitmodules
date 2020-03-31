@@ -25,3 +25,6 @@
 [submodule "adr-tools"]
 	path = adr-tools
 	url = https://github.com/npryce/adr-tools
+[submodule "alacritty"]
+	path = alacritty
+	url = git://github.com/alacritty/alacritty.git
