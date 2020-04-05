@@ -6,6 +6,9 @@ fi
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 ZSH_THEME="agnoster"
 
+# Disable group ownership for zsh autocompletion
+ZSH_DISABLE_COMPFIX=true
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -20,7 +23,7 @@ DISABLE_AUTO_UPDATE="true"
 export UPDATE_ZSH_DAYS=30
 
 # Uncomment the following line to disable colors in ls.
-DISABLE_LS_COLORS="true"
+# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -49,7 +52,9 @@ ZSH_CUSTOM=$HOME/.dotfiles/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(docker git git-flow gradle kubectl spring systemd vscode)
+plugins=(git git-flow
+# docker kubectl spring systemd
+)
 
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc

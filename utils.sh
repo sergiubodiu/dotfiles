@@ -29,6 +29,27 @@ execute() {
     eval "$1" &> /dev/null
     print_result $? "${2:-$1}"
 }
+# http://0pointer.de/blog/projects/os-release
+# One of the new configuration files systemd introduced is /etc/os-release.
+get_os() {
+
+    local os=""
+    local osName="$(uname -s)"
+
+    if [ "$osName" == "Darwin" ]; then
+        os='macos'
+    elif [ "$osName" == "Linux" ] && \
+         [ -e "/etc/os-release" ]; then
+        os="$(. /etc/os-release; printf "%s" "$ID")"
+    elif [ "$osName" == "MINGW64_NT-10.0" ]; then
+        os='windows'
+    else
+        os="$osName"
+    fi
+
+    printf "%s" "$os"
+
+}
 
 get_os() {
 

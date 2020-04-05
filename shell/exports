@@ -44,4 +44,4 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 export PYTHONIOENCODING='UTF-8'
 
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$HOME/bin:$PATH:
+export PATH=$HOME/bin:$GOROOT/bin:$GOPATH/bin/:$HOME/.cargo/bin:$PATH:

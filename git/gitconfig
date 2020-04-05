@@ -2,9 +2,10 @@
 
     aliases = config --get-regexp alias             # List aliases.
     amend   = commit --amend --reuse-message=HEAD   # Amend the currently staged files to the latest commit
+    d       = diff -- . ':!*yarn.lock'              #  Exclude `yarn.lock` files from `git diff`
+    dc      = diff --cached -- . ':!*yarn.lock'     #  Exclude `yarn.lock` files from `git diff`
     f       = fetch origin master:master            # Fetch master branch
     lg      = log --graph --pretty=custom           # Show custom graph
-    lc      = shortlog --summary --numbered         # List contributors
     lc      = shortlog --email --numbered --summary # List contributors.
     lt      = describe --abbrev=0 --tags            # Show latest tag
     p       = push
@@ -162,3 +163,5 @@
 
     # Import local config for privacy
     path = ~/.gitconfig.local
+[http]
+	postBuffer = 1048576000
