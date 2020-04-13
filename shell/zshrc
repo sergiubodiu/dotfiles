@@ -2,9 +2,16 @@ if [[ $- != *i* ]] || [ -z "$PS1" ]; then
   return 0
 fi
 
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.dotfiles/oh-my-zsh
+export ZSH=$DOTFILES_DIR_PATH/oh-my-zsh
 ZSH_THEME="agnoster"
+
+# Would you like to use another custom folder than $ZSH/custom?
+ZSH_CUSTOM=$DOTFILES_DIR_PATH/custom
 
 # Disable group ownership for zsh autocompletion
 ZSH_DISABLE_COMPFIX=true
@@ -44,20 +51,11 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="yyyy-mm-dd"
 
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=$HOME/.dotfiles/custom
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow
-# docker kubectl spring systemd
-)
-
-if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-fi
+plugins=(git git-flow docker kubectl spring systemd)
 
 . $ZSH/oh-my-zsh.sh
