@@ -11,9 +11,6 @@ unset file
 # Don't wait for job termination notification
 set -o notify
 
-# Use case-insensitive filename globbing
-shopt -s nocaseglob
-
 # Don't use ^D to exit
 set -o ignoreeof
 

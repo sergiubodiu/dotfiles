@@ -30,9 +30,34 @@ alias u='sudo softwareupdate --install --all \
             && npm install -g npm \
             && npm update -g'
 
+# Show network connections
+# Often useful to prefix with SUDO to see more system level network usage
+alias network.connections='lsof -l -i +L -R -V'
+alias network.established='lsof -l -i +L -R -V | grep ESTABLISHED'
+alias network.internalip="ifconfig en0 | egrep -o '([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)'"
+alias network.externalip='curl -s http://checkip.dyndns.org/ | sed "s/[a-zA-Z<>/ :]//g"'
+
+# Files used, anywhere on the filesystem
+alias files.usage='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep'
+# Files being opened
+alias files.open='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|grep open'
+# Files in use in the Users directory
+alias files.usage.user='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|grep Users'
+
+function screenshot.setjpg() {
+    defaults write com.apple.screencapture type jpg
+    killall SystemUIServer
+}
+
+function screenshot.setpng() {
+    defaults write com.apple.screencapture type png
+	killall SystemUIServer
+}
+
 # Java and Groovy
 export JAVA_HOME=$(/usr/libexec/java_home)
-
+export GRADLE_USER_HOME=/opt/gradle/gradle
+export GRADLE_OPTS=-Dgradle.user.home=/Users/sergiu/dev/gradle
 # Opt-out of Homebrew's analytics.
 # https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
 HOMEBREW_NO_ANALYTICS=1
