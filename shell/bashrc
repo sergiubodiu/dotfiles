@@ -16,3 +16,10 @@ shopt -s nocaseglob
 
 # Don't use ^D to exit
 set -o ignoreeof
+
+: ${HOME=~}
+: ${LOGNAME=$(id -un)}
+: ${UNAME=$(uname)}
+
+# Complete hostnames from this file
+: ${HOSTFILE=~/.ssh/known_hosts}

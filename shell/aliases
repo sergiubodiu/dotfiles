@@ -10,11 +10,21 @@ alias cd..="cd .."
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
 # Default to human readable figures
-alias df='df -h'
-alias du='du -h'
+alias dud='du -d 1 -h'  # Display the size of files at depth 1 in current location in human-readable form 
+alias duf='du -sh'      # Display the size of files in current location in human-readable form       
+
 alias e='$EDITOR'
+
+# git aliases
+alias ga='git add'
+alias gc='git commit'
+alias gdiff='git diff'
+alias gs='git status'
+alias gt='git tag'
 alias gpush='git add . && git commit -m "minor updates" && git push'
 
+alias fd='find . -type d -name'               # Find a directory with the given name
+alias ff='find . -type f -name'               # Find a file with the given name
 alias grep='grep --color'                     # show differences in colour
 alias egrep='egrep --color=auto'              # show differences in colour
 alias fgrep='fgrep --color=auto'              # show differences in colour
@@ -24,15 +34,19 @@ alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q='exit'
 
 # Some shortcuts for different directory listings
-alias ls='command ls -hF --color=tty'                 # classify files in colour
-alias dir='ls --color --format=vertical'
-alias vdir='ls --color --format=long'
-alias ll='ls -l'                              # long list
-alias la='ls -A'                              # all but . and ..
-alias l='ls -CF'                              #
-alias lsd="l | grep --color=never '^d'"       # List only directories
+# Not working on MacOS
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+alias ll='ls -l'        # long list
+alias la='ls -A'        # all but . and ..
+alias lS='ls -1FSsh'    # List files showing only size and name sorted by size                           
+alias lart='ls -1Fcart' # List all files sorted in reverse of create/modification time (oldest first)    
+alias lrt='ls -1Fcrt'   # List files sorted in reverse of create/modification time(oldest first)         
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 alias tunnel='ssh -D 8080 -f -C -q -N '
 alias spring-boot-maven='spring init spring-boot-maven --dependencies=web -build=maven; cd spring-boot-maven'
 alias demo='open http://localhost:8080'
+
+# alias dotfiles='$EDITOR $DOTFILES_DIR_PATH'
+# alias utils='. $DOTFILES_DIR_PATH/utils.sh'

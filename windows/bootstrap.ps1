@@ -1,5 +1,6 @@
 # Install-Module Get-ChildItemColor -Scope CurrentUser
 # Install-Module posh-sshell -Scope CurrentUser
+# Install-Module posh-git -Scope CurrentUser -AllowPrerelease -Force
 
 $profileDir = Split-Path -parent $profile
 

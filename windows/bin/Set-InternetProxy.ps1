@@ -1,74 +1,49 @@
 ﻿<#
 .Synopsis
-This function will set the proxy settings provided as input to the cmdlet.
+    This function will set the proxy settings provided as input to the cmdlet.
 .Description
-This function will set the proxy server and (optinal) Automatic configuration script.
+    This function will set the proxy server and (optinal) Automatic configuration script.
 .Parameter ProxyServer
-This parameter is set as the proxy for the system.
-Data from. This parameter is Mandatory
+    This parameter is set as the proxy for the system.
 .Example
 Setting proxy information
-Set-InternetProxy -proxy "proxy:7890"
+    Set-InternetProxy -proxy "proxy:7890"
 .Example
-Setting proxy information and (optinal) Automatic Configuration Script 
-Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
+Setting proxy information and (optinal) Automatic Configuration Script
+    Set-InternetProxy -proxy "proxy:7890" -acs "http://proxy:7892"
 #>
-
-
-Function Set-InternetProxy
-{
+Function Set-InternetProxy {
     [CmdletBinding()]
     Param(
-        
         [Parameter(Mandatory=$True,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [String[]]$Proxy,
 
         [Parameter(Mandatory=$False,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
         [AllowEmptyString()]
         [String[]]$acs
-                
     )
 
-    Begin
-    {
-
-            $regKey="HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
-        
+    Begin {
+        $regKey="HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
     }
-    
-    Process
-    {
-        
+
+    Process {
         Set-ItemProperty -path $regKey ProxyEnable -value 1
-
         Set-ItemProperty -path $regKey ProxyServer -value $proxy
-                            
-        if($acs) 
-        {            
-            
-                 Set-ItemProperty -path $regKey AutoConfigURL -Value $acs          
+
+        if($acs) {
+            Set-ItemProperty -path $regKey AutoConfigURL -Value $acs
         }
+    }
 
-    } 
-    
-    End
-    {
-
+    End {
         Write-Output "Proxy is now enabled"
-
         Write-Output "Proxy Server : $proxy"
 
-        if ($acs)
-        {
-            
+        if ($acs) {
             Write-Output "Automatic Configuration Script : $acs"
-
-        }
-        else
-        {
-            
+        } else {
             Write-Output "Automatic Configuration Script : Not Defined"
-
         }
     }
 }

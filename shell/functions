@@ -9,70 +9,6 @@ bookmarks() {
     fi
 }
 
-# GitHub - initialize from existing directory
-git-init-repo-from-dir() {
-    if [ $# -eq 0  ]; then
-        echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
-    else
-        git add .
-        git commit -m 'initial commit comment'
-        git remote add origin $1
-        git pull origin master
-    fi
-}
-
-# Find process for running port
-pid4port() {
-    if [ $# -eq 0  ]; then
-        echo 'Usage: pid4port 8080'
-    else
-        lsof -i:$1 -t
-    fi
-}
-
-# Git time message with
-git-commit-time() {
-
-    if [ $# -eq 0  ]; then
-
-        echo 'Usage: git-commit-time 2016-05-11T22:13:13 -m "this is my commit message"'
-
-    else
-
-        echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${@:2}"
-
-        GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${@:2}"
-
-    fi
-}
-
-# Update the git repositories in the current folder
-git-update-repos() {
-    CUR_DIR=$(pwd)
-
-    echo "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
-
-    for i in $(find . -maxdepth 2 -name ".git" | cut -c 3-); do
-
-        echo "";
-        echo "\033[33m"+$i+"\033[0m";
-        cd "$i";
-        cd ..;
-        git pull origin master;
-        cd $CUR_DIR
-
-    done
-
-    echo "\n\033[32mComplete!\033[0m\n"
-}
-
-# Find gradle module dependency
-gradle-dependency () {
-    local module="$1"
-
-    find ~/.gradle/caches -name "${module}*.jar" ! -name '*-sources.jar' -type f
-}
-
 # Create data URI from a file
 datauri() {
 
@@ -159,34 +95,61 @@ fs() {
     fi
 }
 
-# Get gzip information (gzipped file size + reduction size)
-gz() {
+# Get processes sorted by pid 
+get-netstat() {
+    netstat -pane |grep LISTEN
+    #        │││└─ display additional information
+    #        ││└─ show numerical addresses
+    #        │└─ Show both listening and non-listening
+    #        └─ display the PID and name of the program to which each socket belongs
+}
 
-    declare -i gzippedSize=0
-    declare -i originalSize=0
+# Git time message with
+git-commit-time() {
 
-    if [ -f "$1" ]; then
-        if [ -s "$1" ]; then
+    if [ $# -eq 0  ]; then
 
-            originalSize=$( wc -c < "$1" )
-            printf "\n original size:   %12s\n" "$(hrfs $originalSize)"
+        echo 'Usage: git-commit-time 2016-05-11T22:13:13 -m "this is my commit message"'
 
-            gzippedSize=$( gzip -c "$1" | wc -c )
-            printf " gzipped size:    %12s\n" "$(hrfs $gzippedSize)"
-
-            printf " reduction:       %12s [%s%%]\n\n" \
-                "$( hrfs $(($originalSize-$gzippedSize)) )" \
-                "$( printf "%s %s" "$originalSize $gzippedSize" | \
-                    awk '{ printf "%.1f", 100 - $2 * 100 / $1 }' | \
-                    sed -e "s/0*$//;s/\.$//" )"
-                    #              └─ remove tailing zeros
-        else
-            printf "'%s' is empty.\n" "$1"
-        fi
     else
-        printf "'%s' is not a file.\n" "$1"
-    fi
 
+        echo "GIT_AUTHOR_DATE=$1T22:13:13 GIT_COMMITTER_DATE=$1T22:13:13 git commit ${@:2}"
+
+        GIT_AUTHOR_DATE="$1T22:13:13" GIT_COMMITTER_DATE="$1T22:13:13" git commit "${@:2}"
+
+    fi
+}
+
+# GitHub - initialize from existing directory
+git-init-repo-from-dir() {
+    if [ $# -eq 0  ]; then
+        echo 'Usage: git-init-repo-from-dir git@github.com:/youruser/somename.git'
+    else
+        git add .
+        git commit -m 'initial commit comment'
+        git remote add origin $1
+        git pull origin master
+    fi
+}
+
+# Update the git repositories in the current folder
+git-update-repos() {
+    CUR_DIR=$(pwd)
+
+    echo "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
+
+    for i in $(find . -maxdepth 2 -name ".git" | cut -c 3-); do
+
+        echo "";
+        echo "\033[33m"+$i+"\033[0m";
+        cd "$i";
+        cd ..;
+        git pull origin master;
+        cd $CUR_DIR
+
+    done
+
+    echo "\n\033[32mComplete!\033[0m\n"
 }
 
 # Create new directories and enter the first one
@@ -210,4 +173,113 @@ qt() {
     grep -ir --color=always "$*" . | less -RX
     #     │└─ search all files under each directory, recursively
     #     └─ ignore case
+}
+
+# Finds the process listening to the specified port and kills it
+port-kill() {
+    if [ ! -n "$1" ] || [ $1 == '--help' ] || [ $1 == '-h' ]
+    then
+        echo '`port-kill <PORT>` finds the process listening to the specified port and kills it.'
+    else
+        process_line=`lsof -i :$1 | tail -1`
+        if [ "$process_line" == "" ]
+        then
+            echo "no processes listening on $1"
+        else
+            process_name=`echo "$process_line" | awk '{print $1}'`
+            echo "killing $process_name"
+            kill `echo "$process_line" | awk '{print $2}'`
+        fi
+    fi
+}
+
+# Find process for running port
+port-find-pid() {
+    if [ $# -eq 0  ]; then
+        echo 'Usage: port-find-pid 8080'
+    else
+        lsof -i:$1 -t
+    fi
+}
+
+proxy-add() {
+    # -- update git
+    git config --system http.proxy $HTTP_PROXY
+    git config --system https.proxy $HTTPS_PROXY
+    git config --list
+
+    # -- update npm
+    # echo "registry=http://registry.npmjs.org/" >> ~/.npmrc
+    # echo "strict-ssl=false" >> ~/.npmrc
+    npm config set proxy $HTTP_PROXY
+    npm config set http_proxy $HTTP_PROXY
+    npm config set https-proxy $HTTP_PROXY
+    # npm config list
+    # -- update .ssh/config, commenting out all ProxyCommand directives
+    sed -i .bak '/^[#][ ]*ProxyCommand nc.*$/ s/^#\(.*ProxyCommand nc.*$\)/\1/' ~/.ssh/config
+}
+
+proxy-remove() {
+    git config --system --unset http.proxy
+    git config --system --unset https.proxy
+    npm config rm proxy
+    npm config rm http_proxy
+    npm config rm https-proxy
+    sed -i .bak '/^[^#][ ]*ProxyCommand nc.*$/ s/\(^.*ProxyCommand nc.*$\)/#\1/' ~/.ssh/config
+}
+
+__color_matrix() {
+  local buffer
+
+  declare -A colors=([0]=black [1]=red [2]=green [3]=yellow [4]=blue [5]=purple [6]=cyan [7]=white)
+  declare -A mods=([0]='' [1]=B [4]=U [5]=k [7]=N)
+
+  # Print foreground color names
+  echo -ne "       "
+  for fgi in "${!colors[@]}"; do
+    local fg=`printf "%10s" "${colors[$fgi]}"`
+    #print color names
+    echo -ne "\e[m$fg "
+  done
+  echo
+
+  # Print modificators
+  echo -ne "       "
+  for fgi in "${!colors[@]}"; do
+    for modi in "${!mods[@]}"; do
+      local mod=`printf "%1s" "${mods[$modi]}"`
+      buffer="${buffer}$mod "
+    done
+    # echo -ne "\e[m "
+    buffer="${buffer} "
+  done
+  echo -e "$buffer\e[m"
+  buffer=""
+
+  # Print color matrix
+  for bgi in "${!colors[@]}"; do
+    local bgn=$((bgi + 40))
+    local bg=`printf "%6s" "${colors[$bgi]}"`
+
+    #print color names
+    echo -ne "\e[m$bg "
+
+    for fgi in "${!colors[@]}"; do
+      local fgn=$((fgi + 30))
+      local fg=`printf "%7s" "${colors[$fgi]}"`
+
+      for modi in "${!mods[@]}"; do
+        buffer="${buffer}\e[${modi};${bgn};${fgn}m "
+      done
+      # echo -ne "\e[m "
+      buffer="${buffer}\e[m "
+    done
+    echo -e "$buffer\e[m"
+    buffer=""
+  done
+}
+
+__character_map () {
+  echo "powerline: ±●➦★⚡★ ✗✘✓✓✔✕✖✗← ↑ → ↓"
+  echo "other: ☺☻👨⚙⚒⚠⌛"
 }

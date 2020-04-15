@@ -26,7 +26,6 @@ Thumbs.db
 .LSOverride
 .Spotlight-V100
 .Trashes
-Icon
 
 # ----------------------------------------------------------------------
 # | JetBrains Directory-based project format                           |
@@ -71,9 +70,12 @@ atlassian-ide-plugin.xml
 # | Miscellaneous                                                      |
 # ----------------------------------------------------------------------
 
-# Node.js & npm.
+# Node.js, npm, and yarn.
 
-npm-debug.log
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 ## eclipse config file
 .classpath
