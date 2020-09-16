@@ -62,3 +62,9 @@ set completion-ignore-case on
 # -----------------------------------------------------------------------------
 # Disable beeping and window flashing.
 set bell-style none
+
+# Don't wait for job termination notification
+set notify on
+
+# Don't use ^D to exit
+set ignoreeof on

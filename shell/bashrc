@@ -8,12 +8,6 @@ for file in ~/.{exports.local,exports,aliases,functions}; do
 done
 unset file
 
-# Don't wait for job termination notification
-set -o notify
-
-# Don't use ^D to exit
-set -o ignoreeof
-
 : ${HOME=~}
 : ${LOGNAME=$(id -un)}
 : ${UNAME=$(uname)}

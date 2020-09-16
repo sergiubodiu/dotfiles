@@ -35,6 +35,9 @@ export MANPAGER="less -X"
 # in the `Node` REPL history file (default value is 1000)
 # https://github.com/nodejs/node/blob/a85f4b5ce5791caf8caa9b31970313c6183a5499/doc/api/repl.markdown#persistent-history
 export NODE_REPL_HISTORY_SIZE=10000
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Make new shells get the history lines from all previous
 # shells instead of the default "last window closed" history
@@ -43,5 +46,5 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr
 export PYTHONIOENCODING='UTF-8'
 
-export GOPATH=$HOME/go
+export GOPATH=$HOME/.go
 export PATH=$HOME/bin:$GOROOT/bin:$GOPATH/bin/:$HOME/.cargo/bin:$PATH:

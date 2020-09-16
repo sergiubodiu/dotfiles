@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")/.." \
-    && . "./utils.sh"
+cd "${DOTFILES_DIR_PATH}" \
+ && . "${DOTFILES_DIR_PATH}/utils.sh"
 
 create_symlinks() {
 
