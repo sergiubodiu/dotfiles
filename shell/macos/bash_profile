@@ -44,6 +44,12 @@ alias files.open='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|
 # Files in use in the Users directory
 alias files.usage.user='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|grep Users'
 
+function brew.rmdep {
+    readonly FORMULA=${1:?"The FORMULA must be specified."}
+
+    brew rm $(join <(brew leaves) <(brew deps $FORMULA))
+}
+
 function screenshot.setjpg() {
     defaults write com.apple.screencapture type jpg
     killall SystemUIServer
@@ -56,6 +62,7 @@ function screenshot.setpng() {
 
 # Java and Groovy
 export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH="$JAVA_HOME/bin:$PATH"
 export GRADLE_USER_HOME=/opt/gradle/gradle
 export GRADLE_OPTS=-Dgradle.user.home=/Users/sergiu/dev/gradle
 export GOROOT=/usr/local/opt/go/libexec

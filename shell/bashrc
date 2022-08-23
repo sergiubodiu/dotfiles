@@ -6,6 +6,8 @@
 for file in ~/.{exports.local,exports,aliases,functions}; do
   [ -r "$file" ] && . "$file"
 done
+export PATH="/usr/local/sbin:$PATH"
+
 unset file
 
 : ${HOME=~}

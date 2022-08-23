@@ -1,1 +1,2 @@
-include /usr/local/share/nano/*
+include /usr/local/share/nano/*nanorc
+include /usr/local/share/nano/extra/*

@@ -228,6 +228,15 @@ proxy-remove() {
     sed -i .bak '/^[^#][ ]*ProxyCommand nc.*$/ s/\(^.*ProxyCommand nc.*$\)/#\1/' ~/.ssh/config
 }
 
+y2mp3() {
+    if [ $# -eq 0  ]; then
+        echo '`y2mp3 <VIDEO>` extracts audio from the youtube video'
+    else
+        AUDIO=${2:-'m4a'}
+	VIDEO=$1
+        youtube-dl -x --embed-thumbnail -f $AUDIO --prefer-ffmpeg https://www.youtube.com/watch\?v\=$VIDEO -o '%(title)s.%(ext)s'
+    fi
+}
 __color_matrix() {
   local buffer
 
