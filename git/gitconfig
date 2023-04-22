@@ -58,6 +58,12 @@
     # Interactive rebase with the given number of latest commits
     reb = "!r() { git rebase -i HEAD~$1; }; r"
 
+    # Really useful format display only date and commit message: --format='%Cgreen%ci%Creset %s%Creset'
+    report-all = "log --pretty=custom --until='now' --no-merges"
+
+    # Limit log to be show to last week (or last month or....). 
+    report = "log --pretty=custom --since='1 monday ago' --until='now' --no-merges"
+    
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
@@ -112,12 +118,7 @@
     # [default] trailing-space: looks for spaces at the end of a line
     # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
     whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-    editor = codium -w
-
-[help]
-
-    # Automatically correct and execute mistyped commands
-    autocorrect = 1
+    editor = nano
 
 [diff]
 
@@ -130,6 +131,12 @@
 
     # Use `hexdump` to diff binary files
     textconv = hexdump -v -C
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 
 [help]
 
@@ -164,5 +171,6 @@
 
     # Import local config for privacy
     path = ~/.gitconfig.local
+
 [http]
-	postBuffer = 1048576000
+    postBuffer = 1048576000
