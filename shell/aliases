@@ -17,11 +17,18 @@ alias e='$EDITOR'
 
 # git aliases
 alias ga='git add'
+alias gaa='git add --all'
 alias gc='git commit'
+alias gca='git commit -v -a'
+alias gcp='git cherry-pick'
 alias gdiff='git diff'
-alias gs='git status'
-alias gt='git tag'
 alias gpush='git add . && git commit -m "minor updates" && git push'
+alias gs='git status'
+alias gsi='git submodule init'
+alias gsu='git submodule update'
+alias gt='git tag'
+alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
+alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
 
 alias fd='find . -type d -name'               # Find a directory with the given name
 alias ff='find . -type f -name'               # Find a file with the given name

@@ -64,7 +64,8 @@ set completion-ignore-case on
 set bell-style none
 
 # Don't wait for job termination notification
-set notify on
+#set notify on
 
 # Don't use ^D to exit
-set ignoreeof on
+#set ignoreeof on
+
