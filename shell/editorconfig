@@ -8,6 +8,15 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.{java,kt,gradle,groovy}]
+indent_size = 4
+
+[*.{js,ts,jsx,tsx,json,yaml,yml}]
+indent_size = 2
+
+[*.py]
+indent_size = 4
+
 [package.json]
 indent_style = space
 indent_size = 2

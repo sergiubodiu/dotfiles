@@ -63,11 +63,11 @@ function screenshot.setpng() {
 # Java and Groovy
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="$JAVA_HOME/bin:$PATH"
-export GRADLE_USER_HOME=/opt/gradle/gradle
-export GRADLE_OPTS=-Dgradle.user.home=/Users/sergiu/dev/gradle
-export GOROOT=/usr/local/opt/go/libexec
+
+# Removing the apple.quarantine attribute
+# xattr -d com.apple.quarantine /Applications/Alacritty.app
+
 # Opt-out of Homebrew's analytics.
 # https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
 export HOMEBREW_NO_ANALYTICS=1
-
-complete -C /usr/local/bin/mc mc
+export HOMEBREW_NO_AUTO_UPDATE=1

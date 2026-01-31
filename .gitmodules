@@ -1,30 +1,15 @@
-[submodule "oh-my-zsh"]
-	path = oh-my-zsh
-	url = git://github.com/robbyrussell/oh-my-zsh.git
-[submodule "custom/cf-zsh-autocomplete-plugin"]
-	path = custom/plugin/cf
-	url = git://github.com/frodenas/cf-zsh-autocomplete-plugin.git
-[submodule "custom/bosh-zsh-autocomplete-plugin"]
-	path = custom/plugin/bosh
-	url = git://github.com/frodenas/bosh-zsh-autocomplete-plugin.git
-[submodule "custom/plugins/fly"]
-	path = custom/plugins/fly
-	url = git://github.com/sergiubodiu/fly-zsh-autocomplete-plugin.git
 [submodule "fonts"]
 	path = fonts
-	url = git://github.com/powerline/fonts.git
-[submodule "custom/plugins/zsh-syntax-highlighting"]
-	path = custom/plugins/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+	url = https://github.com/powerline/fonts.git
 [submodule "dircolors"]
 	path = dircolors
-	url = git://github.com/seebi/dircolors-solarized.git
+	url = https://github.com/seebi/dircolors-solarized.git
 [submodule "windows/windows-preferences"]
 	path = windows/windows-preferences
-	url = git://github.com/sergiubodiu/windows-preferences.git
+	url = https://github.com/sergiubodiu/windows-preferences.git
 [submodule "adr-tools"]
 	path = adr-tools
-	url = https://github.com/npryce/adr-tools
-[submodule "alacritty"]
-	path = alacritty
-	url = git://github.com/alacritty/alacritty.git
+	url = https://github.com/npryce/adr-tools.git
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = https://github.com/robbyrussell/oh-my-zsh

@@ -15,19 +15,20 @@ datauri() {
     local mimeType=''
 
     if [ -f "$1" ]; then
-        mimeType=$(file -b --mime-type "$1")
-        #                └─ do not prepend the filename to the output
-
-        if [[ $mimeType == text/* ]]; then
-            mimeType="$mimeType;charset=utf-8"
-        fi
-
-        printf "data:%s;base64,%s" \
-                    "$mimeType" \
-                    "$(openssl base64 -in "$1" | tr -d "\n")"
-    else
         printf "'%s' is not a file.\n" "$1"
+        return
     fi
+    
+    mimeType=$(file -b --mime-type "$1")
+    #                └─ do not prepend the filename to the output
+
+    if [[ $mimeType == text/* ]]; then
+        mimeType="$mimeType;charset=utf-8"
+    fi
+
+    printf "data:%s;base64,%s" \
+                "$mimeType" \
+                "$(openssl base64 -in "$1" | tr -d "\n")"
 
 }
 
@@ -175,6 +176,74 @@ qt() {
     #     └─ ignore case
 }
 
+# Optimize PDF files.
+# Usage examples:
+#
+#   optimize-pdfs path/to/some/directory path/to/some/file ...
+optimize-pdfs() (
+
+    # Check if the pdfcpu command-line tool is installed.
+
+    if ! command -v "pdfcpu" &> /dev/null; then
+        printf "\n%s\n\n" "pdfcpu command-line tool is not installed!"
+        exit
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    get-file-size() (
+        printf "%s" "$(wc -c < "$1")"
+    )
+
+    optimize-pdf() (
+        local filePath="$(dirname "${1%/}")"
+        local fileName="_$(printf "%s" "$(basename "$1")" | tr '[:upper:]' '[:lower:]')"
+
+        local optimizedFilePath="$filePath/$fileName"
+
+        printf "* %s\n" "$1"
+
+        pdfcpu optimize "$1" "$optimizedFilePath" &> /dev/null
+        local exitCode=$?
+
+        # If something went wrong (i.e. pdfcpu didn't create
+        # the optimized file or exited with a non-zero status)
+        # or the size of the optimized file is bigger than the
+        # original file, keep the original file.
+
+        if [ ! -f "$optimizedFilePath" ]; then
+            return
+        fi
+
+        if [ $exitCode -ne 0 ] || \
+           [ "$(get-file-size "$1")" -le "$(get-file-size "$optimizedFilePath")" ];
+        then
+            rm -rf "$optimizedFilePath"
+            return
+        fi
+
+        # Otherwise, replace the original file with the optimized one.
+
+        mv -f "$optimizedFilePath" "$1" 1> /dev/null
+    )
+
+    #                     ┌─ Default to the current directory.
+    for filePath in "${@:-.}"; do
+        if [ -d "$filePath" ]; then
+            find "${filePath%/}" \
+                -depth 1 \
+                -name \*.pdf \
+                -print \
+                -type f \
+            | while read -r file; do
+                 optimize-pdf "$file"
+              done
+        elif [ -f "$filePath" ]; then
+             optimize-pdf "$filePath"
+        fi
+    done
+)
+
 # Finds the process listening to the specified port and kills it
 port-kill() {
     if [ ! -n "$1" ] || [ $1 == '--help' ] || [ $1 == '-h' ]
@@ -226,6 +295,145 @@ proxy-remove() {
     npm config rm http_proxy
     npm config rm https-proxy
     sed -i .bak '/^[^#][ ]*ProxyCommand nc.*$/ s/\(^.*ProxyCommand nc.*$\)/#\1/' ~/.ssh/config
+}
+
+rename-media-files() {
+    local file
+    local -a files=()
+    local dry_run=0
+    local verbose=0
+    local use_modtime=0
+    local recursive=0
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --dry-run|-n)       dry_run=1; shift ;;
+            --verbose|-v)       verbose=1; shift ;;
+            --modtime)          use_modtime=1; shift ;;
+            --recursive|-r)     recursive=1; shift ;;
+            --help|-h)
+                cat << 'EOF'
+Usage: rename-media-files [options] file_or_directory [file_or_directory ...]
+
+Renames files to their creation date (or mod time with --modtime) in format:
+    YYYYMMDD_HHMMSS.ext
+
+Skips: .DS_Store, Thumbs.db, files already matching the pattern
+
+Options:
+  --dry-run,   -n     Show what would happen without renaming
+  --verbose,   -v     Print each successful rename
+  --modtime           Use modification time instead of creation/birth time
+  --recursive, -r     Process directories recursively (all subfolders)
+  --help,      -h     Show this help
+EOF
+                return 0
+                ;;
+            -*)
+                echo "Unknown option: $1" >&2
+                return 1
+                ;;
+            *)
+                if [[ -e "$1" ]]; then
+                    files+=("$1")
+                else
+                    echo "Not found: $1" >&2
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    (( ${#files[@]} == 0 )) && {
+        echo "No files or directories specified." >&2
+        return 1
+    }
+
+    for arg in "${files[@]}"; do
+        if [[ -d "$arg" ]]; then
+            # Choose find depth: -maxdepth 1 (non-recursive) or no limit (recursive)
+            local find_depth=()
+            (( recursive == 0 )) && find_depth=(-maxdepth 1)
+
+            while IFS= read -r -d '' file; do
+                _rename_single_file "$file"
+            done < <(find "$arg" "${find_depth[@]}" -type f \
+                ! -name ".DS_Store" \
+                ! -name "Thumbs.db" \
+                -print0)
+        elif [[ -f "$arg" ]]; then
+            _rename_single_file "$arg"
+        else
+            echo "Skipping: $arg (not a file or directory)" >&2
+        fi
+    done
+
+    return 0
+}
+
+_rename_single_file() {
+    local file="$1"
+    local base
+    base=$(basename -- "$file")
+
+    # Skip known system/junk files
+    case "$base" in
+        ".DS_Store" | "Thumbs.db")
+            ((verbose)) && echo "Skipping system file: $base"
+            return 0
+            ;;
+    esac
+
+    # Skip if filename already matches YYYYMMDD_HHMMSS[.ext]
+    if [[ "$base" =~ ^[0-9]{8}_[0-9]{6}(\..*)?$ ]]; then
+        ((verbose)) && echo "Already in desired format, skipping: $base"
+        return 0
+    fi
+
+    local dir=$(dirname -- "$file")
+    local ext="${base##*.}"
+    [[ "$ext" = "$base" ]] && ext="" || ext=".$ext"
+
+    local timestamp
+    if [[ "$(uname -s)" = Darwin ]]; then
+        local stat_fmt
+        (( use_modtime )) && stat_fmt="%Sm" || stat_fmt="%SB"
+        timestamp=$(stat -f "$stat_fmt" -t "%Y%m%d_%H%M%S" -- "$file" 2>/dev/null)
+    else
+        local sec
+        if (( use_modtime )); then
+            sec=$(stat --format=%Y -- "$file" 2>/dev/null)
+        else
+            sec=$(stat --format=%W -- "$file" 2>/dev/null)
+            [[ "$sec" = "-" || -z "$sec" ]] && sec=$(stat --format=%Y -- "$file" 2>/dev/null)
+        fi
+        timestamp=$(date -d "@$sec" +"%Y%m%d_%H%M%S" 2>/dev/null)
+    fi
+
+    if [[ -z "$timestamp" ]]; then
+        echo "Warning: Could not get timestamp → $file" >&2
+        return 1
+    fi
+
+    local newname="${timestamp}${ext}"
+    local target="$dir/$newname"
+
+    if [[ -e "$target" ]]; then
+        echo "Target already exists, skipping: $newname (from $base)" >&2
+        return 1
+    fi
+
+    if (( dry_run )); then
+        echo "[DRY-RUN]  $base  →  $newname"
+        return 0
+    fi
+
+    if mv -i -- "$file" "$target"; then
+        ((verbose)) && echo "Renamed: $base → $newname"
+    else
+        echo "Failed to rename: $base" >&2
+        return 1
+    fi
 }
 
 y2mp3() {
