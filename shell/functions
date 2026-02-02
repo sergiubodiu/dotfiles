@@ -304,6 +304,7 @@ rename-media-files() {
     local verbose=0
     local use_modtime=0
     local recursive=0
+    local suffix_on_conflict=0
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -311,6 +312,7 @@ rename-media-files() {
             --verbose|-v)       verbose=1; shift ;;
             --modtime)          use_modtime=1; shift ;;
             --recursive|-r)     recursive=1; shift ;;
+            --suffix-conflict)  suffix_on_conflict=1; shift ;;
             --help|-h)
                 cat << 'EOF'
 Usage: rename-media-files [options] file_or_directory [file_or_directory ...]
@@ -325,6 +327,7 @@ Options:
   --verbose,   -v     Print each successful rename
   --modtime           Use modification time instead of creation/birth time
   --recursive, -r     Process directories recursively (all subfolders)
+  --suffix-conflict   Add _1, _2 etc. instead of skipping on name conflict
   --help,      -h     Show this help
 EOF
                 return 0
@@ -344,10 +347,7 @@ EOF
         esac
     done
 
-    (( ${#files[@]} == 0 )) && {
-        echo "No files or directories specified." >&2
-        return 1
-    }
+    (( ${#files[@]} == 0 )) && { echo "No files/directories given." >&2; return 1; }
 
     for arg in "${files[@]}"; do
         if [[ -d "$arg" ]]; then
@@ -373,8 +373,7 @@ EOF
 
 _rename_single_file() {
     local file="$1"
-    local base
-    base=$(basename -- "$file")
+    local base=$(basename -- "$file")
 
     # Skip known system/junk files
     case "$base" in
@@ -394,20 +393,25 @@ _rename_single_file() {
     local ext="${base##*.}"
     [[ "$ext" = "$base" ]] && ext="" || ext=".$ext"
 
-    local timestamp
-    if [[ "$(uname -s)" = Darwin ]]; then
+    local timestamp sec
+    local os=$(uname -s)
+
+    if [[ "$os" = Darwin ]]; then
         local stat_fmt
         (( use_modtime )) && stat_fmt="%Sm" || stat_fmt="%SB"
         timestamp=$(stat -f "$stat_fmt" -t "%Y%m%d_%H%M%S" -- "$file" 2>/dev/null)
     else
-        local sec
+        # Linux / BSD etc.
         if (( use_modtime )); then
             sec=$(stat --format=%Y -- "$file" 2>/dev/null)
         else
             sec=$(stat --format=%W -- "$file" 2>/dev/null)
-            [[ "$sec" = "-" || -z "$sec" ]] && sec=$(stat --format=%Y -- "$file" 2>/dev/null)
+            if [[ "$sec" = "0" || "$sec" = "-" || -z "$sec" ]]; then
+                sec=$(stat --format=%Y -- "$file" 2>/dev/null)
+                ((verbose || dry_run)) && echo "Warning: No birth time available → using mtime for $base" >&2
+            fi
         fi
-        timestamp=$(date -d "@$sec" +"%Y%m%d_%H%M%S" 2>/dev/null)
+        [[ -n "$sec" && "$sec" != "-" ]] && timestamp=$(date -d "@$sec" +"%Y%m%d_%H%M%S" 2>/dev/null)
     fi
 
     if [[ -z "$timestamp" ]]; then
@@ -417,11 +421,18 @@ _rename_single_file() {
 
     local newname="${timestamp}${ext}"
     local target="$dir/$newname"
+    local counter=1
 
-    if [[ -e "$target" ]]; then
-        echo "Target already exists, skipping: $newname (from $base)" >&2
-        return 1
-    fi
+    # Handle conflict
+    while [[ -e "$target" ]]; do
+        if (( suffix_on_conflict == 0 )); then
+            echo "Conflict, skipping: $newname (exists from $base)" >&2
+            return 1
+        fi
+        newname="${timestamp}_${counter}${ext}"
+        target="$dir/$newname"
+        ((counter++))
+    done
 
     if (( dry_run )); then
         echo "[DRY-RUN]  $base  →  $newname"
