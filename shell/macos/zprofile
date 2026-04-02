@@ -1,0 +1,237 @@
+#!/bin/sh
+
+# Clear DNS cache
+alias clear-dns-cache='sudo dscacheutil -flushcache; \
+                       sudo killall -HUP mDNSResponder'
+
+# Empty the trash, the main HDD and on all mounted volumes
+# and clear Apple’s system logs to improve shell startup speed
+alias empty-trash='sudo rm -frv /Volumes/*/.Trashes; \
+                   sudo rm -frv ~/.Trash; \
+                   sudo rm -frv /private/var/log/asl/*.asl; \
+                   sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* "delete from LSQuarantineEvent"'
+
+alias screenshot-jpg='defaults write com.apple.screencapture type jpg \
+    killall SystemUIServer'
+
+alias screenshot-png='defaults write com.apple.screencapture type png \
+	killall SystemUIServer'
+
+# Hide/Show desktop icons
+alias hide-desktop-icons='defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
+alias show-desktop-icons='defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
+
+# Hide/Show hidden files in Finder
+alias hide-hidden-files='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
+alias show-hidden-files='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+
+# Lock screen
+alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+
+# Update
+alias u='sudo softwareupdate --install --all \
+            && brew update \
+            && brew upgrade \
+            && brew cleanup \
+            && npm install -g npm \
+            && npm update -g'
+
+# Show network connections
+# Often useful to prefix with SUDO to see more system level network usage
+alias network.connections='lsof -l -i +L -R -V'
+alias network.established='lsof -l -i +L -R -V | grep ESTABLISHED'
+alias network.internalip="ipconfig getifaddr en0"
+alias network.externalip='curl -s http://checkip.dyndns.org/ | sed "s/[a-zA-Z<>/ :]//g"'
+
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# Alias nproc to show number of logical CPUs on macOS (Linux compatibility)
+alias nproc='sysctl -n hw.logicalcpu'
+
+# Airport CLI alias
+alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
+
+# Files being opened system-wide (clean opensnoop version)
+alias files.open='sudo opensnoop -v 2>/dev/null | grep -v " 0 "'
+# Files being opened (fs_usage version if you prefer it)
+alias files.open.fs='sudo fs_usage -e -f filesys 2>/dev/null | grep -E "open(at)? " | grep -v -E "CACHE_HIT|lookup|stat|access|mmap|PAGE_"'
+# Watch changes in ~/Users (no sudo, most recommended)
+alias files.user='fswatch ~/Users'
+# Watch only creates/modifications in ~/Users
+alias files.user.create-mod='fswatch -e "Metadata" ~/Users'
+# Watch specific folder (usage: files.dir /path/to/folder)
+alias files.dir='fswatch'
+
+# Files used, anywhere on the filesystem
+alias files.usage='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep'
+# Files being opened
+alias files.open='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|grep open'
+# Files in use in the Users directory
+alias files.usage.user='sudo fs_usage -e -f filesystem|grep -v CACHE_HIT|grep -v grep|grep Users'
+
+
+# Java and Groovy
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Exercism shortcuts
+alias exd='exercism download'           # exd --exercise=acronym --track=go
+alias exs='exercism submit'             # exs *.go
+alias ext='exercism test'               # run tests locally
+alias exw='exercism workspace'          # cd to ~/Exercism
+alias exl='exercism list'               # show available exercises
+
+# bats helpers
+alias batst='bats --tap'              # TAP output (good for CI)
+alias batsf='bats --formatter junit'  # JUnit XML for CI tools
+alias batsp='bats --pretty'           # human-readable pretty output
+alias batss='BATS_RUN_SKIPPED=true command bats *.bats'
+
+# Removing the apple.quarantine attribute
+# xattr -d com.apple.quarantine /Applications/Alacritty.app
+
+# Opt-out of Homebrew's analytics.
+# https://github.com/Homebrew/brew/blob/0c95c60511cc4d85d28f66b58d51d85f8186d941/share/doc/homebrew/Analytics.md#opting-out
+
+HOMEBREW_AUTO_UPDATE_SECS=$((30 * 24 * 60 * 60))
+HOMEBREW_NO_ENV_HINTS=1
+HOMEBREW_NO_ANALYTICS=1
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Completion initialization — FAST & CACHED
+# ────────────────────────────────────────────────────────────────────────────────
+# Add Homebrew's site-functions to fpath to enable completions.
+# This must be done before compinit.
+if command -v brew &> /dev/null; then
+    fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+fi
+
+autoload -Uz compinit
+if [[ ! -s "${ZDOTDIR:-$HOME}/.zcompdump" ]]; then
+    compinit                       # full scan/regenerate
+else
+    compinit -C                    # fast cached load, skip security
+fi
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+# Menu-style completion
+zstyle ':completion:*' menu select
+
+# 2. fzf — fuzzy finder + shell integration
+if command -v fzf >/dev/null; then
+    source <(fzf --zsh)
+
+    # Optional: nicer default options (preview with eza/bat if available)
+    export FZF_DEFAULT_OPTS="
+        --height 60% --layout=reverse --border
+        --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) ||
+                   ([[ -d {} ]] && eza -T --color=always {} || tree -C {}) 2>/dev/null ||
+                   echo {}'
+        --preview-window=right:50%:wrap
+        --color=bg+:#2d2d2d,fg+:#ffffff,hl+:#5fd7ff
+    "
+
+    # Use fd instead of find for faster file listing
+    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+    # Use bat for preview
+    export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :500 {}'"
+
+    # Use zoxide for directory jumping (cd history)
+    export FZF_ALT_C_COMMAND='zoxide query --list || fd --type d --hidden --follow --exclude .git'
+    export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+fi
+
+# 3. eza — modern ls replacement
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --icons --git'
+    alias ll='eza -l --icons --git --time-style=long-iso'
+    alias la='eza -la --icons --git --time-style=long-iso'
+    alias lt='eza --tree --level=2 --icons --git'
+    alias l.='eza -d .* --icons'
+    alias lS='eza --sort=size --icons'
+    alias lg='eza --git --git-repos --long --icons'
+else
+    # fallback if eza is missing
+    alias ls='ls -G'
+    alias ll='ls -l'
+fi
+
+# zoxide — intelligent cd command (jump to frequent dirs with z / zi)
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+
+    # Common aliases (optional but very popular)
+    alias cd='z'           # zoxide instead of cd
+    alias cdi='zi'         # interactive fuzzy cd
+fi
+
+# bat — cat with syntax highlighting & git integration
+if command -v bat >/dev/null 2>&1; then
+    alias cat='bat'
+    # always use pager
+    alias batp='bat --paging=always'        
+     # line numbers  
+    alias batn='bat --style=numbers'       
+    # grid + numbers  
+    alias batg='bat --style=grid,numbers'
+    # git-style diff     
+    alias bdiff='bat --diff'                  
+
+    # Make bat respect gitignore & hidden files in some cases ("Nord", "Dracula", "Catppuccin-mocha", etc.)
+    export BAT_THEME="TwoDark"                
+    export BAT_STYLE="changes,header"
+fi
+
+# fd — fast, user-friendly alternative to find
+if command -v fd >/dev/null 2>&1; then
+    alias find='fd'
+
+    # Common useful aliases
+    alias fd.='fd --type f --hidden --exclude .git'     # files including hidden
+    alias fdd='fd --type d'                             # only directories
+    alias fdh='fd --type f --hidden'                    # hidden files
+    alias fdn='fd --type f --name'                      # search by name pattern
+fi
+
+# ripgrep (rg) — blazing fast grep with sensible defaults
+if command -v rg >/dev/null 2>&1; then
+    alias grep='rg'
+
+    # Popular aliases / defaults
+    alias rga='rg --hidden --no-ignore --smart-case'          # search hidden files too
+    alias rgf='rg --files --hidden --no-ignore'                # list files like fd
+    alias rgl='rg --line-number --pretty --smart-case'        # pretty output
+    alias rgi='rg -i'                                          # case-insensitive
+
+    # Default options (very common)
+    export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+fi
+
+# 4. zsh enchancements
+if [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+
+    # Common tuning
+    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+    ZSH_AUTOSUGGEST_USE_ASYNC=1
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999,bg=default,underline"
+fi
+
+if [[ -f "/usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
+
+    bindkey '^[[A' history-substring-search-up    # Up arrow
+    bindkey '^[[B' history-substring-search-down  # Down arrow
+
+fi
+
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

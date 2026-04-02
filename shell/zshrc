@@ -1,21 +1,9 @@
-if [[ $- != *i* ]] || [ -z "$PS1" ]; then
-  return 0
-fi
+# ============================================================================
+# Modern Zsh Configuration
+# ============================================================================
 
-if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
-fi
-
-if [ -f ~/.bash_profile ]; then
-    source ~/.bash_profile
-fi
-
-# Path to your oh-my-zsh installation.
-export ZSH=$DOTFILES_DIR_PATH/oh-my-zsh
-ZSH_THEME="agnoster"
-
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=$DOTFILES_DIR_PATH/custom
+# Early return for non-interactive shells / no prompt
+[[ $- != *i* || -z "$PS1" ]] && return 0
 
 # Disable group ownership for zsh autocompletion
 ZSH_DISABLE_COMPFIX=true
@@ -31,7 +19,7 @@ ZSH_DISABLE_COMPFIX=true
 DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=30
+UPDATE_ZSH_DAYS=30
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -50,16 +38,34 @@ export UPDATE_ZSH_DAYS=30
 # much, much faster.
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# Fixes slow pasting, weird characters, or duplicated text when pasting multi-line blocks.
+DISABLE_MAGIC_FUNCTIONS=true
+
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="yyyy-mm-dd"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git-flow kubectl spring systemd)
+# History options
+setopt APPEND_HISTORY           # Append to history file
+setopt SHARE_HISTORY            # Share history between sessions
+setopt HIST_IGNORE_DUPS         # Don't record duplicate entries
+setopt HIST_IGNORE_ALL_DUPS     # Delete old duplicates
+setopt HIST_FIND_NO_DUPS        # Don't display duplicates in search
+setopt HIST_IGNORE_SPACE        # Don't record commands starting with space
+setopt HIST_REDUCE_BLANKS       # Remove superfluous blanks
+setopt HIST_VERIFY              # Show command with history expansion before running
+setopt INTERACTIVE_COMMENTS 	# Allow comments
 
-. $ZSH/oh-my-zsh.sh
+# ────────────────────────────────────────────────────────────────────────────────
+# Modern shell tools from Brewfile — loaded safely
+# ────────────────────────────────────────────────────────────────────────────────
+
+# 1. Starship prompt (very fast & customizable)
+command -v starship >/dev/null && eval "$(starship init zsh)"
+
+for file in ~/.{exports.local,exports,aliases,functions}; do
+  [ -r "$file" ] && . "$file"
+done
+
+unset file
