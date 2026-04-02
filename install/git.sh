@@ -6,7 +6,8 @@ add_ssh_configs() {
     printf "%s\n" \
         "Host github.com" \
         "  User $GITHUB_USER" \
-        "  IdentityFile $1" >> ~/.ssh/config
+        "  IdentityFile $1" \
+        "  LogLevel ERROR" >> ~/.ssh/config
 
     print_result $? "Add SSH configs"
 

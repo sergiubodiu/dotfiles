@@ -1,7 +1,6 @@
 #!/bin/bash
 
-cd "${DOTFILES_DIR_PATH}" \
- && . "${DOTFILES_DIR_PATH}/utils.sh"
+ . "./utils.sh"
 
 create_symlinks() {
 
@@ -11,7 +10,7 @@ create_symlinks() {
     local FILES_TO_SYMLINK=(
         "shell/aliases"
         "shell/bashrc"
-        "shell/$OS_NAME/bash_profile"
+        "shell/$OS_NAME/zprofile"
         "shell/$OS_NAME/nanorc"
         "shell/exports"
         "shell/functions"
