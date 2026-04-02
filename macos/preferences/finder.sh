@@ -1,10 +1,15 @@
 #!/bin/bash
 
-. "$DOTFILES_DIR_PATH/utils.sh"
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_info 'Finder'
+
+execute "defaults write com.apple.finder QuitMenuItem -bool true" \
+    "Allow quitting Finder via ⌘Q (requires killall Finder)"
+
+execute "defaults write com.apple.finder ShowPathbar -bool true && \
+         defaults write com.apple.finder ShowStatusbar -bool true" \
+    "Show path & status bars in Finder windows"
 
 execute "defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true && \
          defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true && \

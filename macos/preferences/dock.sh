@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. "$DOTFILES_DIR_PATH/utils.sh"
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_info 'Dock'

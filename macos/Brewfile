@@ -1,0 +1,65 @@
+
+tap 'buildpacks/tap'
+# 'cloudfoundry/tap'
+# 'pivotal/tap'
+
+cask 'adoptopenjdk'
+cask 'android-file-transfer'
+cask 'block-goose'
+cask 'flux-app'
+cask 'font-jetbrains-mono' 
+cask 'ghostty'
+cask 'google-drive'
+cask 'google-chrome'
+cask 'imageoptim'
+cask 'imagemagick'
+cask 'intellij-idea'
+cask 'kap'                  # better than 'licecap'
+cask 'rectangle'
+# cask 'the-unarchiver'
+cask 'transmission'
+cask 'vivaldi'
+cask 'vlc'
+cask 'vscodium'
+cask 'zed'
+
+# Modern shell tools
+brew 'bat'                  # cat with syntax highlighting & git integration
+brew 'eza'                  # Modern ls replacement
+brew 'fzf'                  # Fuzzy finder
+brew 'fd'                   # Fast, user-friendly alternative to find
+brew 'starship'             # Modern cross-shell prompt
+brew 'zsh-autosuggestions'
+brew 'zsh-syntax-highlighting'
+brew 'zsh-history-substring-search'
+
+# Development tools
+brew 'bats-core'
+brew 'brotli'               # compression tools
+brew 'block-goose-cli'
+brew 'direnv'
+brew 'duti'
+brew 'exercism'
+brew 'fswatch'
+brew 'gh'
+brew 'go'
+brew 'gpg'
+brew 'jq'
+brew 'just'
+brew 'k9s'
+brew 'node@24'
+brew 'pack'
+brew 'pstree'
+brew 'python'
+brew 'ripgrep'
+brew 'rsync'
+brew 'rustup'
+brew 'shellcheck'
+brew 'tmux'
+brew 'tree'
+brew 'uv'
+brew 'watch'
+brew 'wget'
+brew 'zellij'
+brew 'zopfli'               # compression tools
+brew 'zoxide'

@@ -1,83 +1,60 @@
 #!/bin/bash
 
-. "$DOTFILES_DIR_PATH/macos/utils.sh"
+. "$DOTFILES_DIR_PATH/utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 main() {
 
-    # install_xcode
+    _install_xcode
 
     print_in_green "\n  ---\n\n"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    install_homebrew
+    _install_homebrew
 
-    opt_out_of_analytics
-
-    brew_install "Homebrew Cask" "homebrew/cask/brew-cask" "homebrew/cask"
+    execute "brew analytics off" "Homebrew (opt-out of analytics)"
 
     print_in_green "\n  ---\n\n"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    brew_install "Bash" "bash"
+    print_in_purple "\n   Installing/updating Homebrew taps, formulae and casks"
+    brew bundle
 
-    change_default_bash
 
-    print_in_green "\n  ---\n\n"
+    # brew_install "Podman" "podman"
+    # brew_install "Kind" "kind"
+    # brew_install "Gradle" "gradle"
+    # brew_install "Maven" "maven"
+    # brew 'worktrunk'
+    # brew 'the_platinum_searcher'
+    # brew 'telnet'
+    # brew 'ollama'
+    # brew 'chruby'
+    # cask 'antigravity'
+    # cask 'spotify'
+    # cask 'slack'
+    # cask 'orbstack'
+    # cask 'orbstack'
+    # cask 'discord'
+    # cask 'docker'
+    # cask 'codex'
+    # cask 'chatgpt'
+    # cask 'claude'
+    # cask 'claude-code'
+    # brew 'withgraphite/tap/graphite'
+    # cask 'rectangle'
+    # cask 'reflect'
+    # brew 'postgresql@14', restart_service: true
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    brew_install "Android File Transfer" "android-file-transfer" "homebrew/cask" "cask"
-    brew_install "Firefox" "firefox" "homebrew/cask" "cask"
-    brew_install "F.lux" "flux" "homebrew/cask" "cask"
-    brew_install "ImageOptim" "imageoptim" "homebrew/cask" "cask"
-    brew_install "ImageMagick" "imagemagick"
-    brew_install "LICEcap" "licecap" "homebrew/cask" "cask"
-    brew_install "Open JDK" "adoptopenjdk" "homebrew/cask" "cask"
-    brew_install "Rectangle" "rectangle" "homebrew/cask" "cask"
-    brew_install "Unarchiver" "the-unarchiver" "homebrew/cask" "cask"
-    brew_install "Vivaldi" "vivaldi" "homebrew/cask" "cask"
-    brew_install "VLC" "vlc" "homebrew/cask" "cask"
-
-    print_in_purple "\n   Compression Tools\n\n"
-    brew_install "Brotli" "brotli"
-    brew_install "Zopfli" "zopfli"
-
-    print_in_purple "\n   Git\n\n"
-    brew_install "Git" "git"
-    brew_install "GitHub CLI" "gh"
-    brew_install "GPG" "gpg"
-    
-    brew_install "Podman" "podman"
-    brew_install "Kind" "kind"
-    brew_install "Gradle" "gradle"
-    brew_install "Maven" "maven"
-    brew_install "tmux" "tmux"
-    brew_install "Tree" "tree"
-    brew_install "watch" "watch"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # brew_install "AWS" "awscli"
     # brew_install "CloudFoundry" "cf-cli" "cloudfoundry/tap"
     # brew_install "SpringBoot" "springboot" "pivotal/tap"
-    # print_in_purple "\n   Web Font Tools\n\n"
-    # brew_install "Web Font Tools: TTF/OTF → WOFF (Zopfli)" "sfnt2woff-zopfli" "bramstein/webfonttools"
-    # brew_install "Web Font Tools: TTF/OTF → WOFF" "sfnt2woff" "bramstein/webfonttools"
-    # brew_install "Web Font Tools: WOFF2" "woff2" "bramstein/webfonttools"
-    # brew install "chruby" "chruby"
-    # brew_install "ruby-install" "ruby-install"
-    # brew_install "ShellCheck" "shellcheck"
-    # brew_install "Chrome" "google-chrome" "homebrew/cask" "cask"
-    # brew_install "Skype" "skype" "homebrew/cask" "cask"
-    # brew_install "Transmission" "transmission" "homebrew/cask" "cask"
-    # brew_install "VirtualBox" "virtualbox" "homebrew/cask" "cask"
-
-    print_in_green "\n  ---\n\n"
-
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if cmd_exists "brew"; then
@@ -85,6 +62,63 @@ main() {
         execute "brew cleanup" "brew (cleanup)"
 
     fi
+
+}
+
+
+_install_xcode() {
+
+    if ! xcode-select --print-path &> /dev/null; then
+
+        # Prompt user to install the XCode Command Line Tools
+        xcode-select --install &> /dev/null
+
+        # Wait until the XCode Command Line Tools are installed
+        until xcode-select --print-path &> /dev/null; do
+            sleep 5
+        done
+
+        print_result $? 'Install XCode Command Line Tools'
+
+        # Point the `xcode-select` developer directory to
+        # the appropriate directory from within `Xcode.app`
+        # https://github.com/alrra/dotfiles/issues/13
+
+        sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+        print_result $? 'Make "xcode-select" developer directory point to Xcode'
+
+        # Prompt user to agree to the terms of the Xcode license
+        # https://github.com/alrra/dotfiles/issues/10
+
+        sudo xcodebuild -license accept &> /dev/null
+        print_result $? 'Agree with the XCode Command Line Tools licence'
+
+    fi
+
+    print_result $? 'XCode Command Line Tools'
+
+}
+
+_install_homebrew() {
+
+    if ! cmd_exists 'brew'; then
+        printf "\n" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &> /dev/null
+        #  └─ simulate the ENTER keypress
+    fi
+
+    print_result $? 'Homebrew'
+
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+_update_and_upgrade() {
+
+    # System software update tool
+    # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/softwareupdate.8.html
+
+    execute 'sudo softwareupdate --install --all' 'Update system software'
+    printf '\n'
 
 }
 
