@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$HOME/.dotfiles/utils.sh"
+. "../utils.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
