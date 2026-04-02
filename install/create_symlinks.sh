@@ -1,6 +1,8 @@
 #!/bin/bash
 
- . "./utils.sh"
+
+export DOTFILES_DIR_PATH=$HOME/.dotfiles
+. "$DOTFILES_DIR_PATH/install/utils.sh" || { echo "Failed to source utils.sh" >&2; exit 1; }
 
 create_symlinks() {
 
@@ -23,13 +25,12 @@ create_symlinks() {
         "git/gitattributes"
     )
 
-    local WORKDIR=$(pwd)
     for i in "${FILES_TO_SYMLINK[@]}"; do
 
-        sourceFile="$WORKDIR/$i"
+        sourceFile="$DOTFILES_DIR_PATH/$i"
         targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
-        if OS_NAME=="windows" || [ ! -e "$targetFile" ] ; then
+        if [[ "$OS_NAME" == "windows" ]] || [ ! -e "$targetFile" ] ; then
 
             execute \
                 "ln -fs $sourceFile $targetFile" \
@@ -40,11 +41,9 @@ create_symlinks() {
             print_success "$targetFile → $sourceFile"
 
         else
-
             ask_for_confirmation "'$targetFile' already exists, do you want to overwrite it?"
 
             if answer_is_yes; then
-
                 rm -rf "$targetFile"
 
                 execute \

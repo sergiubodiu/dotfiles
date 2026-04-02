@@ -1,9 +1,9 @@
 #!/bin/bash
 
-. "../utils.sh"
+export DOTFILES_DIR_PATH=$HOME/.dotfiles
+. "$DOTFILES_DIR_PATH/install/utils.sh" || { echo "Failed to source utils.sh" >&2; exit 1; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 
 main() {
 
