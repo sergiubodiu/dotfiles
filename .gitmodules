@@ -10,6 +10,3 @@
 [submodule "adr-tools"]
 	path = adr-tools
 	url = https://github.com/npryce/adr-tools.git
-[submodule "oh-my-zsh"]
-	path = oh-my-zsh
-	url = https://github.com/robbyrussell/oh-my-zsh
