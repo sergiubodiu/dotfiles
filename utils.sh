@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 answer_is_yes() {
     [[ "$REPLY" =~ ^[Yy]$ ]] \
@@ -29,45 +29,41 @@ execute() {
     eval "$1" &> /dev/null
     print_result $? "${2:-$1}"
 }
+
 # http://0pointer.de/blog/projects/os-release
 # One of the new configuration files systemd introduced is /etc/os-release.
 get_os() {
+    local os
+    local kernel_name=$(uname -s)
 
-    local os=""
-    local osName="$(uname -s)"
+    case "$kernel_name" in
+        Darwin)
+            os='macos'
+            ;;
 
-    if [ "$osName" == "Darwin" ]; then
-        os='macos'
-    elif [ "$osName" == "Linux" ] && \
-         [ -e "/etc/os-release" ]; then
-        os="$(. /etc/os-release; printf "%s" "$ID")"
-    elif [ "$osName" == "MINGW64_NT-10.0" ]; then
-        os='windows'
-    else
-        os="$osName"
-    fi
+        Linux)
+            if [ -f /etc/os-release ]; then
+                # shellcheck disable=SC1091
+                . /etc/os-release 2>/dev/null || :
+                os="${ID:-${ID_LIKE%% *}}"
+                # Fallback if ID is unset but ID_LIKE exists (very rare)
+                [ -z "$os" ] && [ -n "${ID_LIKE}" ] && os="${ID_LIKE%% *}"
+            fi
+            # Very last resort for exotic/minimal Linux
+            [ -z "$os" ] && os='linux'
+            ;;
 
-    printf "%s" "$os"
+        MINGW*|MSYS*)
+            os='windows'
+            ;;
 
-}
+        *)
+            # Fallback: lowercase the kernel name (OpenBSD, FreeBSD, CYGWIN_NT-..., etc.)
+            os=$(printf '%s' "$kernel_name" | tr '[:upper:]' '[:lower:]')
+            ;;
+    esac
 
-get_os() {
-
-    local osName="$(uname -s)"
-    local os=''
-
-    if [[ "$osName" == "Darwin" ]]; then
-        os='macos'
-    elif [[ "$osName" == "Linux" ]] && [ -e "/etc/lsb-release" ]; then
-        os='ubuntu'
-    elif [[ "$osName" == "MINGW64_NT-10.0" ]]; then
-        os='windows'
-    else
-        os="$osName"
-    fi
-
-    printf "%s" "$os"
-
+    printf '%s\n' "${os:-unknown}"
 }
 
 print_in_green() {

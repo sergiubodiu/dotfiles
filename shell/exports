@@ -11,37 +11,38 @@ export EDITOR='nano'
 # Ignore commands that start with spaces and duplicates
 export HISTCONTROL=ignoreboth
 
-# Increase the maximum number of lines of history
-# persisted in the Bash history file (default value is 500)
-export HISTFILESIZE=8192
-
 # Ignore some controlling instructions
 # HISTIGNORE is a colon-delimited list of patterns which should be excluded.
 # The '&' is a special pattern which suppresses duplicate entries.
 export HISTIGNORE='&:[bf]g:c:clear:history:ls:exit:q:pwd:* --help'
 
-# Increase the maximum number of commands recorded in the
-# command history (default value is 500)
-export HISTSIZE=8192
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";
 
 # Prefer US English and use UTF-8 encoding
 export LANG='en_US'
 export LC_ALL='en_US.UTF-8'
 
+# Highlight section titles in manual pages.
+export LESS_TERMCAP_md="${yellow}";
+
 # Don't clear the screen after quitting a `man` page.
 export MANPAGER="less -X"
 
-# Increase the maximum number of lines of history persisted
-# in the `Node` REPL history file (default value is 1000)
-# https://github.com/nodejs/node/blob/a85f4b5ce5791caf8caa9b31970313c6183a5499/doc/api/repl.markdown#persistent-history
-export NODE_REPL_HISTORY_SIZE=8192
+# Hide the “default interactive shell is now zsh” warning on macOS.
+export BASH_SILENCE_DEPRECATION_WARNING=1;
+
+# Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY=~/.node_history;
+# Allow 32³ entries; the default is 1000.
+export NODE_REPL_HISTORY_SIZE='32768';
+# Use sloppy mode by default, matching web browsers.
+export NODE_REPL_MODE='sloppy';
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Make new shells get the history lines from all previous
-# shells instead of the default "last window closed" history
-export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr
 export PYTHONIOENCODING='UTF-8'

@@ -9,6 +9,113 @@ bookmarks() {
     fi
 }
 
+zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+
+# Monthly manual recompile command (run when you want)
+zsh-recompile() {
+    local dumpfile="${ZDOTDIR:-$HOME}/.zcompdump"
+    if [[ ! -f "$dumpfile" ]]; then
+        echo "No completion dump found"
+        return 1
+    fi
+
+    # Get mtime in seconds since epoch
+    mtime=$(stat -f %m "$zcompdump" || stat -c %Y "$zcompdump" 2>/dev/null)  # macOS / Linux
+    now=$(date +%s)
+    age_days=$(( (now - mtime) / 86400 ))   # 86400 = seconds in a day
+
+    if (( age_days > 30 )); then
+        print -P "%F{yellow}→ zsh completions last recompiled $age_days days ago.%f Run %F{cyan}zsh-recompile%f when convenient."
+    fi
+
+    autoload -Uz zrecompile
+    echo "Recompiling zsh completions..."
+    if zrecompile -q "$dumpfile"; then
+        echo "Done ✓  ($dumpfile.zwc)"
+    else
+        echo "Failed"
+        return 1
+    fi
+}
+
+clean-files() {
+    emulate -L zsh
+
+    if [[ $# -lt 1 ]]; then
+        print -u2 "Usage: clean-files <pattern> [-n|--dry-run] [-c|--confirm]"
+        print -u2 "  Examples:"
+        print -u2 "    clean-files '[????*]'                  # dry-run (default)"
+        print -u2 "    clean-files '[????*]' -n               # explicit dry-run"
+        print -u2 "    clean-files '[????*]' -c               # actually rename"
+        print -u2 "    clean-files '\\[.*?\\]' -c             # remove any [something]"
+        return 1
+    fi
+
+    local pattern="$1"
+    local dry_run=1
+    local confirm=0
+
+    shift
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -n|--dry-run)  dry_run=1; shift ;;
+            -c|--confirm)  dry_run=0; confirm=1; shift ;;
+            *)
+                print -u2 "Unknown option: $1"
+                print -u2 "Only -n / --dry-run and -c / --confirm allowed"
+                return 1
+                ;;
+        esac
+    done
+
+    local changed=0
+    local exts=(mkv mp4 srt)
+
+    for ext in $exts; do
+        for f in *.$ext(N); do
+            local new_name="${f//$~pattern/}"
+
+            # Skip if pattern didn't match → no change
+            if [[ $new_name == $f ]]; then
+                continue
+            fi
+
+            # Clean up extra spaces left after removal
+            new_name="${new_name//  / }"
+            new_name="${new_name/# /}"
+            new_name="${new_name/% /}"
+
+            (( changed++ ))
+
+            if (( dry_run )); then
+                print "Would rename ($ext):"
+                print "  $f  →"
+                print "  $new_name"
+                print ""
+            else
+                print "Renaming ($ext):"
+                print "  $f  →"
+                print "  $new_name"
+                if mv -n -- "$f" "$new_name"; then
+                    print "  ✓ done"
+                else
+                    print "  ✗ failed"
+                fi
+            fi
+        done
+    done
+
+    if (( changed == 0 )); then
+        print "No matching files (.mkv/.mp4/.srt) contained the pattern '$pattern'."
+    else
+        print "$changed file(s) matched the pattern."
+        if (( dry_run )); then
+            print "(dry-run mode — nothing was changed)"
+        fi
+    fi
+}
+
 # Create data URI from a file
 datauri() {
 
@@ -78,6 +185,15 @@ extract() {
     esac
     else
         echo "'$1' is not a valid file to extract"
+    fi
+}
+
+# ez: Open file in vscodium in a new zellij pane
+ez() {
+    if [[ -n "$ZELLIJ" ]]; then
+        zellij run --name "editor" --floating -- codium --wait "$@"
+    else
+        codium --wait "$@"
     fi
 }
 
@@ -445,6 +561,130 @@ _rename_single_file() {
         echo "Failed to rename: $base" >&2
         return 1
     fi
+}
+
+treefc() {
+    emulate -L zsh
+    setopt localoptions extendedglob
+
+    local root="."          # default
+    local maxdepth=99
+    local ext=""            # no filter by default
+    local usage_shown=0
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -h|--help)
+                cat << 'EOF'
+Usage: treefc [options] [directory] [max-depth]
+
+Displays directory tree with file count per folder.
+
+Options:
+  -e, --ext EXT     Count only files with this extension (e.g. .json, .jpg, .mp4)
+                    The dot is optional — both .json and json work
+  -h, --help        Show this help
+  [directory]       Path to scan (default: current directory '.')
+  [max-depth]       Maximum recursion depth (default: 99)
+
+Examples:
+  treefc                        # all files, current dir
+  treefc -e json                # only .json / .JSON files
+  treefc ~/Photos 5             # limit depth
+  treefc -e .mp4 ~/Videos       # only video files in Videos
+  treefc -e jpg -e jpeg . 4     # multiple -e allowed (OR logic)
+EOF
+                usage_shown=1
+                shift
+                ;;
+            -e|--ext)
+                shift
+                if [[ -n "$1" ]]; then
+                    # Normalize: add dot if missing, make case-insensitive pattern
+                    ext_pattern="${1#.}"; ext_pattern="*.${ext_pattern}"
+                    # Allow multiple -e (OR logic)
+                    if [[ -n "$ext" ]]; then
+                        ext="$ext -o -iname '$ext_pattern'"
+                    else
+                        ext="-iname '$ext_pattern'"
+                    fi
+                fi
+                shift
+                ;;
+            -*)
+                echo "Unknown option: $1" >&2
+                return 1
+                ;;
+            *)
+                if [[ -d "$1" ]]; then
+                    root="$1"
+                elif [[ "$1" =~ ^[0-9]+$ ]]; then
+                    maxdepth="$1"
+                else
+                    echo "Invalid argument: $1" >&2
+                    return 1
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # If help was shown, exit early
+    (( usage_shown )) && return 0
+
+    # Resolve to absolute path
+    root="${root:A}"
+
+    print -P "%F{blue}${root:t}%f"
+
+    local total_files=0
+    local header="files"
+
+    # If filtering by extension(s), update header
+    [[ -n "$ext" ]] && header="${ext_pattern//\\*/} files"
+
+    # Walk directories
+    find "$root" -maxdepth "$maxdepth" -type d -print0 2>/dev/null | sort -z | while IFS= read -r -d '' dir; do
+        # Count regular files in this dir only
+        local count=0
+
+        # All regular files
+        if [[ -n "$ext" ]]; then
+            # noglob prevents Zsh from expanding the pattern as a glob
+            noglob find "$dir" -mindepth 1 -maxdepth 1 -type f -iname "$ext_pattern" -print0 2>/dev/null |
+            while IFS= read -r -d '' file; do
+                (( count++ ))
+            done
+        else
+            while IFS= read -r -d '' _; do (( count++ )); done \
+                < <(find "$dir" -mindepth 1 -maxdepth 1 -type f -print0 2>/dev/null)
+        fi
+
+        (( total_files += count ))
+
+        # Relative path
+        local rel="${dir#$root}"
+        [[ -z "$rel" ]] && rel="."
+
+        # Depth for indentation
+        local depth=$(echo "$rel" | awk -F/ '{print NF-1}')
+        local indent=""
+        (( depth > 0 )) && indent="${(l:$((depth * 4)):: :)}"
+
+        # Simple consistent prefix
+        local prefix=""
+        (( depth > 0 )) && prefix="├── "
+
+        # Print with color on count if >0
+        local color=""
+        (( count > 0 )) && color=$'\e[32m'
+
+        printf '%s%s%s\e[0m  (%d %s)\n' "$indent" "$prefix" "$rel" "$count" "$header"
+    done
+
+    print ""
+    print "Total $header: $total_files"
 }
 
 y2mp3() {
