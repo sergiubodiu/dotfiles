@@ -53,7 +53,7 @@ get_os() {
             [ -z "$os" ] && os='linux'
             ;;
 
-        MINGW*|MSYS*)
+        MINGW*|MSYS*|CYGWIN*)
             os='windows'
             ;;
 

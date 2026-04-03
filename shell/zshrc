@@ -46,16 +46,20 @@ DISABLE_MAGIC_FUNCTIONS=true
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS="yyyy-mm-dd"
 
-# History options
+# Modern zsh options
+setopt AUTO_CD                  # type directory name → cd
 setopt APPEND_HISTORY           # Append to history file
-setopt SHARE_HISTORY            # Share history between sessions
+setopt CORRECT                  # spell-check commands
+setopt HIST_FIND_NO_DUPS        # Don't display duplicates in search
 setopt HIST_IGNORE_DUPS         # Don't record duplicate entries
 setopt HIST_IGNORE_ALL_DUPS     # Delete old duplicates
-setopt HIST_FIND_NO_DUPS        # Don't display duplicates in search
 setopt HIST_IGNORE_SPACE        # Don't record commands starting with space
 setopt HIST_REDUCE_BLANKS       # Remove superfluous blanks
 setopt HIST_VERIFY              # Show command with history expansion before running
-setopt INTERACTIVE_COMMENTS 	# Allow comments
+setopt INC_APPEND_HISTORY_TIME  # write to history immediately with timestamp
+setopt INTERACTIVE_COMMENTS     # Allow comments
+setopt NO_BEEP                  # no bell
+setopt SHARE_HISTORY            # Share history between sessions
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Modern shell tools from Brewfile — loaded safely
