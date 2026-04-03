@@ -175,6 +175,7 @@ Customize the prompt:
 ```bash
 mkdir -p ~/.config
 starship preset nerd-font-symbols > ~/.config/starship.toml
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 # Edit ~/.config/starship.toml to customize
 ```
 

@@ -22,7 +22,7 @@ main() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     print_in_purple "\n   Installing/updating Homebrew taps, formulae and casks"
-    brew bundle
+    brew bundle --verbose
 
 
     # brew_install "Podman" "podman"
