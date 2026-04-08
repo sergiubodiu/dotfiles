@@ -26,7 +26,7 @@ alias hide-hidden-files='defaults write com.apple.finder AppleShowAllFiles -bool
 alias show-hidden-files='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
 
 # Lock screen
-alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias afk="osascript -e 'tell application \"System Events\" to sleep'"
 
 # Update
 alias u='sudo softwareupdate --install --all \
@@ -100,6 +100,11 @@ HOMEBREW_AUTO_UPDATE_SECS=$((30 * 24 * 60 * 60))
 HOMEBREW_NO_ENV_HINTS=1
 HOMEBREW_NO_ANALYTICS=1
 
+# -----------------------------
+# 1. Plugin Directory
+# -----------------------------
+ZSH_PLUGINS="/usr/local/share"
+
 # ────────────────────────────────────────────────────────────────────────────────
 # Completion initialization — FAST & CACHED
 # ────────────────────────────────────────────────────────────────────────────────
@@ -160,7 +165,7 @@ if command -v eza >/dev/null 2>&1; then
 else
     # fallback if eza is missing
     alias ls='ls -G'
-    alias ll='ls -l'
+    alias ll='ls -lA'
 fi
 
 # zoxide — intelligent cd command (jump to frequent dirs with z / zi)
@@ -176,16 +181,16 @@ fi
 if command -v bat >/dev/null 2>&1; then
     alias cat='bat'
     # always use pager
-    alias batp='bat --paging=always'        
-     # line numbers  
-    alias batn='bat --style=numbers'       
-    # grid + numbers  
+    alias batp='bat --paging=always'
+     # line numbers
+    alias batn='bat --style=numbers'
+    # grid + numbers
     alias batg='bat --style=grid,numbers'
-    # git-style diff     
-    alias bdiff='bat --diff'                  
+    # git-style diff
+    alias bdiff='bat --diff'
 
     # Make bat respect gitignore & hidden files in some cases ("Nord", "Dracula", "Catppuccin-mocha", etc.)
-    export BAT_THEME="TwoDark"                
+    export BAT_THEME="TwoDark"
     export BAT_STYLE="changes,header"
 fi
 
@@ -215,23 +220,30 @@ if command -v rg >/dev/null 2>&1; then
 fi
 
 # 4. zsh enchancements
-if [[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+if [[ -f "${ZSH_PLUGINS}/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
 
     # Common tuning
     ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
     ZSH_AUTOSUGGEST_USE_ASYNC=1
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#999999,bg=default,underline"
+    ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+    source "${ZSH_PLUGINS}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    # Accept suggestion with Ctrl+Space
+    bindkey '^ ' autosuggest-accept
+
 fi
 
-if [[ -f "/usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
+if [[ -f "${ZSH_PLUGINS}/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
 
+    source "${ZSH_PLUGINS}/zsh-history-substring-search/zsh-history-substring-search.zsh"
     bindkey '^[[A' history-substring-search-up    # Up arrow
     bindkey '^[[B' history-substring-search-down  # Down arrow
 
 fi
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+# zsh-syntax-highlighting (MUST be sourced last)
+if [[ -f "${ZSH_PLUGINS}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "${ZSH_PLUGINS}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
