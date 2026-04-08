@@ -61,15 +61,15 @@ setopt INTERACTIVE_COMMENTS     # Allow comments
 setopt NO_BEEP                  # no bell
 setopt SHARE_HISTORY            # Share history between sessions
 
+for file in ~/.{exports.local,exports,aliases,functions}; do
+  [ -r "$file" ] && . "$file"
+done
+
+unset file
+
 # ────────────────────────────────────────────────────────────────────────────────
 # Modern shell tools from Brewfile — loaded safely
 # ────────────────────────────────────────────────────────────────────────────────
 
 # 1. Starship prompt (very fast & customizable)
 command -v starship >/dev/null && eval "$(starship init zsh)"
-
-for file in ~/.{exports.local,exports,aliases,functions}; do
-  [ -r "$file" ] && . "$file"
-done
-
-unset file

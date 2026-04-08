@@ -163,21 +163,6 @@ if command -v fzf >/dev/null; then
     export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 fi
 
-# 3. eza — modern ls replacement
-if command -v eza >/dev/null 2>&1; then
-    alias ls='eza --icons --git'
-    alias ll='eza -l --icons --git --time-style=long-iso'
-    alias la='eza -la --icons --git --time-style=long-iso'
-    alias lt='eza --tree --level=2 --icons --git'
-    alias l.='eza -d .* --icons'
-    alias lS='eza --sort=size --icons'
-    alias lg='eza --git --git-repos --long --icons'
-else
-    # fallback if eza is missing
-    alias ls='ls -G'
-    alias ll='ls -lA'
-fi
-
 # zoxide — intelligent cd command (jump to frequent dirs with z / zi)
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
@@ -202,17 +187,6 @@ if command -v bat >/dev/null 2>&1; then
     # Make bat respect gitignore & hidden files in some cases ("Nord", "Dracula", "Catppuccin-mocha", etc.)
     export BAT_THEME="TwoDark"
     export BAT_STYLE="changes,header"
-fi
-
-# fd — fast, user-friendly alternative to find
-if command -v fd >/dev/null 2>&1; then
-    alias find='fd'
-
-    # Common useful aliases
-    alias fd.='fd --type f --hidden --exclude .git'     # files including hidden
-    alias fdd='fd --type d'                             # only directories
-    alias fdh='fd --type f --hidden'                    # hidden files
-    alias fdn='fd --type f --name'                      # search by name pattern
 fi
 
 # ripgrep (rg) — blazing fast grep with sensible defaults

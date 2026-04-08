@@ -12,8 +12,8 @@ alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias c='clear'
 alias ch='history -c && > ~/.bash_history'
 # Default to human readable figures
-alias dud='du -d 1 -h'  # Display the size of files at depth 1 in current location in human-readable form 
-alias duf='du -sh'      # Display the size of files in current location in human-readable form       
+alias dud='du -d 1 -h'  # Display the size of files at depth 1 in current location in human-readable form
+alias duf='du -sh'      # Display the size of files in current location in human-readable form
 
 alias e='$EDITOR'
 
@@ -32,8 +32,39 @@ alias gt='git tag'
 alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
 
-alias fd='find . -type d -name'               # Find a directory with the given name
-alias ff='find . -type f -name'               # Find a file with the given name
+# eza — modern ls replacement
+if command -v eza >/dev/null 2>&1; then
+    # Primary aliases
+    alias ls='eza --icons --git'
+    alias ll='eza -l --icons --git --time-style=long-iso'
+    alias la='eza -la --icons --git --time-style=long-iso'
+    alias lt='eza --tree --level=2 --icons --git'
+
+    # Extra useful aliases
+    alias l.='eza -d .* --icons'                    # Show only hidden files/directories
+    alias lS='eza --sort=size --icons'              # Sort by size
+    alias lg='eza --git --git-repos --long --icons' # Git-aware long listing
+    alias l1='eza -1'                               # One file per line
+    alias tree='eza --tree --icons'                 # Nice tree view
+else
+    alias ls='ls -G'
+    alias ll='ls -lA'
+fi
+
+# fd — fast, user-friendly alternative to find
+if command -v fd >/dev/null 2>&1; then
+    alias find='fd'
+
+    # Common useful aliases
+    alias fd.='fd --type f --hidden --exclude .git'     # files including hidden
+    alias fdd='fd --type d'                             # only directories
+    alias fdh='fd --type f --hidden'                    # hidden files
+    alias fdn='fd --type f --name'                      # search by name pattern
+else
+    -alias fd='find . -type d -name'                    # Find a directory with the given name
+    -alias ff='find . -type f -name'                    # Find a file with the given name
+fi
+
 alias grep='grep --color'                     # show differences in colour
 alias egrep='egrep --color=auto'              # show differences in colour
 alias fgrep='fgrep --color=auto'              # show differences in colour
@@ -57,4 +88,4 @@ alias demo='open http://localhost:8080'
 # wget --no-check-certificate https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.16/swagger-codegen-cli-3.0.16.jar -O swagger-codegen-cli.jar
 alias swagger='java -jar ~/bin/swagger-codegen-cli.jar '
 # https://blog.anvileight.com/posts/simple-python-http-server/
-alias http.server='python3 -m http.server 8000 --bind 127.0.0.1' 
+alias http.server='python3 -m http.server 8000 --bind 127.0.0.1'

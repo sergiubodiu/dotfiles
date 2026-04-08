@@ -39,7 +39,6 @@ zsh-recompile() {
 }
 
 clean-files() {
-    emulate -L zsh
 
     if [[ $# -lt 1 ]]; then
         print -u2 "Usage: clean-files <pattern> [-n|--dry-run] [-c|--confirm]"
@@ -154,7 +153,7 @@ datauri() {
         printf "'%s' is not a file.\n" "$1"
         return
     fi
-    
+
     mimeType=$(file -b --mime-type "$1")
     #                └─ do not prepend the filename to the output
 
@@ -241,7 +240,7 @@ fs() {
     fi
 }
 
-# Get processes sorted by pid 
+# Get processes sorted by pid
 get-netstat() {
     netstat -pane |grep LISTEN
     #        │││└─ display additional information

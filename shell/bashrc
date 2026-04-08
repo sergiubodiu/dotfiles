@@ -6,7 +6,6 @@
 for file in ~/.{exports.local,exports,aliases,functions}; do
   [ -r "$file" ] && . "$file"
 done
-export PATH="/usr/local/sbin:$PATH"
 
 unset file
 
@@ -16,3 +15,41 @@ unset file
 
 # Complete hostnames from this file
 : ${HOSTFILE=~/.ssh/known_hosts}
+# ----------------------------------------------------------------------------
+# Bash Completion - Fixed for macOS + bash-completion@2
+# ----------------------------------------------------------------------------
+if type brew &>/dev/null; then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+
+    # Set these early so brew completion can find its internal files
+    export HOMEBREW_PREFIX
+    export HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
+
+    # Load main framework
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    fi
+
+    # Git completion (from Command Line Tools)
+    if [[ -f "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash" ]]; then
+        source "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash"
+    fi
+
+    # Brew completion + explicit registration + force command list refresh
+    if [[ -f "${HOMEBREW_PREFIX}/etc/bash_completion.d/brew" ]]; then
+        source "${HOMEBREW_PREFIX}/etc/bash_completion.d/brew"
+        complete -F _brew brew
+    fi
+
+    # Force refresh of brew command list (this fixes most "no subcommands" issues)
+    export __HOMEBREW_COMMANDS=""
+fi
+
+# ----------------------------------------------------------------------------
+# Simple Prompt
+# ----------------------------------------------------------------------------
+PS1='\u@\h:\w\$ '
+
+
+# Reload
+alias reload='source ~/.bashrc'

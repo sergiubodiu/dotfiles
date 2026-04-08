@@ -49,5 +49,8 @@ export NODE_COMPILE_CACHE="$HOME/.cache/node_compile_cache"
 # Make Python use UTF-8 encoding for output to stdin/stdout/stderr
 export PYTHONIOENCODING='UTF-8'
 
-export GOPATH=$HOME/.go
-export PATH=$HOME/bin:$GOPATH/bin/:$HOME/.cargo/bin:$PATH:
+if [[ -z "$GOPATH" ]]; then
+    export GOPATH="$HOME/.go"
+    # Add binaries to PATH safely (Go + Rust + personal bin)
+    export PATH=$HOME/bin:$GOPATH/bin/:$HOME/.cargo/bin:$PATH:
+fi
