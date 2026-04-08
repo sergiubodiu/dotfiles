@@ -69,11 +69,26 @@ clean-files() {
         esac
     done
 
-    local changed=0
-    local exts=(mkv mp4 srt)
+    # Safety: require explicit -c to actually rename files
+    if (( !dry_run && !confirm )); then
+        print -u2 "Error: You must use -c/--confirm to actually rename files."
+        print -u2 "       Run with -n/--dry-run (default) to preview first."
+        return 1
+    fi
 
-    for ext in $exts; do
-        for f in *.$ext(N); do
+    process_files() {
+        local ext="$1"
+        local changed_count=0
+
+        # Zsh nullglob equivalent without (N)
+        local files=(*.$ext)
+        if [[ ${#files} -eq 1 && $files == "*.$ext" ]]; then
+            return 0
+        fi
+
+        for f in $files; do
+            [[ -e $f ]] || continue
+
             local new_name="${f//$~pattern/}"
 
             # Skip if pattern didn't match → no change
@@ -100,18 +115,32 @@ clean-files() {
                 if mv -n -- "$f" "$new_name"; then
                     print "  ✓ done"
                 else
-                    print "  ✗ failed"
+                    if [[ -e $new_name ]]; then
+                        print "  ✗ failed (target already exists)"
+                    else
+                        print "  ✗ failed"
+                    fi
                 fi
             fi
         done
+
+        return $changed_count
+    }
+    local total_changed=0
+
+    for ext in mkv mp4 srt; do
+        process_files "$ext"
+        total_changed=$(( total_changed + $? ))
     done
 
     if (( changed == 0 )); then
         print "No matching files (.mkv/.mp4/.srt) contained the pattern '$pattern'."
     else
-        print "$changed file(s) matched the pattern."
+        print "\n$total_changed file(s) matched the pattern."
         if (( dry_run )); then
-            print "(dry-run mode — nothing was changed)"
+            print "(Dry-run mode — no files were changed)"
+        else
+            print "Files have been renamed."
         fi
     fi
 }
