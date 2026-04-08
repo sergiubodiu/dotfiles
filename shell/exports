@@ -40,6 +40,12 @@ export NODE_REPL_HISTORY_SIZE='32768';
 # Use sloppy mode by default, matching web browsers.
 export NODE_REPL_MODE='sloppy';
 
+# Enable the module compile cache for the Node.js instance.
+#
+# https://nodejs.org/api/cli.html#node_compile_cachedir
+# https://nodejs.org/en/blog/release/v22.1.0#module-implement-node_compile_cache-for-automatic-on-disk-code-caching
+export NODE_COMPILE_CACHE="$HOME/.cache/node_compile_cache"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
