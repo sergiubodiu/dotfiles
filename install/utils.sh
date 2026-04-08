@@ -6,6 +6,11 @@ answer_is_yes() {
         || return 1
 }
 
+ask() {
+    print_question "$1"
+    read -r
+}
+
 ask_for_confirmation() {
     print_question "$1 (y/n) "
     read -r -n 1

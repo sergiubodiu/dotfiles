@@ -56,13 +56,13 @@ symlink_file() {
     local sourceFile="$1"
     local targetFile="$2"
 
-    if [[ "$OS_NAME" == "windows" ]] || [ ! -e "$targetFile" ] ; then
+    if [[ "$OS_NAME" = "windows" ]] || [ ! -e "$targetFile" ] ; then
 
         execute \
             "ln -fs $sourceFile $targetFile" \
             "$targetFile → $sourceFile"
 
-    elif [[ "$(readlink "$targetFile")" == "$sourceFile" ]]; then
+    elif [[ "$(readlink "$targetFile")" = "$sourceFile" ]]; then
 
         print_success "$targetFile → $sourceFile"
 
