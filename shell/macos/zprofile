@@ -127,6 +127,16 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # Menu-style completion
 zstyle ':completion:*' menu select
 
+# Colored completion
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Partial completion first
+zstyle ':completion:*' completer _expand _complete _match _approximate
+zstyle ':completion:*' insert-unambiguous true
+
+# Do not complete hidden files unless pattern starts with dot (like match-hidden-files off)
+zstyle ':completion:*' hidden false
+
 # 2. fzf — fuzzy finder + shell integration
 if command -v fzf >/dev/null; then
     source <(fzf --zsh)
@@ -220,6 +230,31 @@ if command -v rg >/dev/null 2>&1; then
 fi
 
 # 4. zsh enchancements
+bindkey -e
+
+# Home / End keys (covers VT, kvt, rxvt, konsole, VT220 sequences)
+bindkey '^[[H'     beginning-of-line    # \e[H
+bindkey '^[[F'     end-of-line          # \e[F
+bindkey '^[[1~'    beginning-of-line    # \e[1~
+bindkey '^[[4~'    end-of-line          # \e[4~
+bindkey '^[[7~'    beginning-of-line    # rxvt/konsole
+bindkey '^[[8~'    end-of-line
+bindkey '^[[OH'    beginning-of-line    # \eOH
+bindkey '^[[OF'    end-of-line          # \eOF
+
+# Delete key
+bindkey '^[[3~'    delete-char          # \e[3~
+
+# Tab behavior (like your menu-complete + show-all-if-ambiguous)
+bindkey '^I'       menu-complete        # TAB cycles through completions
+
+# Ctrl+Left / Ctrl+Right → jump words
+bindkey '^[[1;5C'  forward-word
+bindkey '^[[1;5D'  backward-word
+
+# Ctrl+W → backward-kill-word (common readline behavior)
+bindkey '^W'       backward-kill-word
+
 if [[ -f "${ZSH_PLUGINS}/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
 
     # Common tuning
