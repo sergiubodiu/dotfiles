@@ -1,106 +1,61 @@
 {
-    "explorer.autoReveal": false,
-    "extensions.ignoreRecommendations": false,
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-    "editor.detectIndentation": false,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.renderLineHighlight": "none",
-    "editor.renderWhitespace": "all",
-    "editor.minimap.enabled": false,
-    "editor.rulers": [
-        140
-    ],
-    "[typescript]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": true
-    },
-    "[markdown]": {
-        "editor.formatOnSave": true,
-        "editor.wordWrap": "on",
-        "editor.acceptSuggestionOnEnter": "off"
-    },
-
-    "[javascript]": {
-        "editor.tabSize": 2
-    },
-    "[yaml]": {
-        "editor.tabSize": 2
-    },
-    "[terraform]": {
-        "editor.tabSize": 2
-    },
-    "[json]": {
-        "editor.tabSize": 2
-    },
-    "[shellscript]": {
-        "editor.tabSize": 2,
-    },
-    "cSpell.language": ",en-GB",
-    "cSpell.enabledLanguageIds": [
-        "css",
-        "fonts",
-        "go",
-        "javascript",
-        "javascriptreact",
-        "json",
-        "markdown",
-        "plaintext",
-        "python",
-        "restructuredtext",
-        "text",
-        "typescript",
-        "yml",
-        "html"
-    ],
+    // === File Watching & Exclusions (Biggest win on Intel Macs) ===
     "files.exclude": {
+        "**/node_modules": true,
         "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
         "**/.DS_Store": true,
-        "**/tmp": true,
+        "**/dist": true,
+        "**/build": true,
+        "**/out": true,
+        "**/target": true,
+        "**/.next": true,
+        "**/.venv": true,
+        "**/__pycache__": true
+    },
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/dist/**": true,
+        "**/build/**": true,
+        "**/target/**": true
+    },
+    "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
         "**/dist": true,
-        "**/.orig": true
+        "**/build": true
     },
-    "files.watcherExclude": {
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/node_modules/**": true,
-        "**/tmp/**": true,
-        "**/bower_components/**": true,
-        "**/dist/**": true
-    },
-    "search.exclude": {
-        "node_modules": true,
-        "**/node_modules": true,
-        "**/bower_components": true,
-        "coverage": true,
-        "components/*/backend/vendor": true,
-        "*.orig": true
-    },
-    "telemetry.enableCrashReporter": false, // Enable crash reports to be sent to Microsoft.
-    "telemetry.enableTelemetry": false,
-    "tslint.validateWithDefaultConfig": true,
-    "tslint.configFile": "tslint.json",
-    "tslint.autoFixOnSave": true,
-    "tslint.alwaysShowStatus": true,
-    "tslint.alwaysShowRuleFailuresAsWarnings": true,
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
-    },
-    "gitlens.advanced.telemetry.enabled": false, // Specifies whether to enable GitLens telemetry
-    "gitlens.blame.highlight.enabled": false,
-    "gitlens.blame.highlight.locations": [
-        "gutter",
-        "overview"
-    ],
-    "gitlens.codeLens.recentChange.enabled": false,
-    "gitlens.codeLens.authors.enabled": false,
-    "gitlens.currentLine.enabled": false, // Enable usage data and errors to be sent to Microsoft.
-    "gitlens.explorers.avatars": false,
-    "gitlens.historyExplorer.enabled": true,
-    "gitlens.hovers.currentLine.over": "line",
-    "terminal.explorerKind": "external",
-    "terminal.external.linuxExec": "konsole"
+    // General
+    "editor.fontSize": 14,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true, // Auto-format with Prettier
+    "files.autoSave": "afterDelay", // Prevent excessive disk writes
+    "telemetry.telemetryLevel": "off", // Already off in VSCodium, just confirming
+    "workbench.colorTheme": "Monokai Dimmed",
+    // AI Development
+    "python.languageServer": "Jedi",
+    "pylint.enabled": false,
+    "jupyter.interactiveWindow.creationMode": "perFile", // Jupyter notebook per file
+    // Performance (Reduce Heat)
+    "editor.minimap.enabled": false, // Reduce CPU usage
+    "editor.codeLens": false, // Disables inline references/authors
+    "editor.renderControlCharacters": false,
+    "editor.renderWhitespace": "selection",
+    "editor.scrollBeyondLastLine": false,
+    "editor.occurrencesHighlight": "off",
+    // === Search & Typing ===
+    "search.followSymlinks": false, // Noticeable CPU reduction
+    "search.quickOpen.includeSymbols": false,
+    // === Terminal ===
+    "terminal.integrated.gpuAcceleration": "off", // Often better on Intel + reduces lag
+    "terminal.integrated.scrollback": 1000, // Lower than default (10000)
+    "window.zoomLevel": 0,
+    "extensions.autoCheckUpdates": false,
+    "update.showReleaseNotes": false,
+    "update.mode": "manual",
+    "explorer.confirmDragAndDrop": false
 }
