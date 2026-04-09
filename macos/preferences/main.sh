@@ -4,7 +4,7 @@ set -euo pipefail  # exit on errors, undefined vars, pipe failures
 
 export DOTFILES_DIR_PATH=$HOME/.dotfiles
 PREFERENCES_DIR="${DOTFILES_DIR_PATH}/macos/preferences"
-. "$DOTFILES_DIR_PATH/utils.sh" || { echo "Failed to source utils.sh" >&2; exit 1; }
+. "$DOTFILES_DIR_PATH/install/utils.sh" || { echo "Failed to source utils.sh" >&2; exit 1; }
 
 cd "${PREFERENCES_DIR}"
 
@@ -27,6 +27,7 @@ for script in \
     keyboard.sh \
     photos.sh \
     safari.sh \
+    siri.sh \
     terminal.sh \
     touchid-sudo.sh \
     trackpad.sh \

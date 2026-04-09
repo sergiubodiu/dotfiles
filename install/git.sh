@@ -101,7 +101,7 @@ generate_ssh_keys() {
 
     # Always continue with the rest of the setup
     create_gitconfig_local "$GITHUB_USER" "$GITHUB_EMAIL"
-    add_github_to_ssh_config "$key_path"
+    add_ssh_configs "$key_path"
 
     print_info "\nYour public SSH key:"
     print_in_green "$(cat "$pub_key")"

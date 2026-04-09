@@ -44,6 +44,12 @@ execute "defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool t
          defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true" \
     "Show icons for hard drives, servers, and removable media on the desktop"
 
+execute "defaults write -g NSWindowShouldDragOnGesture -bool false && \
+        defaults write com.apple.universalaccess reduceTransparency -bool true && \
+        defaults write com.apple.universalaccess reduceMotion -bool true &&" \
+    "Reduce transparency & motion"
+
+
 execute "defaults write com.apple.finder ShowRecentTags -bool false" \
     "Do not show recent tags"
 

@@ -73,4 +73,26 @@ execute "defaults write -g PMPrintingExpandedStateForPrint -bool true" \
 # execute "sudo systemsetup -setrestartfreeze on" \
 #     "Restart automatically if the computer freezes"
 
-killall "SystemUIServer" &> /dev/null
+print_info 'Siri'
+
+execute "defaults write com.apple.assistant.support 'Assistant Enabled' -bool false" \
+        "Disable Siri"
+
+execute "defaults write com.apple.Siri 'StatusMenuItemVisible' -bool false && \
+         defaults write com.apple.Siri 'SiriEnabled' -bool false && \
+         defaults write com.apple.Siri 'SiriAnalyticsEnabled' -bool false && \
+         defaults write com.apple.Siri 'SiriDataSharingEnabled' -bool false" \
+         "Disable Siri Analytics & Data sharing"
+
+execute "defaults write com.apple.speech.recognition 'AppleDictationEnabled' -bool false && \
+        defaults write com.apple.speech.recognition 'DictationEnabled' -bool false" \
+        "Disable Dictation"
+
+execute "defaults write com.apple.spotlight 'SiriSuggestionsEnabled' -bool false && \
+         defaults write com.apple.Spotlight 'SiriSuggestions' -bool false" \
+        "Disable Spotlight Suggestions that use Siri"
+
+# Restart relevant services
+killall "Siri" &> /dev/null || true
+killall "Spotlight" &> /dev/null || true
+killall "SystemUIServer" &>/dev/null || true
