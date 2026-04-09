@@ -49,7 +49,6 @@ HIST_STAMPS="yyyy-mm-dd"
 # Modern zsh options
 setopt AUTO_CD                  # type directory name → cd
 setopt APPEND_HISTORY           # Append to history file
-setopt CORRECT                  # spell-check commands
 setopt HIST_FIND_NO_DUPS        # Don't display duplicates in search
 setopt HIST_IGNORE_DUPS         # Don't record duplicate entries
 setopt HIST_IGNORE_ALL_DUPS     # Delete old duplicates

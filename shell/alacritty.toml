@@ -1,39 +1,35 @@
 # ~/.config/alacritty/alacritty.toml
 
 [window]
-dimensions.columns = 120
-dimensions.lines   = 38
-padding.x = 12
-padding.y = 12
+dimensions = { columns = 140, lines = 40 }
+dynamic_padding = true
+padding = { x = 12, y = 12 }
+option_as_alt = "Both"
 startup_mode = "Windowed"
-title = "Alacritty"
 
 [scrolling]
-history = 10000                     # scrollback lines
+history = 32768                     # scrollback lines
 multiplier = 3
 
 [font]
 size = 14.0                         # adjust to taste (13–16 common on Retina)
 
-normal.family    = "JetBrainsMono Nerd Font"
-normal.style     = "Regular"
-
-bold.family      = "JetBrainsMono Nerd Font"
-bold.style       = "Bold"
-
-italic.family    = "JetBrainsMono Nerd Font"
-italic.style     = "Italic"
-
-bold_italic.family = "JetBrainsMono Nerd Font"
-bold_italic.style  = "Bold Italic"
+normal = {family = "JetBrainsMono Nerd Font", style = "Regular"}
+bold   = {family = "JetBrainsMono Nerd Font", style = "Bold"}
+italic = {family = "JetBrainsMono Nerd Font", style = "Italic"}
+bold_italic = {family = "JetBrainsMono Nerd Font", style = "Bold Italic"}
 
 # Fallback for emojis/symbols (optional but nice)
 # [font.glyph_offset]   # tweak if glyphs are misaligned
 # x = 0
 # y = 1
 
+# Selection
+[selection]
+save_to_clipboard = true
+
+# catppuccin_machiato
 [colors]
-# Solarized Dark (you can copy from alacritty-theme repo or use this embedded version)
 draw_bold_text_with_bright_colors = true
 
 # Default colors
